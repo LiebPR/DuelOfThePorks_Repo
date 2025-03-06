@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,9 +24,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] bool isGrounded;
 
+    [Header("Wall Check")]
+    bool isTouchingWall;
+    [SerializeField] float lateralCheckDistance = 0.5f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        platformEffector = GetComponent<PlatformEffector2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
@@ -37,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         GroundCheck();
+        WallCheck();
         Jump();
     }
 
@@ -45,6 +52,21 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
 
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+
+        if(horizontalInput != 0 && !isTouchingWall)
+        {
+            Flip(horizontalInput);
+        }
+    }
+
+    void Flip(float horizontalInput)
+    {
+        if (Mathf.Sign(horizontalInput) != Mathf.Sign(transform.localScale.x))
+        {
+            transform.localScale = new Vector3(Mathf.Sign(horizontalInput), 1f, 1f);
+            Vector2 newOffset = new Vector2(capsuleCollider.offset.x * Mathf.Sign(horizontalInput), capsuleCollider.offset.y);
+            capsuleCollider.offset = newOffset;
+        }
     }
 
     void GroundCheck()
@@ -64,6 +86,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void WallCheck()
+    {
+        Vector2 frontOfCapsule = (Vector2)transform.position + new Vector2(Mathf.Sign(rb.velocity.x) * lateralCheckDistance, 0);
+        RaycastHit2D hit = Physics2D.Raycast(frontOfCapsule, Vector2.zero, 0f, groundLayer);
+        isTouchingWall = hit.collider != null;
+        Debug.DrawRay(frontOfCapsule, Vector2.down * groundCheckDistance, Color.red);
+    }
+
     void Jump()
     {
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
@@ -76,8 +106,5 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             AudioManager.instance.Play("Jump");
         }
-
-        
-
     }
 }
