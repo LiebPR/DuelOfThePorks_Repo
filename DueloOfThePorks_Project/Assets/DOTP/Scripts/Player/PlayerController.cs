@@ -9,17 +9,19 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider2D capsuleCollider;
     PlatformEffector2D platformEffector;
 
+    //Stats Player
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
 
     [Header("Jump")]
     [SerializeField] float jumpForce = 12f;
     [SerializeField] float secondJumpForce = 6f;
-    [SerializeField] float coyoteTime = 0.2f;
     [SerializeField] int maxJumpCount = 2;
-    float coyoteTimeCounter;
     [SerializeField] int jumpCount = 0;
+    [SerializeField] float coyoteTime = 0.2f; //Tiempo extra para poder realizar un salto.
+    float coyoteTimeCounter; //Contador coyoteTime
 
+    //Detectores:
     [Header("Raycast")]
     [SerializeField] float groundCheckDistance = 0.2f;
     [SerializeField] LayerMask groundLayer;
@@ -29,10 +31,10 @@ public class PlayerController : MonoBehaviour
     bool isTouchingWall;
     [SerializeField] float lateralCheckDistance = 0.5f;
 
-    private void Start()
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        platformEffector = GetComponent<PlatformEffector2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
@@ -45,10 +47,13 @@ public class PlayerController : MonoBehaviour
     {
         GroundCheck();
         Jump();
+        
     }
 
+    //Voids encargados de los statas del player.
     void Move()
     {
+        
         float horizontalInput = Input.GetAxis("Horizontal");
 
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
@@ -69,37 +74,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void GroundCheck()
-    {
-        Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
-        bool groundBelow = Physics2D.Raycast(bottomOfCapsule, Vector2.down, groundCheckDistance, groundLayer);
-
-        // Detección de la pared
-        float direction = transform.localScale.x;
-        Vector2 boxSize = new Vector2(0.3f, capsuleCollider.bounds.size.y * 0.5f);
-        Vector2 boxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
-
-        RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0, Vector2.down, groundCheckDistance, groundLayer);
-        bool groundSide = hit.collider != null;
-
-        isGrounded = groundBelow || groundSide;
-
-        // CoyoteTime: Restablecer el contador de saltos y coyoteTime al tocar el suelo
-        if (isGrounded)
-        {
-            coyoteTimeCounter = coyoteTime;
-            if(jumpCount == 2)
-            {
-                jumpCount = 0;
-                Debug.Log("Reiniciando JumpCount");
-            }
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-    }
-
     void Jump()
     {
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
@@ -111,7 +85,6 @@ public class PlayerController : MonoBehaviour
         {
             if (jumpCount < maxJumpCount)
             {
-                Debug.Log("JumpCount: " + jumpCount);
 
                 if (jumpCount == 0)
                 {
@@ -129,6 +102,43 @@ public class PlayerController : MonoBehaviour
                         jumpCount = 2;
                 }
             }
+        }
+    }
+
+    //Detectores:
+    void GroundCheck()
+    {
+        //Detector del suelo:
+        Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
+        bool groundBelow = Physics2D.Raycast(bottomOfCapsule, Vector2.down, groundCheckDistance, groundLayer);
+
+        //Detector de la pared:
+        float direction = transform.localScale.x;
+        Vector2 boxSize = new Vector2(0.3f, capsuleCollider.bounds.size.y * 0.5f);
+        Vector2 boxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
+
+        RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0, Vector2.down, groundCheckDistance, groundLayer);
+        bool groundSide = hit.collider != null;
+
+        isGrounded = groundBelow || groundSide; //Si cualquiera de las 2 variables toca el suelo isGrounded es true.
+
+
+        if (isGrounded) //Cuando player toca el suelo...
+        {
+           
+            
+            //Doble jump:
+            if (jumpCount == 2)
+            {
+                jumpCount = 0;
+            }
+
+            //CoyoteTime:
+            coyoteTimeCounter = coyoteTime; //...el contador del coyoteTime recibe de vuelta el valor de coyoteTime...
+        }
+        else //Cuando el player esta en el aire...
+        {
+            coyoteTimeCounter -= Time.deltaTime; //... el tiempo aplicado en coyoteTimeCounter se reduce poco a poco.
         }
     }
 

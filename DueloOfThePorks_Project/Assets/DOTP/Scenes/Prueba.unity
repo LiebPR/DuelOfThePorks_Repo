@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70675853}
   - component: {fileID: 70675854}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Tileset_3_16 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 1163484041}
   - component: {fileID: 1163484040}
   - component: {fileID: 1163484039}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +526,7 @@ GameObject:
   - component: {fileID: 1538264545}
   - component: {fileID: 1538264544}
   - component: {fileID: 1538264543}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1880,7 +1880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1719954929}
   - component: {fileID: 1719954930}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Tileset_3_16 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1964,7 +1964,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1792543481}
   - component: {fileID: 1792543482}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Tileset_3_16 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2048,7 +2048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1916015171}
   - component: {fileID: 1916015172}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Tileset_3_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2335,12 +2335,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6929351503682948375, guid: ebe3833585159ea44a0f64c91683a03f, type: 3}
+      propertyPath: dashForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6929351503682948375, guid: ebe3833585159ea44a0f64c91683a03f, type: 3}
       propertyPath: jumpForce
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6929351503682948375, guid: ebe3833585159ea44a0f64c91683a03f, type: 3}
+      propertyPath: dashCooldown
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6929351503682948375, guid: ebe3833585159ea44a0f64c91683a03f, type: 3}
       propertyPath: groundLayer.m_Bits
-      value: 8
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6929351503682948375, guid: ebe3833585159ea44a0f64c91683a03f, type: 3}
+      propertyPath: dashingLayer.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6929351503682948375, guid: ebe3833585159ea44a0f64c91683a03f, type: 3}
       propertyPath: lateralCheckDistance
