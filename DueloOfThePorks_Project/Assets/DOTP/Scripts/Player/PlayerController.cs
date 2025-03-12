@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Componentes")]
     Rigidbody2D rb;
     CapsuleCollider2D capsuleCollider;
-    PlatformEffector2D platformEffector;
+    PlatformEffector2D platformEff2D;
+    float originalGravity;
 
     //Stats Player
     [Header("Movement")]
@@ -17,9 +19,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 12f;
     [SerializeField] float secondJumpForce = 6f;
     [SerializeField] int maxJumpCount = 2;
-    [SerializeField] int jumpCount = 0;
+    int jumpCount = 0;
     [SerializeField] float coyoteTime = 0.2f; //Tiempo extra para poder realizar un salto.
     float coyoteTimeCounter; //Contador coyoteTime
+
+    [Header("Dash")]
+    [SerializeField] float dashForce = 12f;
+    [SerializeField] float dashDuration = 0.2f;
+    [SerializeField] float dashCooldown = 1f;
+    bool isDashing = false;
+    bool canDash = true;
+    float lastDashTime = -Mathf.Infinity;
 
     //Detectores:
     [Header("Raycast")]
@@ -31,23 +41,30 @@ public class PlayerController : MonoBehaviour
     bool isTouchingWall;
     [SerializeField] float lateralCheckDistance = 0.5f;
 
-
+    private void Start()
+    {
+        platformEff2D = GetComponent<PlatformEffector2D>();
+    }
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        originalGravity = rb.gravityScale;
     }
 
     private void FixedUpdate()
     {
-        Move();
+        if (!isDashing)
+        {
+            Move();
+        }
     }
 
     private void Update()
     {
         GroundCheck();
         Jump();
-        
+        HandleDash();
     }
 
     //Voids encargados de los statas del player.
@@ -86,7 +103,7 @@ public class PlayerController : MonoBehaviour
             if (jumpCount < maxJumpCount)
             {
 
-                if (jumpCount == 0)
+                if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
                 {
                     if (isGrounded || coyoteTimeCounter > 0f)
                     {
@@ -103,6 +120,48 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    void HandleDash()
+    {
+        if (Time.time - lastDashTime >= dashCooldown && !isDashing)
+        {
+            canDash = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && canDash && !isDashing)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
+    IEnumerator Dash()
+    {
+        isDashing = true;
+        canDash = false;
+        rb.velocity = Vector2.zero;
+
+        lastDashTime = Time.time;
+
+        float direction = transform.localScale.x;
+
+        float currentYVelocity = rb.velocity.y;
+
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
+
+        rb.AddForce(new Vector2(direction * dashForce, 0), ForceMode2D.Impulse);
+
+        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player"), true);
+
+        yield return new WaitForSeconds(dashDuration);
+
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+
+        rb.velocity = new Vector2(rb.velocity.x, currentYVelocity);
+
+        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player"), false);
     }
 
     //Detectores:
