@@ -49,11 +49,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 10
+  secondJumpForce: 6
+  maxJumpCount: 2
   coyoteTime: 0.15
+  dashForce: 12
+  dashDuration: 0.2
+  dashCooldown: 1
   groundCheckDistance: 0.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   isGrounded: 0
   lateralCheckDistance: 0.5
 --- !u!212 &4811691042371271969
