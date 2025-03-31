@@ -178,7 +178,7 @@
                 {
                     "name": "",
                     "id": "99d26565-0a49-4512-95a0-bbe282936583",
-                    "path": "<Keyboard>/v",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -200,7 +200,7 @@
                 {
                     "name": "up",
                     "id": "dd0c9a74-4cac-4077-9d6d-2c62a5a2cbee",
-                    "path": "<Keyboard>/w",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -211,7 +211,7 @@
                 {
                     "name": "down",
                     "id": "ee39973e-e455-44ed-b750-589741ab8d93",
-                    "path": "<Keyboard>/s",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -222,7 +222,7 @@
                 {
                     "name": "left",
                     "id": "46bdaeae-2703-4ebc-baa5-a41c7f33646a",
-                    "path": "<Keyboard>/a",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -233,7 +233,7 @@
                 {
                     "name": "right",
                     "id": "8240f715-3466-4f95-8ff8-1e7ba3280795",
-                    "path": "<Keyboard>/d",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -244,7 +244,7 @@
                 {
                     "name": "",
                     "id": "424ddf25-51c5-4e09-a8f1-7e1b2d3c4c62",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -255,7 +255,7 @@
                 {
                     "name": "",
                     "id": "b2c90324-a3cb-4b85-b941-a452b5a213b6",
-                    "path": "<Keyboard>/space",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
