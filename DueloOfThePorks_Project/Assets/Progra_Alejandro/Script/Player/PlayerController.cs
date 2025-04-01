@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider2D capsuleCollider;
     PlatformEffector2D platformEff2D;
     float originalGravity;
+    InputManager inputManager;
 
     //Stats Player
     [Header("Movement")]
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         platformEff2D = GetComponent<PlatformEffector2D>();
+        inputManager = GetComponent<InputManager>();
     }
     private void Awake()
     {
@@ -70,8 +72,8 @@ public class PlayerController : MonoBehaviour
     //Voids encargados de los statas del player.
     void Move()
     {
-        
-        float horizontalInput = Input.GetAxis("Horizontal");
+
+        float horizontalInput = inputManager.moveInput.x;
 
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
 
@@ -93,31 +95,21 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (inputManager.jumpInput)
         {
-            isGrounded = false;
-            coyoteTimeCounter = 0f;
-        }
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (jumpCount < maxJumpCount)
+            // Primer salto
+            if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
             {
-
-                if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
-                {
-                    if (isGrounded || coyoteTimeCounter > 0f)
-                    {
-                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                        AudioManager.instance.Play("Jump");
-                        jumpCount = 1;
-                    }
-                }
-                else if (jumpCount == 1)
-                {
-                        rb.velocity = new Vector2(rb.velocity.x, secondJumpForce);
-                        AudioManager.instance.Play("Jump");
-                        jumpCount = 2;
-                }
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                AudioManager.instance.Play("Jump");
+                jumpCount = 1; // Primer salto
+            }
+            // Segundo salto
+            else if (jumpCount == 1)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, secondJumpForce);
+                AudioManager.instance.Play("Jump");
+                jumpCount = 2; // Segundo salto
             }
         }
     }
@@ -129,7 +121,7 @@ public class PlayerController : MonoBehaviour
             canDash = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && canDash && !isDashing)
+        if (inputManager.dashInput && canDash && !isDashing)
         {
             StartCoroutine(Dash());
         }
@@ -182,16 +174,13 @@ public class PlayerController : MonoBehaviour
         isGrounded = groundBelow || groundSide; //Si cualquiera de las 2 variables toca el suelo isGrounded es true.
 
 
-        if (isGrounded) //Cuando player toca el suelo...
+        if (isGrounded)
         {
-           
-            
             //Doble jump:
             if (jumpCount == 2)
             {
                 jumpCount = 0;
             }
-
             //CoyoteTime:
             coyoteTimeCounter = coyoteTime; //...el contador del coyoteTime recibe de vuelta el valor de coyoteTime...
         }
@@ -199,6 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime; //... el tiempo aplicado en coyoteTimeCounter se reduce poco a poco.
         }
+        isGrounded = groundBelow;
     }
 
     private void OnDrawGizmos()
