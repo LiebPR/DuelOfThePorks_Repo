@@ -100,14 +100,16 @@ public class PlayerController : MonoBehaviour
             // Primer salto
             if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                inputManager.jumpInput = false;
+                rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 AudioManager.instance.Play("Jump");
                 jumpCount = 1; // Primer salto
             }
             // Segundo salto
             else if (jumpCount == 1)
             {
-                rb.velocity = new Vector2(rb.velocity.x, secondJumpForce);
+                inputManager.jumpInput = false;
+                rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 AudioManager.instance.Play("Jump");
                 jumpCount = 2; // Segundo salto
             }
