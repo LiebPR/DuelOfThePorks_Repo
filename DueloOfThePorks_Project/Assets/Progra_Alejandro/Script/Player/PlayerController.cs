@@ -106,12 +106,16 @@ public class PlayerController : MonoBehaviour
                 jumpCount = 1; // Primer salto
             }
             // Segundo salto
-            else if (jumpCount == 1)
+            else 
             {
-                inputManager.jumpInput = false;
+                if (jumpCount == 1)
+                {
+                    inputManager.jumpInput = false;
                 rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 AudioManager.instance.Play("Jump");
                 jumpCount = 2; // Segundo salto
+                }
+                    
             }
         }
     }
@@ -181,6 +185,7 @@ public class PlayerController : MonoBehaviour
             //Doble jump:
             if (jumpCount == 2)
             {
+                inputManager.jumpInput = true;
                 jumpCount = 0;
             }
             //CoyoteTime:
