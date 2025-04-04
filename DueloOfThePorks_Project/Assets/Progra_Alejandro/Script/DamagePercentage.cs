@@ -6,8 +6,8 @@ public class DamagePercentage : MonoBehaviour
 {
     [Header("Porcentaje de daño")]
     public float damagePercentage = 0f;
-    [SerializeField] private float minDamageIncrease = 5f; // Mínimo incremento
-    [SerializeField] private float maxDamageIncrease = 15f; // Máximo incremento
+    [SerializeField] private float minDamageIncrease = 5f; // Mínimo incremento.                QUITAR (PARA ATTACK SYSTEM)
+    [SerializeField] private float maxDamageIncrease = 15f; // Máximo incremento.               QUITAR
 
     [Header("UI")]
     public TextMeshProUGUI damageText; // Referencia al texto en pantalla
@@ -16,23 +16,22 @@ public class DamagePercentage : MonoBehaviour
     public float knowTime = 2f; // Tiempo en segundos que el porcentaje se mantendrá antes de ser modificado
 
     [Header("Empuje")]
-    public float pushForce = 5f; // Fuerza de empuje
+    public float pushForce = 5f; // Fuerza de empuje. QUITAR (PARA ATTACKSYSTEM)
     public float pushMultiplier = 1.5f; // Multíplicador de empuje cuando el daño llega a 100%
 
     [Header("Muerte del Jugador")]
-    public float deathChanceFactor = 100f; // Factor de multiplicación para la probabilidad de muerte
-
-    private float internalDamagePercentage = 0f; // Segundo porcentaje interno
+    public float deathChanceFactor = 100f; // Factor de multiplicación para la probabilidad de muerte.               QUITAR (PARA LIVESYSTEM)
+    private float internalDamagePercentage = 0f; // Segundo porcentaje interno.                                      QUITAR
     private float deathThreshold = 0f; // Umbral de muerte que será aleatorio
     private bool isInternalPercentageActive = false; // Controla si el segundo porcentaje está activo
 
-    private Rigidbody rb; // Referencia al Rigidbody del enemigo
-    private Transform player; // Referencia al jugador (para aplicar el empuje hacia él)
+    private Rigidbody rb; // Referencia al Rigidbody del enemigo.                                                    QUITAR HACER REFERENCI RB DEL PLAYERCONTROLLER
+    private Transform player; // Referencia al jugador (para aplicar el empuje hacia él)                             QUITAR HACERLO CON EL ATTACK SYSTEM.
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>(); // Obtener el Rigidbody del enemigo
-        player = GameObject.FindGameObjectWithTag("Player").transform; // Buscar al jugador en la escena
+        rb = GetComponent<Rigidbody>(); // Obtener el Rigidbody del enemigo                                          QUITAR
+        player = GameObject.FindGameObjectWithTag("Player").transform; // Buscar al jugador en la escena             QUITAR
         UpdateDamageText();
     }
 
