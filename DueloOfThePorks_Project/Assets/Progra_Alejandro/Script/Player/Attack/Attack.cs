@@ -24,6 +24,10 @@ public class Attack : ScriptableObject
     public float rayDistance = 1.0f;
     public LayerMask targetLayer; // Objetos que pueden ser golpeados por el ataque.
 
+    [Header("Cooldown Settings")]
+    public float cooldownTime = 2f;
+    private float timeSinceLastAttack = 0f; 
+
     private Rigidbody2D playerRb;
     private PlayerController playerController;
     private static Transform debugAttackPoint;
@@ -47,6 +51,14 @@ public class Attack : ScriptableObject
             case AreaDamgeType.Boxcast:
                 BoxcastAttack(attackPoint);
                 break;
+        }
+    }
+
+    public void UpdateCooldown(float deltaTime)
+    {
+        if(timeSinceLastAttack < cooldownTime)
+        {
+            timeSinceLastAttack += deltaTime;
         }
     }
 

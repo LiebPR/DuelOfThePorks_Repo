@@ -7,6 +7,7 @@ public class AttackManager : MonoBehaviour
     public Attack[] attackSettingsArray; // Array de ataques
     public Transform attackPoint; // Punto de ataque
     public DamageHandler damageHandler; // Referencia al DamageHandler
+    public LayerMask Hit;
 
     private void Start()
     {
@@ -49,13 +50,17 @@ public class AttackManager : MonoBehaviour
     {
         if (index >= 0 && index < attackSettingsArray.Length && attackSettingsArray[index] != null)
         {
-            // Ejecutamos el ataque según el tipo de ataque en el índice
-            attackSettingsArray[index].PerformAttack(attackPoint);
+            var attack = attackSettingsArray[index];
+            if(attack.targetLayer == Hit)
+            {
+                // Ejecutamos el ataque según el tipo de ataque en el índice
+                attack.PerformAttack(attackPoint);
 
-            float attackDamage = attackSettingsArray[index].damage;
-            damageHandler.ReceiveDamage(attackDamage);
+                float attackDamage = attackSettingsArray[index].damage;
+                damageHandler.ReceiveDamage(attackDamage);
 
-            Debug.Log("Ataque realizado: " + attackSettingsArray[index].name);
+                Debug.Log("Ataque realizado: " + attackSettingsArray[index].name);
+            }
         }
         else
         {
