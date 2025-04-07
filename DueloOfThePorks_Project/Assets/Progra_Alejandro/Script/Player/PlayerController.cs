@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
                 if (jumpCount == 1)
                 {
                     inputManager.jumpInput = false;
-                rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+                rb.AddForce(Vector3.up * secondJumpForce, ForceMode2D.Impulse);
                 AudioManager.instance.Play("Jump");
                 jumpCount = 2; // Segundo salto
                 }

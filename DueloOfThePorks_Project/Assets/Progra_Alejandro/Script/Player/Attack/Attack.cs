@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum AreaDamgeType
 {
     Raycast,
@@ -23,7 +22,7 @@ public class Attack : ScriptableObject
     public Vector2 boxSize = new Vector2(1, 1);
     public Vector2 boxOffset = Vector2.zero;
     public float rayDistance = 1.0f;
-    public LayerMask targetLayer; //Objetos que pueden ser golpeados por el ataque.
+    public LayerMask targetLayer; // Objetos que pueden ser golpeados por el ataque.
 
     private Rigidbody2D playerRb;
     private PlayerController playerController;
@@ -85,7 +84,7 @@ public class Attack : ScriptableObject
 
     public void DrawGizmos(Transform attackPoint) 
     {
-        debugAttackPoint = attackPoint; //Se guarda temporalmente el attackPoint
+        debugAttackPoint = attackPoint; // Se guarda temporalmente el attackPoint
         if (debugAttackPoint == null) return;
 
         Gizmos.color = Color.red;
@@ -102,11 +101,10 @@ public class Attack : ScriptableObject
                 Vector2 origin = (Vector2)debugAttackPoint.position + boxOffset;
                 Gizmos.DrawWireCube(origin, boxSize);
                 break;
-
         }
     }
 
-    void ApplyKnockback(Collider2D target, Transform attackPoint) //Añade una fuerza extra al empuje
+    void ApplyKnockback(Collider2D target, Transform attackPoint) // Añade una fuerza extra al empuje
     {
         Rigidbody2D targetRb = target.GetComponent<Rigidbody2D>();
         if(targetRb != null)
