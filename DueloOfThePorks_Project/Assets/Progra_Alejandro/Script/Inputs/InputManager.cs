@@ -7,12 +7,18 @@ public class InputManager : MonoBehaviour
     PlayerInputActions playerInput;
     public bool isPlayerOne;
 
-    //Variables para almacenar la información de input
-    //Una variable por cada accion, del mismo tipo que la acción. Si són Button = bool
+    //Propiedad estática para acceder desde cualquier lugar
+    public static InputManager Instance { get; private set; }
+    
+    //Movment Inputs
     public Vector2 moveInput;
     public bool dashInput;
     public bool crouchInput;
     public bool jumpInput;
+
+    //Attack Inputs
+    public bool baseAttackInput;
+    public bool strongAttackInput;
 
     private void OnEnable()
     {
@@ -29,6 +35,9 @@ public class InputManager : MonoBehaviour
                 playerInput.Player1.Crouch.performed += i => crouchInput = true;
                 playerInput.Player1.Crouch.canceled += i => crouchInput = false;
                 playerInput.Player1.Jump.performed += i => jumpInput = true;
+
+                playerInput.Player1.BaseAttack.performed += i => baseAttackInput = true;
+                playerInput.Player1.StrongAttack.performed += i => strongAttackInput = true;
             }
             else
             {
@@ -39,6 +48,9 @@ public class InputManager : MonoBehaviour
                 playerInput.Player2.Crouch.performed += i => crouchInput = true;
                 playerInput.Player2.Crouch.canceled += i => crouchInput = false;
                 playerInput.Player2.Jump.performed += i => jumpInput = true;
+
+                playerInput.Player2.BaseAttack.performed += i => baseAttackInput = true;
+                playerInput.Player2.StrongAttack.performed += i => strongAttackInput = true;
             }
             //Activar el mapa de Inputs de este objeto en concreto
             playerInput.Enable();
@@ -51,8 +63,7 @@ public class InputManager : MonoBehaviour
         playerInput.Disable();
     }
 
-    public void ResetJumpInput()
-    {
-        jumpInput = false;
-    }
+    public void ResetJumpInput() => jumpInput = false;
+    public void ResetBaseAttackInput() => baseAttackInput = false;
+    public void ResetStrongAttackInput() => strongAttackInput = false;
 }

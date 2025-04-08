@@ -7,7 +7,13 @@ public class AttackManager : MonoBehaviour
     public Attack[] attackSettingsArray; // Array de ataques
     public Transform attackPoint; // Punto de ataque
     public DamageHandler damageHandler; // Referencia al DamageHandler
-    public LayerMask Hit;
+
+    private InputManager inputManager;
+
+    private void Awake()
+    {
+        inputManager = GetComponent<InputManager>();
+    }
 
     private void Start()
     {
@@ -33,15 +39,17 @@ public class AttackManager : MonoBehaviour
     private void Update()
     {
         // Detectamos la entrada del jugador para realizar el ataque
-        if (Input.GetMouseButtonDown(1)) // Ataque asignado al clic derecho
+        if (inputManager.baseAttackInput) // Ataque asignado al clic derecho
         {
             PerformAttackIndex(0); // Ejecuta el ataque del Array que está en el índice (0)
-            Debug.Log("Se ha realizado el ataque");
+            inputManager.ResetBaseAttackInput();
+            Debug.Log("Se ha realizado el BaseAttack");
         }
-        else if (Input.GetMouseButtonDown(0)) // Ataque asignado al clic izquierdo
+        else if (inputManager.strongAttackInput) // Ataque asignado al clic izquierdo
         {
             PerformAttackIndex(1); // Ejecuta el ataque del Array que está en el índice (1)
-            Debug.Log("Se ha realizado el ataque");
+            inputManager.ResetStrongAttackInput();
+            Debug.Log("Se a realizado el StrongAttack");
         }
     }
 
@@ -50,17 +58,13 @@ public class AttackManager : MonoBehaviour
     {
         if (index >= 0 && index < attackSettingsArray.Length && attackSettingsArray[index] != null)
         {
-            var attack = attackSettingsArray[index];
-            if(attack.targetLayer == Hit)
-            {
-                // Ejecutamos el ataque según el tipo de ataque en el índice
-                attack.PerformAttack(attackPoint);
+            // Ejecutamos el ataque según el tipo de ataque en el índice
+            attackSettingsArray[index].PerformAttack(attackPoint);
 
-                float attackDamage = attackSettingsArray[index].damage;
-                damageHandler.ReceiveDamage(attackDamage);
+            float attackDamage = attackSettingsArray[index].damage;
+            damageHandler.ReceiveDamage(attackDamage);
 
-                Debug.Log("Ataque realizado: " + attackSettingsArray[index].name);
-            }
+            Debug.Log("Ataque realizado: " + attackSettingsArray[index].name);
         }
         else
         {

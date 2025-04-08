@@ -733,8 +733,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 11400000, guid: 0fc68574e041aa644a3c5b8fff2967d7, type: 2}
-  - {fileID: 11400000, guid: 23ba7e1698d1d3c49a37df6e5a7675e1, type: 2}
+  - {fileID: 11400000, guid: 5e4a82b8c9ab2d347a7f250d49701d6c, type: 2}
+  - {fileID: 11400000, guid: 97d6197527967674abb7aa03d38d3a2a, type: 2}
   attackPoint: {fileID: 1034341515}
   damageHandler: {fileID: 2054262035}
 --- !u!212 &830888912
@@ -2806,8 +2806,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 11400000, guid: 0fc68574e041aa644a3c5b8fff2967d7, type: 2}
-  - {fileID: 11400000, guid: 23ba7e1698d1d3c49a37df6e5a7675e1, type: 2}
+  - {fileID: 11400000, guid: 97ed9fdfec7112147853f79bac434a9e, type: 2}
+  - {fileID: 11400000, guid: fa409afa71965c4408562b9888309cb9, type: 2}
   attackPoint: {fileID: 2041467589}
   damageHandler: {fileID: 1724075862}
 --- !u!212 &1760915909
