@@ -20,4 +20,4 @@ MonoBehaviour:
   rayDistance: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 64

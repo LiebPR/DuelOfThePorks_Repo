@@ -58,13 +58,11 @@ public class AttackManager : MonoBehaviour
     {
         if (index >= 0 && index < attackSettingsArray.Length && attackSettingsArray[index] != null)
         {
-            // Ejecutamos el ataque según el tipo de ataque en el índice
-            attackSettingsArray[index].PerformAttack(attackPoint);
-
             float attackDamage = attackSettingsArray[index].damage;
-            damageHandler.ReceiveDamage(attackDamage);
+            // Ejecutamos el ataque según el tipo de ataque en el índice
+            attackSettingsArray[index].PerformAttack(attackPoint, inputManager.isPlayerOne);
 
-            Debug.Log("Ataque realizado: " + attackSettingsArray[index].name);
+            Debug.Log("Ataque realizado con daño: " + attackDamage + "del attack: " + attackSettingsArray[index].name);
         }
         else
         {

@@ -604,6 +604,8 @@ GameObject:
   - component: {fileID: 830888913}
   - component: {fileID: 830888912}
   - component: {fileID: 830888911}
+  - component: {fileID: 830888915}
+  - component: {fileID: 830888914}
   - component: {fileID: 830888910}
   - component: {fileID: 830888909}
   - component: {fileID: 830888908}
@@ -632,6 +634,8 @@ MonoBehaviour:
   dashInput: 0
   crouchInput: 0
   jumpInput: 0
+  baseAttackInput: 0
+  strongAttackInput: 0
 --- !u!70 &830888908
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -736,7 +740,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e4a82b8c9ab2d347a7f250d49701d6c, type: 2}
   - {fileID: 11400000, guid: 97d6197527967674abb7aa03d38d3a2a, type: 2}
   attackPoint: {fileID: 1034341515}
-  damageHandler: {fileID: 2054262035}
+  damageHandler: {fileID: 0}
 --- !u!212 &830888912
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -802,10 +806,36 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1034341515}
-  - {fileID: 2054262034}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &830888914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830888905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e779a921d715c06488f6f91a90d5342a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePercentage: 0
+  isPlayerOne: 0
+--- !u!114 &830888915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830888905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e60170c9e2abea146ac8ecde5ec155f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageText: {fileID: 629886855}
 --- !u!1 &882062236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2635,54 +2665,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1724075860
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1724075861}
-  - component: {fileID: 1724075862}
-  m_Layer: 0
-  m_Name: DamageHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1724075861
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724075860}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.8064958, y: 0.3065006, z: -0.39774075}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1760915910}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1724075862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724075860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e60170c9e2abea146ac8ecde5ec155f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageText: {fileID: 882062238}
-  hasBeenAttacked: 0
-  percentage: 0
-  deathThresholdReached: 0
 --- !u!1 &1760915903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,6 +2676,8 @@ GameObject:
   - component: {fileID: 1760915910}
   - component: {fileID: 1760915909}
   - component: {fileID: 1760915908}
+  - component: {fileID: 1760915912}
+  - component: {fileID: 1760915913}
   - component: {fileID: 1760915907}
   - component: {fileID: 1760915906}
   - component: {fileID: 1760915905}
@@ -2809,7 +2793,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97ed9fdfec7112147853f79bac434a9e, type: 2}
   - {fileID: 11400000, guid: fa409afa71965c4408562b9888309cb9, type: 2}
   attackPoint: {fileID: 2041467589}
-  damageHandler: {fileID: 1724075862}
+  damageHandler: {fileID: 0}
 --- !u!212 &1760915909
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2875,7 +2859,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2041467589}
-  - {fileID: 1724075861}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2896,6 +2879,35 @@ MonoBehaviour:
   dashInput: 0
   crouchInput: 0
   jumpInput: 0
+  baseAttackInput: 0
+  strongAttackInput: 0
+--- !u!114 &1760915912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760915903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e60170c9e2abea146ac8ecde5ec155f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageText: {fileID: 882062238}
+--- !u!114 &1760915913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760915903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e779a921d715c06488f6f91a90d5342a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePercentage: 0
+  isPlayerOne: 1
 --- !u!1 &1792543480
 GameObject:
   m_ObjectHideFlags: 0
@@ -3243,51 +3255,3 @@ Transform:
   m_Father: {fileID: 1760915910}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2054262033
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2054262034}
-  - component: {fileID: 2054262035}
-  m_Layer: 8
-  m_Name: DamageHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2054262034
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054262033}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 682.10675, y: 453.26843, z: -2.3747501}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 830888913}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2054262035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054262033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e60170c9e2abea146ac8ecde5ec155f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageText: {fileID: 629886855}
-  hasBeenAttacked: 0
-  percentage: 0
-  deathThresholdReached: 0

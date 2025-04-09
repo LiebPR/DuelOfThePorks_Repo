@@ -19,14 +19,14 @@ public class Attack : ScriptableObject
     public AreaDamgeType areaDamgeType;
 
     [Header("Cast Settings")]
-    public Vector2 boxSize = new Vector2(1, 1);
-    public Vector2 boxOffset = Vector2.zero;
-    public float rayDistance = 1.0f;
+    [SerializeField] Vector2 boxSize = new Vector2(1, 1);
+    [SerializeField] Vector2 boxOffset = Vector2.zero;
+    [SerializeField] float rayDistance = 1.0f;
     public LayerMask targetLayer; // Objetos que pueden ser golpeados por el ataque.
 
-    private Rigidbody2D playerRb;
-    private PlayerController playerController;
-    private static Transform debugAttackPoint;
+    Rigidbody2D playerRb;
+    PlayerController playerController;
+    static Transform debugAttackPoint;
 
     public void Initialize(PlayerController controller)
     {
@@ -34,51 +34,77 @@ public class Attack : ScriptableObject
         playerRb = playerController.GetComponent<Rigidbody2D>();
     }
 
-    public void PerformAttack(Transform attackPoint)
+    public void PerformAttack(Transform attackPoint, bool isPlayerOneAttacker)
     {
         switch (areaDamgeType)
         {
             case AreaDamgeType.Raycast:
-                RaycastAttack(attackPoint);
+                RaycastAttack(attackPoint, isPlayerOneAttacker);
                 break;
             case AreaDamgeType.Overlap:
-                OverlapAttack(attackPoint);
+                OverlapAttack(attackPoint, isPlayerOneAttacker);
                 break;
             case AreaDamgeType.Boxcast:
-                BoxcastAttack(attackPoint);
+                BoxcastAttack(attackPoint, isPlayerOneAttacker);
                 break;
         }
     }
 
     //Cast:
-    private void RaycastAttack(Transform attackPoint)
+    private void RaycastAttack(Transform attackPoint, bool isPlayerOneAttacker)
     {
         RaycastHit2D hit = Physics2D.Raycast(attackPoint.position, Vector2.right * rayDistance, targetLayer);
         if (hit.collider != null)
         {
-            ApplyKnockback(hit.collider, attackPoint);
-            Debug.Log("Raycast hit: " + hit.collider.name);
+            TryDamageTarget(hit.collider, attackPoint, isPlayerOneAttacker);
         }
     }
 
-    public void OverlapAttack(Transform attackPoint)
+    public void OverlapAttack(Transform attackPoint, bool isPlayerOneAttacker)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, rayDistance, targetLayer);
         foreach(Collider2D hit in hits)
         {
-            ApplyKnockback(hit, attackPoint);
-            Debug.Log("Overlap hit: " + hit.name);
+            TryDamageTarget(hit, attackPoint, isPlayerOneAttacker);
         }
     }
 
-    private void BoxcastAttack(Transform attackPoint)
+    private void BoxcastAttack(Transform attackPoint, bool isPlayerOneAttacker)
     {
         Vector2 origin = (Vector2)attackPoint.position + boxOffset;
         RaycastHit2D hit = Physics2D.BoxCast(origin, boxSize, 0, Vector2.right * 0, targetLayer);
         if(hit.collider != null)
         {
-            ApplyKnockback(hit.collider, attackPoint);
-            Debug.Log("Boxcast hit: " + hit.collider.name);
+            TryDamageTarget(hit.collider, attackPoint, isPlayerOneAttacker);
+        }
+    }
+
+    void TryDamageTarget(Collider2D targetCollider, Transform attackPoint, bool isPlayerOneAttacker)
+    {
+        InputManager targetInput = targetCollider.GetComponent<InputManager>();
+        if(targetInput != null && targetInput.isPlayerOne == isPlayerOneAttacker)
+        {
+            //No ataca al mismo bando
+            return;
+        }
+
+        ApplyKnockback(targetCollider, attackPoint);
+
+        IDamageable damageable = targetCollider.GetComponent<IDamageable>();
+        if(damageable != null) 
+        {
+            Debug.Log($"Aplicando daño: {damage} a {targetCollider.name}");
+            damageable.ReciveDamage(damage);
+        }
+    }
+
+    void ApplyKnockback(Collider2D target, Transform attackPoint) // Añade una fuerza extra al empuje
+    {
+        Rigidbody2D targetRb = target.GetComponent<Rigidbody2D>();
+        if (targetRb != null)
+        {
+            Vector2 direction = (target.transform.position - attackPoint.position).normalized;
+            targetRb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         }
     }
 
@@ -101,16 +127,6 @@ public class Attack : ScriptableObject
                 Vector2 origin = (Vector2)debugAttackPoint.position + boxOffset;
                 Gizmos.DrawWireCube(origin, boxSize);
                 break;
-        }
-    }
-
-    void ApplyKnockback(Collider2D target, Transform attackPoint) // Añade una fuerza extra al empuje
-    {
-        Rigidbody2D targetRb = target.GetComponent<Rigidbody2D>();
-        if(targetRb != null)
-        {
-            Vector2 direction = (target.transform.position - attackPoint.position).normalized;
-            targetRb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         }
     }
 }
