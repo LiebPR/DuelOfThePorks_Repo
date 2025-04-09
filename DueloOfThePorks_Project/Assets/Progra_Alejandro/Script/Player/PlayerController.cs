@@ -150,7 +150,14 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(new Vector2(direction * dashForce, 0), ForceMode2D.Impulse);
 
-        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player"), true);
+        if(gameObject.layer == LayerMask.NameToLayer("Player1"))
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player2"), true);
+        }
+        else if (gameObject.layer == LayerMask.NameToLayer("Player2"))
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player1"), true);
+        }
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -159,7 +166,16 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector2(rb.velocity.x, currentYVelocity);
 
-        Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player"), false);
+        if(gameObject.layer == LayerMask.NameToLayer("Player1"))
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player2"), false);
+        }
+        else if(gameObject.layer == LayerMask.NameToLayer("Player2"))
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Player1"), false);
+        }
+
+        
     }
 
     //Detectores:

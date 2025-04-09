@@ -86,7 +86,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2b17feb8-845f-4d2c-a22a-b3d26b6893ea"",
-                    ""path"": ""<Keyboard>/v"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
