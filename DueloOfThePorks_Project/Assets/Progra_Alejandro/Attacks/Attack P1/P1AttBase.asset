@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 3
   knockbackForce: 1
-  areaDamgeType: 1
+  cooldownTime: 0.7
+  radius: 1
   boxSize: {x: 1, y: 1}
   boxOffset: {x: 0, y: 0}
-  rayDistance: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 256

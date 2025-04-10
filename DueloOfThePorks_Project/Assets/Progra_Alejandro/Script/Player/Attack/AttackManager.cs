@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class AttackManager : MonoBehaviour
 {
-    public Attack[] attackSettingsArray; // Array de ataques
-    public Transform attackPoint; // Punto de ataque
-    public DamageHandler damageHandler; // Referencia al DamageHandler
+    [SerializeField] Attack[] attackSettingsArray; // Array de ataques
+    [SerializeField] Transform attackPoint; // Punto de ataque
 
     private InputManager inputManager;
+
+    float[] attackCooldownTimers; //Temporizador por cada ataque
 
     private void Awake()
     {
@@ -20,12 +21,15 @@ public class AttackManager : MonoBehaviour
         var playerController = GetComponent<PlayerController>();
         if (playerController != null && attackSettingsArray.Length > 0) // ¿El array de ataques está asignado?
         {
-            // Inicializamos todos los ataques del array
-            foreach (var attack in attackSettingsArray)
+            //Inizializamos todos los ataques del array
+            attackCooldownTimers = new float[attackSettingsArray.Length]; //Inizializamos el array de coldowns
+
+            for (int i = 0; i < attackSettingsArray.Length; i++)
             {
-                if (attack != null)
+                if (attackSettingsArray[i] != null)
                 {
-                    attack.Initialize(playerController);
+                    attackSettingsArray[i].Initialize(playerController);
+                    attackCooldownTimers[i] = 0f; //Al principio, los ataques no tienen cooldown
                 }
             }
             Debug.Log("AttackSettings inicializado correctamente");
@@ -38,18 +42,27 @@ public class AttackManager : MonoBehaviour
 
     private void Update()
     {
-        // Detectamos la entrada del jugador para realizar el ataque
-        if (inputManager.baseAttackInput) // Ataque asignado al clic derecho
+        //Actualizamos cooldown de cada ataque
+        for (int i = 0; i < attackCooldownTimers.Length; i++)
         {
-            PerformAttackIndex(0); // Ejecuta el ataque del Array que está en el índice (0)
-            inputManager.ResetBaseAttackInput();
-            Debug.Log("Se ha realizado el BaseAttack");
+            if (attackCooldownTimers[i] > 0f)
+            {
+                attackCooldownTimers[i] -= Time.deltaTime; //Reducimos el coldown de ese ataque
+            }
         }
-        else if (inputManager.strongAttackInput) // Ataque asignado al clic izquierdo
+
+        //Detectamos la entrada del jugador para ralizar el ataque
+        if (inputManager.baseAttackInput)//Ataque asignado al clic derecho
         {
-            PerformAttackIndex(1); // Ejecuta el ataque del Array que está en el índice (1)
+            PerformAttackIndex(0); //Ejecutamos el ataque del Arry que está en el Index (0)
+            inputManager.ResetBaseAttackInput();
+            Debug.Log("Se a realizado el BaseAtttack");
+        }
+        else if (inputManager.strongAttackInput)
+        {
+            PerformAttackIndex(1); //Ejecutamos el ataque del array que está en el índice
             inputManager.ResetStrongAttackInput();
-            Debug.Log("Se a realizado el StrongAttack");
+            Debug.Log("Se ha realizado el StrongAttack");
         }
     }
 
@@ -58,11 +71,17 @@ public class AttackManager : MonoBehaviour
     {
         if (index >= 0 && index < attackSettingsArray.Length && attackSettingsArray[index] != null)
         {
-            float attackDamage = attackSettingsArray[index].damage;
-            // Ejecutamos el ataque según el tipo de ataque en el índice
-            attackSettingsArray[index].PerformAttack(attackPoint, inputManager.isPlayerOne);
-
-            Debug.Log("Ataque realizado con daño: " + attackDamage + "del attack: " + attackSettingsArray[index].name);
+            if (attackCooldownTimers[index] <= 0f)
+            {
+                attackSettingsArray[index].PerformAttack(attackPoint, inputManager.isPlayerOne);
+                attackCooldownTimers[index] = attackSettingsArray[index].GetCooldownTime();
+                Debug.Log($"Ataque realizado con daño: {attackSettingsArray[index].damage}, cooldown: {attackCooldownTimers[index]} segundos.");
+            }
+            else
+            {
+                Debug.Log($"Cooldown activo para el ataque {attackSettingsArray[index].name}, queda: {attackCooldownTimers[index]} segundos.");
+            }
+            
         }
         else
         {

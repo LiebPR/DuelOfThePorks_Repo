@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     PlatformEffector2D platformEff2D;
     float originalGravity;
     InputManager inputManager;
-
+    KnockbackManager _knockbackManager;
     //Stats Player
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
@@ -31,6 +31,12 @@ public class PlayerController : MonoBehaviour
     bool isDashing = false;
     bool canDash = true;
     float lastDashTime = -Mathf.Infinity;
+
+    [Header("Crounch")]
+    [SerializeField] float crouchSpeedMultiplier = 0.5f;
+    [SerializeField] Collider2D standingCollider;
+    [SerializeField] Collider2D crouchingCollider;
+    bool isCrouching = false;
 
     //Detectores:
     [Header("Raycast")]
@@ -52,6 +58,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         originalGravity = rb.gravityScale;
+        _knockbackManager = GetComponent<KnockbackManager>();
     }
 
     private void FixedUpdate()
@@ -66,13 +73,14 @@ public class PlayerController : MonoBehaviour
     {
         GroundCheck();
         Jump();
+        HandleCrouch();
         HandleDash();
     }
 
     //Voids encargados de los statas del player.
     void Move()
     {
-
+        if (_knockbackManager.IsInKnockback()) return;
         float horizontalInput = inputManager.moveInput.x;
 
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
@@ -97,6 +105,12 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.jumpInput)
         {
+            if (isCrouching)
+            {
+                inputManager.jumpInput = false;
+                return;
+            }
+            if (_knockbackManager.IsInKnockback()) return;
             // Primer salto
             if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
             {
@@ -111,11 +125,42 @@ public class PlayerController : MonoBehaviour
                 if (jumpCount == 1)
                 {
                     inputManager.jumpInput = false;
-                rb.AddForce(Vector3.up * secondJumpForce, ForceMode2D.Impulse);
-                AudioManager.instance.Play("Jump");
-                jumpCount = 2; // Segundo salto
+                    rb.AddForce(Vector3.up * secondJumpForce, ForceMode2D.Impulse);
+                    AudioManager.instance.Play("Jump");
+                    jumpCount = 2; // Segundo salto
                 }
                     
+            }
+        }
+    }
+
+    void HandleCrouch()
+    {
+        if(inputManager.crouchInput && isGrounded)
+        {
+            isCrouching = true;
+            rb.velocity = new Vector2(rb.velocity.x * crouchSpeedMultiplier, rb.velocity.y);
+
+            if (standingCollider != null && crouchingCollider != null)
+            {
+                standingCollider.enabled = false;
+                crouchingCollider.enabled = true;
+            }
+        }
+        else
+        {
+            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * capsuleCollider.bounds.extents.y;
+            bool headBlocked = Physics2D.Raycast(checkPosition, Vector2.up, 0.1f, groundLayer);
+
+            if (!headBlocked)
+            {
+                isCrouching = false;
+
+                if(standingCollider != null && crouchingCollider != null)
+                {
+                    standingCollider.enabled = true;
+                    crouchingCollider.enabled = false;
+                }
             }
         }
     }

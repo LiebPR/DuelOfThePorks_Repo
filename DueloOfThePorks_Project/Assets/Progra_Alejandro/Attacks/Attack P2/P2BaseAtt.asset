@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
   m_Name: P2BaseAtt
   m_EditorClassIdentifier: 
-  damage: 4
-  knockbackForce: 0
-  areaDamgeType: 1
+  damage: 10
+  knockbackForce: 8
+  cooldownTime: 2.5
+  radius: 1
   boxSize: {x: 1, y: 1}
   boxOffset: {x: 0, y: 0}
-  rayDistance: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
