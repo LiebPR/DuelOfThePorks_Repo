@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class CharacterSelectorUI : MonoBehaviour
 {
@@ -9,20 +9,20 @@ public class CharacterSelectorUI : MonoBehaviour
     public class Character
     {
         public string name;
-        public Sprite image;
-        public GameObject prefab; // Prefab de cada personaje
+        public GameObject previewPrefab; // Prefab del personaje con animación idle
+        public GameObject renderCameraPrefab; // Prefab que contiene una cámara con RenderTexture
     }
 
     [Header("Character Options")]
-    public Character[] player1Characters; // Los personajes para Player 1
-    public Character[] player2Characters; // Los personajes para Player 2
+    public Character[] player1Characters;
+    public Character[] player2Characters;
 
     [Header("Player 1 UI")]
-    public Image player1Image;
+    public RawImage player1RenderImage;
     public TextMeshProUGUI player1Name;
 
     [Header("Player 2 UI")]
-    public Image player2Image;
+    public RawImage player2RenderImage;
     public TextMeshProUGUI player2Name;
 
     [Header("Scene Settings")]
@@ -33,6 +33,12 @@ public class CharacterSelectorUI : MonoBehaviour
     private bool p1Ready = false;
     private bool p2Ready = false;
 
+    private GameObject p1PreviewInstance;
+    private GameObject p2PreviewInstance;
+
+    private GameObject p1CameraInstance;
+    private GameObject p2CameraInstance;
+
     void Start()
     {
         UpdateUI();
@@ -40,23 +46,20 @@ public class CharacterSelectorUI : MonoBehaviour
 
     void Update()
     {
-        // --- Player 1: A/D para mover, W para confirmar ---
         if (!p1Ready)
         {
-            if (Input.GetKeyDown(KeyCode.A)) { p1Index = (p1Index - 1 + player1Characters.Length) % player1Characters.Length; UpdateUI(); }
-            if (Input.GetKeyDown(KeyCode.D)) { p1Index = (p1Index + 1) % player1Characters.Length; UpdateUI(); }
+            if (Input.GetKeyDown(KeyCode.A)) { ChangeCharacter(-1, true); }
+            if (Input.GetKeyDown(KeyCode.D)) { ChangeCharacter(1, true); }
             if (Input.GetKeyDown(KeyCode.W)) { p1Ready = true; UpdateUI(); }
         }
 
-        // --- Player 2: ←/→ para mover, ↑ para confirmar ---
         if (!p2Ready)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { p2Index = (p2Index - 1 + player2Characters.Length) % player2Characters.Length; UpdateUI(); }
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { p2Index = (p2Index + 1) % player2Characters.Length; UpdateUI(); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) { ChangeCharacter(-1, false); }
+            if (Input.GetKeyDown(KeyCode.RightArrow)) { ChangeCharacter(1, false); }
             if (Input.GetKeyDown(KeyCode.UpArrow)) { p2Ready = true; UpdateUI(); }
         }
 
-        // --- Si ambos están listos, cargar escena ---
         if (p1Ready && p2Ready)
         {
             PlayerPrefs.SetString("Player1Character", player1Characters[p1Index].name);
@@ -65,14 +68,38 @@ public class CharacterSelectorUI : MonoBehaviour
         }
     }
 
+    void ChangeCharacter(int direction, bool isPlayer1)
+    {
+        if (isPlayer1)
+        {
+            p1Index = (p1Index + direction + player1Characters.Length) % player1Characters.Length;
+        }
+        else
+        {
+            p2Index = (p2Index + direction + player2Characters.Length) % player2Characters.Length;
+        }
+
+        UpdateUI();
+    }
+
     void UpdateUI()
     {
-        // Actualiza la UI de Player 1
-        player1Image.sprite = player1Characters[p1Index].image;
-        player1Name.text = player1Characters[p1Index].name + (p1Ready ? " [READY]" : "");
+        // Actualizar vista previa P1
+        if (p1PreviewInstance) Destroy(p1PreviewInstance);
+        if (p1CameraInstance) Destroy(p1CameraInstance);
+        var char1 = player1Characters[p1Index];
+        p1PreviewInstance = Instantiate(char1.previewPrefab, new Vector3(-1000, 0, 0), Quaternion.identity);
+        p1CameraInstance = Instantiate(char1.renderCameraPrefab);
+        player1RenderImage.texture = p1CameraInstance.GetComponent<Camera>().targetTexture;
+        player1Name.text = char1.name + (p1Ready ? " [READY]" : "");
 
-        // Actualiza la UI de Player 2
-        player2Image.sprite = player2Characters[p2Index].image;
-        player2Name.text = player2Characters[p2Index].name + (p2Ready ? " [READY]" : "");
+        // Actualizar vista previa P2
+        if (p2PreviewInstance) Destroy(p2PreviewInstance);
+        if (p2CameraInstance) Destroy(p2CameraInstance);
+        var char2 = player2Characters[p2Index];
+        p2PreviewInstance = Instantiate(char2.previewPrefab, new Vector3(1000, 0, 0), Quaternion.identity);
+        p2CameraInstance = Instantiate(char2.renderCameraPrefab);
+        player2RenderImage.texture = p2CameraInstance.GetComponent<Camera>().targetTexture;
+        player2Name.text = char2.name + (p2Ready ? " [READY]" : "");
     }
 }

@@ -229,31 +229,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player1Characters:
-  - name: 1
-    image: {fileID: 21300000, guid: 02be14f93553167428735e17bd59b100, type: 3}
-    prefab: {fileID: 6181711620263958914, guid: 1f31322c2f2e5e04d9ca62b3298a179d, type: 3}
-  - name: 2
+  - name: P1
     image: {fileID: 21300000, guid: f1efda9e68f156d4c9de022c9bd4d0a2, type: 3}
-    prefab: {fileID: 9008545952171912580, guid: 229d0d7ea95141441af89af0bc90eb23, type: 3}
-  - name: 3
-    image: {fileID: 21300000, guid: dfaf4e8b32fd10e43b3f0c6a46a55f8b, type: 3}
-    prefab: {fileID: 4527056016424590829, guid: 28a2f0b2cd0dd6c4981c80726b36f6b9, type: 3}
-  - name: 4
-    image: {fileID: 21300000, guid: b4caddb2880aaf740bb9e6084accd5cb, type: 3}
-    prefab: {fileID: 2496469951091114293, guid: 13001c9ec15874d428b8ce92ef1aba5e, type: 3}
+    prefab: {fileID: 6507895540698220551, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
   player2Characters:
-  - name: 1.2
-    image: {fileID: 21300000, guid: 02be14f93553167428735e17bd59b100, type: 3}
-    prefab: {fileID: 6181711620263958914, guid: c9e88b8b193e98046a6f20905524b015, type: 3}
-  - name: 2.2
-    image: {fileID: 21300000, guid: f1efda9e68f156d4c9de022c9bd4d0a2, type: 3}
-    prefab: {fileID: 9008545952171912580, guid: 34b13aecb634c0c42aff9cfa7182fcbe, type: 3}
-  - name: 3.2
+  - name: P2
     image: {fileID: 21300000, guid: dfaf4e8b32fd10e43b3f0c6a46a55f8b, type: 3}
-    prefab: {fileID: 4527056016424590829, guid: 3f5e92e19aedd5a4ea7745bffdd776cc, type: 3}
-  - name: 4.2
-    image: {fileID: 21300000, guid: b4caddb2880aaf740bb9e6084accd5cb, type: 3}
-    prefab: {fileID: 2496469951091114293, guid: 53f5bf9fc0226e5458366f0807cf3160, type: 3}
+    prefab: {fileID: 7150741774813517863, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
   player1Image: {fileID: 1114892773}
   player1Name: {fileID: 614136675}
   player2Image: {fileID: 153458032}

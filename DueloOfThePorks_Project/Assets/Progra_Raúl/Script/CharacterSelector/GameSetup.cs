@@ -3,40 +3,45 @@ using UnityEngine;
 public class GameSetup : MonoBehaviour
 {
     [Header("Character Prefabs")]
-    public GameObject[] player1CharacterPrefabs; // Prefabs de los personajes de Player 1
-    public GameObject[] player2CharacterPrefabs; // Prefabs de los personajes de Player 2
+    public GameObject[] player1CharacterPrefabs;
+    public GameObject[] player2CharacterPrefabs;
 
-    void Start()
+    [Header("Spawn Settings")]
+    public Vector2 player1SpawnPosition = new Vector2(-2, 0);
+    public Vector2 player2SpawnPosition = new Vector2(2, 0);
+    public string player1LayerName = "Player1";
+    public string player2LayerName = "Player2";
+
+    private void Start()
     {
-        // Obtener los nombres de los personajes seleccionados
-        string p1CharacterName = PlayerPrefs.GetString("Player1Character");
-        string p2CharacterName = PlayerPrefs.GetString("Player2Character");
+        string p1Name = PlayerPrefs.GetString("Player1Character");
+        string p2Name = PlayerPrefs.GetString("Player2Character");
 
-        // Instanciar el prefab correspondiente para Player 1
-        GameObject player1Prefab = GetCharacterPrefab(p1CharacterName, player1CharacterPrefabs);
-        if (player1Prefab != null)
+        GameObject p1Prefab = GetCharacterPrefab(p1Name, player1CharacterPrefabs);
+        GameObject p2Prefab = GetCharacterPrefab(p2Name, player2CharacterPrefabs);
+
+        if (p1Prefab != null)
         {
-            Instantiate(player1Prefab, new Vector2(-2, 0), Quaternion.identity);
+            GameObject p1Instance = Instantiate(p1Prefab, player1SpawnPosition, Quaternion.identity);
+            p1Instance.layer = LayerMask.NameToLayer(player1LayerName);
         }
 
-        // Instanciar el prefab correspondiente para Player 2
-        GameObject player2Prefab = GetCharacterPrefab(p2CharacterName, player2CharacterPrefabs);
-        if (player2Prefab != null)
+        if (p2Prefab != null)
         {
-            Instantiate(player2Prefab, new Vector2(2, 0), Quaternion.identity);
+            GameObject p2Instance = Instantiate(p2Prefab, player2SpawnPosition, Quaternion.identity);
+            p2Instance.layer = LayerMask.NameToLayer(player2LayerName);
         }
     }
 
-    // Método para obtener el prefab según el nombre
-    GameObject GetCharacterPrefab(string characterName, GameObject[] characterPrefabs)
+    private GameObject GetCharacterPrefab(string characterName, GameObject[] characterPrefabs)
     {
         foreach (GameObject prefab in characterPrefabs)
         {
             if (prefab.name == characterName)
-            {
                 return prefab;
-            }
         }
+
+        Debug.LogWarning($"No se encontró el prefab del personaje: {characterName}");
         return null;
     }
 }
