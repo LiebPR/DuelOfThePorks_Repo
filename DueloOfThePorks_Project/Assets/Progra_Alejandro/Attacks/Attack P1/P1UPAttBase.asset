@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
   m_Name: P1UPAttBase
   m_EditorClassIdentifier: 
-  damage: 100
-  knockbackForce: 3
+  damage: 10
+  knockbackForce: 6
   cooldownTime: 0.7
   radius: 1
-  boxSize: {x: 7.62, y: 1.45}
-  boxOffset: {x: -0.45, y: 0.33}
+  boxSize: {x: 0.95, y: 2.19}
+  boxOffset: {x: -0.47, y: 1.63}
   targetLayer:
     serializedVersion: 2
     m_Bits: 256

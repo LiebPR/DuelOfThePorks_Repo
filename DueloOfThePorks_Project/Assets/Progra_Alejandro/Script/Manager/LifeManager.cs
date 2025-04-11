@@ -54,7 +54,7 @@ public class LifeManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Death Zone"))
+        if(other.CompareTag("DeathZone"))
         {
             Debug.Log("Zona de muerte tocada, perdiendo vida");
             Die();
