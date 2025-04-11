@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: P2DownAttBase
   m_EditorClassIdentifier: 
   damage: 15
-  knockbackForce: 0
+  knockbackForce: 6
   cooldownTime: 3
   radius: 1
   boxSize: {x: 4.47, y: 1.61}

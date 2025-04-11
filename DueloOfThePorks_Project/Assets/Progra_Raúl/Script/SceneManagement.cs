@@ -1,44 +1,132 @@
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneManagement : MonoBehaviour
 {
-    public static SceneManagement Instance;
+    [Header("Configuración de la Escena")]
+    [Tooltip("Nombre de la escena a cargar. Si está vacío, se usa el índice.")]
+    public string nombreEscena;
 
-    [Header("�ndices de Escenas")]
-    public int loadingSceneIndex = 0;   // �ndice de la escena de carga
-    public int mainMenuSceneIndex = 1;  // �ndice del Men� Principal
-    public int gameSceneIndex = 2;      // �ndice del Juego
+    [Tooltip("Índice de la escena a cargar. Se usa si no se proporciona nombre.")]
+    public int indiceEscena = -1;
 
-    private void Awake()
+    [Header("Opciones de Carga")]
+    [Tooltip("Determina si la carga de escena será asíncrona.")]
+    public bool cargaAsincrona = true;
+
+    [Tooltip("Usar una escena de carga intermedia.")]
+    public bool usarEscenaCarga = true;
+
+    [Tooltip("Nombre de la escena de carga, si se usa una escena intermedia.")]
+    public string nombreEscenaCarga = "EscenaCarga";
+
+    [Header("Transición Visual")]
+    [Tooltip("Si se activa, realiza una transición visual al cambiar de escena.")]
+    public bool usarTransicion = false;
+
+    [Tooltip("CanvasGroup utilizado para realizar la transición de fade.")]
+    public CanvasGroup canvasTransicion;
+
+    [Tooltip("Duración de la transición de fade.")]
+    public float duracionTransicion = 1f;
+
+    /// <summary>
+    /// Cambia de escena según la configuración.
+    /// </summary>
+    public void CambiarEscena()
     {
-        if (Instance == null)
+        if (usarEscenaCarga)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // Almacena la escena destino en PlayerPrefs y carga la escena de carga
+            string escenaDestino = !string.IsNullOrEmpty(nombreEscena) ? nombreEscena : SceneManager.GetSceneByBuildIndex(indiceEscena).name;
+            PlayerPrefs.SetString("EscenaDestino", escenaDestino);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene(nombreEscenaCarga);
         }
         else
         {
-            Destroy(gameObject);
+            // Carga la escena de manera sincrónica o asincrónica
+            if (cargaAsincrona)
+                StartCoroutine(CargarEscenaAsincrona());
+            else
+                StartCoroutine(CargarEscena());
         }
     }
 
-    public void LoadScene(int sceneIndex)
+    /// <summary>
+    /// Carga la escena de forma sincrónica con un pequeño delay.
+    /// </summary>
+    private IEnumerator CargarEscena()
     {
-        PlayerPrefs.SetInt("NextScene", sceneIndex);  // Guardamos el �ndice de la pr�xima escena
-        SceneManager.LoadScene(loadingSceneIndex);   // Carga la escena de carga
+        if (usarTransicion) yield return StartCoroutine(Fade(1f));
+        yield return new WaitForSeconds(1f);
+
+        if (!string.IsNullOrEmpty(nombreEscena))
+            SceneManager.LoadScene(nombreEscena);
+        else if (indiceEscena >= 0)
+            SceneManager.LoadScene(indiceEscena);
     }
 
-    // M�todo para cargar el men� principal
-    public void LoadMainMenu()
+    /// <summary>
+    /// Carga la escena de manera asincrónica con un control de progreso.
+    /// </summary>
+    private IEnumerator CargarEscenaAsincrona()
     {
-        SceneManager.LoadScene(mainMenuSceneIndex);
+        if (usarTransicion) yield return StartCoroutine(Fade(1f));
+        yield return new WaitForSeconds(1f);
+
+        AsyncOperation operacion;
+        if (!string.IsNullOrEmpty(nombreEscena))
+            operacion = SceneManager.LoadSceneAsync(nombreEscena);
+        else if (indiceEscena >= 0)
+            operacion = SceneManager.LoadSceneAsync(indiceEscena);
+        else
+            yield break;
+
+        operacion.allowSceneActivation = false;
+
+        // Monitorea el progreso de la carga asincrónica
+        while (!operacion.isDone)
+        {
+            if (operacion.progress >= 0.9f)
+                operacion.allowSceneActivation = true;
+
+            yield return null;
+        }
     }
 
-    // M�todo para cargar la escena del juego
-    public void LoadGame()
+    /// <summary>
+    /// Realiza una transición de fade in/out en el CanvasGroup.
+    /// </summary>
+    private IEnumerator Fade(float alphaObjetivo)
     {
-        LoadScene(gameSceneIndex);  // Carga la escena de carga antes de cargar el juego
+        if (canvasTransicion == null) yield break;
+
+        float alphaInicial = canvasTransicion.alpha;
+        float tiempo = 0f;
+
+        // Interpolación de alpha para lograr el efecto de fade
+        while (tiempo < duracionTransicion)
+        {
+            tiempo += Time.deltaTime;
+            canvasTransicion.alpha = Mathf.Lerp(alphaInicial, alphaObjetivo, tiempo / duracionTransicion);
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Cierra la aplicación de manera profesional.
+    /// </summary>
+    public void SalirDelJuego()
+    {
+        // Cierra la aplicación en plataformas de ejecución
+        Application.Quit();
+
+        // Si está ejecutándose en el editor de Unity, detiene la ejecución
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
-
