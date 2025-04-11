@@ -80,6 +80,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6cdb59b-7f97-44bf-b120-68ed599255f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""7825ee7a-143f-4d33-97b5-b962427a092f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +210,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""StrongAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fb73cde-feec-4136-9955-cdffd00d7ea5"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47b5e90f-683f-419a-bc0e-f511545dfaed"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -248,6 +288,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""StrongAttack"",
                     ""type"": ""Button"",
                     ""id"": ""36af694a-c7f3-493b-8279-3b2d7ebc932f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2717d20-f827-4cd0-8057-42538b68b2af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""8152128c-0182-4369-8070-30b150a70763"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -364,6 +422,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BaseAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9413ea7-e3a8-43a0-ae69-00859db74514"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aad5f8fe-54a3-4889-b270-d9189a368247"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -378,6 +458,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         m_Player1_BaseAttack = m_Player1.FindAction("BaseAttack", throwIfNotFound: true);
         m_Player1_StrongAttack = m_Player1.FindAction("StrongAttack", throwIfNotFound: true);
+        m_Player1_Up = m_Player1.FindAction("Up", throwIfNotFound: true);
+        m_Player1_Down = m_Player1.FindAction("Down", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Dash = m_Player2.FindAction("Dash", throwIfNotFound: true);
@@ -386,6 +468,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
         m_Player2_BaseAttack = m_Player2.FindAction("BaseAttack", throwIfNotFound: true);
         m_Player2_StrongAttack = m_Player2.FindAction("StrongAttack", throwIfNotFound: true);
+        m_Player2_Up = m_Player2.FindAction("Up", throwIfNotFound: true);
+        m_Player2_Down = m_Player2.FindAction("Down", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -453,6 +537,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Jump;
     private readonly InputAction m_Player1_BaseAttack;
     private readonly InputAction m_Player1_StrongAttack;
+    private readonly InputAction m_Player1_Up;
+    private readonly InputAction m_Player1_Down;
     public struct Player1Actions
     {
         private @PlayerInputActions m_Wrapper;
@@ -463,6 +549,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputAction @BaseAttack => m_Wrapper.m_Player1_BaseAttack;
         public InputAction @StrongAttack => m_Wrapper.m_Player1_StrongAttack;
+        public InputAction @Up => m_Wrapper.m_Player1_Up;
+        public InputAction @Down => m_Wrapper.m_Player1_Down;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -490,6 +578,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @StrongAttack.started += instance.OnStrongAttack;
             @StrongAttack.performed += instance.OnStrongAttack;
             @StrongAttack.canceled += instance.OnStrongAttack;
+            @Up.started += instance.OnUp;
+            @Up.performed += instance.OnUp;
+            @Up.canceled += instance.OnUp;
+            @Down.started += instance.OnDown;
+            @Down.performed += instance.OnDown;
+            @Down.canceled += instance.OnDown;
         }
 
         private void UnregisterCallbacks(IPlayer1Actions instance)
@@ -512,6 +606,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @StrongAttack.started -= instance.OnStrongAttack;
             @StrongAttack.performed -= instance.OnStrongAttack;
             @StrongAttack.canceled -= instance.OnStrongAttack;
+            @Up.started -= instance.OnUp;
+            @Up.performed -= instance.OnUp;
+            @Up.canceled -= instance.OnUp;
+            @Down.started -= instance.OnDown;
+            @Down.performed -= instance.OnDown;
+            @Down.canceled -= instance.OnDown;
         }
 
         public void RemoveCallbacks(IPlayer1Actions instance)
@@ -539,6 +639,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_Jump;
     private readonly InputAction m_Player2_BaseAttack;
     private readonly InputAction m_Player2_StrongAttack;
+    private readonly InputAction m_Player2_Up;
+    private readonly InputAction m_Player2_Down;
     public struct Player2Actions
     {
         private @PlayerInputActions m_Wrapper;
@@ -549,6 +651,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player2_Jump;
         public InputAction @BaseAttack => m_Wrapper.m_Player2_BaseAttack;
         public InputAction @StrongAttack => m_Wrapper.m_Player2_StrongAttack;
+        public InputAction @Up => m_Wrapper.m_Player2_Up;
+        public InputAction @Down => m_Wrapper.m_Player2_Down;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -576,6 +680,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @StrongAttack.started += instance.OnStrongAttack;
             @StrongAttack.performed += instance.OnStrongAttack;
             @StrongAttack.canceled += instance.OnStrongAttack;
+            @Up.started += instance.OnUp;
+            @Up.performed += instance.OnUp;
+            @Up.canceled += instance.OnUp;
+            @Down.started += instance.OnDown;
+            @Down.performed += instance.OnDown;
+            @Down.canceled += instance.OnDown;
         }
 
         private void UnregisterCallbacks(IPlayer2Actions instance)
@@ -598,6 +708,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @StrongAttack.started -= instance.OnStrongAttack;
             @StrongAttack.performed -= instance.OnStrongAttack;
             @StrongAttack.canceled -= instance.OnStrongAttack;
+            @Up.started -= instance.OnUp;
+            @Up.performed -= instance.OnUp;
+            @Up.canceled -= instance.OnUp;
+            @Down.started -= instance.OnDown;
+            @Down.performed -= instance.OnDown;
+            @Down.canceled -= instance.OnDown;
         }
 
         public void RemoveCallbacks(IPlayer2Actions instance)
@@ -623,6 +739,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnBaseAttack(InputAction.CallbackContext context);
         void OnStrongAttack(InputAction.CallbackContext context);
+        void OnUp(InputAction.CallbackContext context);
+        void OnDown(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -632,5 +750,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnBaseAttack(InputAction.CallbackContext context);
         void OnStrongAttack(InputAction.CallbackContext context);
+        void OnUp(InputAction.CallbackContext context);
+        void OnDown(InputAction.CallbackContext context);
     }
 }

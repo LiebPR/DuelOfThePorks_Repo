@@ -7,11 +7,13 @@ public class HitDetector : MonoBehaviour, IDamageable
     public float damagePercentage = 0f;
     public bool isPlayerOne = false;
 
-    DamageHandler damageHandler;
+    public DamageHandler damageHandler;
+    LifeManager lifeManager;
 
     private void Awake()
     {
         damageHandler = GetComponent<DamageHandler>();
+        lifeManager = GetComponent<LifeManager>(); 
     }
 
     public void ReciveDamage(float damage)
@@ -29,30 +31,21 @@ public class HitDetector : MonoBehaviour, IDamageable
 
     void CheckDeathProbability()
     {
-        if (damagePercentage >= 100f && damagePercentage < 200f)
+        if(damagePercentage >= 200f)
+        {
+            Debug.Log($"{(isPlayerOne ? "Player1" : "Player2")} ha muerto por exceso de daño: {damagePercentage}%");
+            lifeManager.Die();
+        }
+        else if (damagePercentage >= 100f)
         {
             float deathChance = (damagePercentage - 100f) / 100f;
-            float randomChance = Random.Range(0f, 1f);
+            float randomChance = Random.Range(0, 1f);
 
-            if (randomChance <= deathChance)
+            if(randomChance <= deathChance)
             {
                 Debug.Log($"{(isPlayerOne ? "Player1" : "Player2")} ha muerto por probabilidad de daño: {damagePercentage}%");
-                Die();
+                lifeManager.Die();
             }
-            else if (damagePercentage >= 200f)
-            {
-                Debug.Log($"{(isPlayerOne ? "Player1" : "Player2")} ha muerto por exceso de daño: {damagePercentage}%");
-                Die();
-            }
-
         }
-    }
-
-    void Die()
-    {
-        //Lógica para morir, perder una vida y respawnear
-        //Por ejemplo, desactivamos el jugador y le restamos una vida
-        // Aquí podrías implementar la lógica de reseteo de vida y respawn
-        Debug.Log($"{(isPlayerOne ? "Player1" : "Player2")} HA MUERTO!!!");
     }
 }

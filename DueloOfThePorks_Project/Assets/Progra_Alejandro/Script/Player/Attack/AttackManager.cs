@@ -54,13 +54,28 @@ public class AttackManager : MonoBehaviour
         //Detectamos la entrada del jugador para ralizar el ataque
         if (inputManager.baseAttackInput)//Ataque asignado al clic derecho
         {
-            PerformAttackIndex(0); //Ejecutamos el ataque del Arry que está en el Index (0)
-            inputManager.ResetBaseAttackInput();
-            Debug.Log("Se a realizado el BaseAtttack");
+            if (inputManager.isWPressed && !inputManager.isSPressed)
+            {
+                PerformAttackIndex(0);
+                inputManager.ResetBaseAttackInput();
+                Debug.Log("UpAttack ejecutado");
+            }
+            else if(inputManager.isSPressed && !inputManager.isWPressed)
+            {
+                PerformAttackIndex(1);
+                inputManager.ResetBaseAttackInput();
+                Debug.Log("UpAttack ejecutado");
+            }
+            else
+            {
+                PerformAttackIndex(2);
+                inputManager.ResetBaseAttackInput();
+                Debug.Log("BaseAttack ejecutado");
+            }
         }
         else if (inputManager.strongAttackInput)
         {
-            PerformAttackIndex(1); //Ejecutamos el ataque del array que está en el índice
+            PerformAttackIndex(3); //Ejecutamos el ataque del array que está en el índice
             inputManager.ResetStrongAttackInput();
             Debug.Log("Se ha realizado el StrongAttack");
         }
