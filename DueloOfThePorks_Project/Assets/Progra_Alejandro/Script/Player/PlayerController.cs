@@ -18,11 +18,15 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] float jumpForce = 12f;
-    [SerializeField] float secondJumpForce = 6f;
+    [SerializeField] float secondJumpForce = 10f;
     [SerializeField] int maxJumpCount = 2;
     int jumpCount = 0;
     [SerializeField] float coyoteTime = 0.2f; //Tiempo extra para poder realizar un salto.
     float coyoteTimeCounter; //Contador coyoteTime
+
+    [Header("Falling")]
+    [SerializeField] float fallMultipler = 2.5f; //Que tan rapido cae rl jugsdor comparado con la gravedad normal.
+    [SerializeField] float lowJumpMultiplier = 2f; //Para hacer el salto más corto si se suelta el boton antes.
 
     [Header("Dash")]
     [SerializeField] float dashForce = 12f;
@@ -39,8 +43,8 @@ public class PlayerController : MonoBehaviour
     bool isCrouching = false;
 
     //Detectores:
-    [Header("Raycast")]
-    [SerializeField] float groundCheckDistance = 0.2f;
+    [Header("Boxcast")]
+    [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f);
     [SerializeField] LayerMask groundLayer;
     [SerializeField] bool isGrounded;
 
@@ -66,6 +70,7 @@ public class PlayerController : MonoBehaviour
         if (!isDashing)
         {
             Move();
+            ApplyBetterJumpPhysics();
         }
     }
 
@@ -101,21 +106,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ApplyBetterJumpPhysics()
+    {
+        if(rb.velocity.y < 0)
+        {
+            //Si esta callendo
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultipler - 1) * Time.deltaTime;
+        }
+        else if(rb.velocity.y > 0 && !inputManager.jumpInput)
+        {
+            //Si esta subiendo pero ya soltó el botón de salto
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+    }
+
     void Jump()
     {
         if (inputManager.jumpInput)
         {
             if (isCrouching)
             {
-                inputManager.jumpInput = false;
+                inputManager.ResetJumpInput();
                 return;
             }
             if (_knockbackManager.IsInKnockback()) return;
+
+            float horizontalInput = inputManager.moveInput.x;
+
             // Primer salto
             if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
             {
                 inputManager.jumpInput = false;
-                rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 AudioManager.instance.Play("Jump");
                 jumpCount = 1; // Primer salto
             }
@@ -125,12 +148,15 @@ public class PlayerController : MonoBehaviour
                 if (jumpCount == 1)
                 {
                     inputManager.jumpInput = false;
-                    rb.AddForce(Vector3.up * secondJumpForce, ForceMode2D.Impulse);
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
+                    Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce);
+                    rb.AddForce(jumpDirection, ForceMode2D.Impulse);
                     AudioManager.instance.Play("Jump");
                     jumpCount = 2; // Segundo salto
                 }
                     
             }
+            inputManager.ResetJumpInput();
         }
     }
 
@@ -226,16 +252,21 @@ public class PlayerController : MonoBehaviour
     //Detectores:
     void GroundCheck()
     {
-        //Detector del suelo:
         Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
-        bool groundBelow = Physics2D.Raycast(bottomOfCapsule, Vector2.down, groundCheckDistance, groundLayer);
+
+        //Detector del suelo:
+        Vector2 boxOrigin = bottomOfCapsule;
+        Vector2 boxSize = new Vector2(capsuleCollider.bounds.size.x, groundCheckSize.y);
+
+        RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, 0f, groundLayer);
+        bool groundBelow = hit.collider != null;
 
         //Detector de la pared:
         float direction = transform.localScale.x;
-        Vector2 boxSize = new Vector2(0.3f, capsuleCollider.bounds.size.y * 0.5f);
-        Vector2 boxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
+        Vector2 lateralBoxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
+        Vector2 lateralBoxSize = new Vector2(0.3f, capsuleCollider.bounds.size.y * 0.5f);
 
-        RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0, Vector2.down, groundCheckDistance, groundLayer);
+        RaycastHit2D sidehit = Physics2D.BoxCast(lateralBoxOrigin, lateralBoxSize, 0, Vector2.down, groundLayer);
         bool groundSide = hit.collider != null;
 
         isGrounded = groundBelow || groundSide; //Si cualquiera de las 2 variables toca el suelo isGrounded es true.
@@ -244,9 +275,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             //Doble jump:
-            if (jumpCount == 2)
+            if(jumpCount == 2)
             {
-                inputManager.jumpInput = true;
                 jumpCount = 0;
             }
             //CoyoteTime:
@@ -256,7 +286,6 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter -= Time.deltaTime; //... el tiempo aplicado en coyoteTimeCounter se reduce poco a poco.
         }
-        isGrounded = groundBelow;
     }
 
     private void OnDrawGizmos()
@@ -270,16 +299,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Raycast Suelo
+        // Boxcast Suelo
         Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(bottomOfCapsule, bottomOfCapsule + Vector2.down * groundCheckDistance);
+        Gizmos.DrawCube(bottomOfCapsule, new Vector2(capsuleCollider.bounds.size.x, groundCheckSize.y));
 
         // Boxcast lateral
         float direction = transform.localScale.x;
         Vector2 frontOfCapsule = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, 0);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(frontOfCapsule + Vector2.down * groundCheckDistance / 2, new Vector2(0.2f, 0.1f));
+        Gizmos.DrawWireCube(frontOfCapsule + Vector2.down * groundCheckSize.y / 2, new Vector2(0.3f, 0.1f));
     }
 }

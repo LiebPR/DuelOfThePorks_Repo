@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class LifeManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class LifeManager : MonoBehaviour
 
     [SerializeField] Transform[] puntosDeRespawn;
     [SerializeField] HitDetector hitDetector; //Reinicia el daño
+    [SerializeField] private Image[] heartImages; //Ui: Imagenes de corazones
     
 
     private void Start()
@@ -24,6 +26,12 @@ public class LifeManager : MonoBehaviour
     public void Die()
     {
         vidas--;
+
+        //Apaga el corazon correspondiente
+        if(vidas >= 0 && vidas < heartImages.Length)
+        {
+            heartImages[vidas].enabled = false;
+        }
         if(vidas <= 0)
         {
             Debug.Log($"{(hitDetector.isPlayerOne ? "Player1" : "Player2")} se ha quedado sin vidas. GAME OVER. ");

@@ -11,7 +11,7 @@ public class DamageHandler : MonoBehaviour
     {
         if(damageText != null)
         {
-            damageText.text = $"Daño: {Mathf.RoundToInt(damagePercentage)}%";
+            damageText.text = $"{Mathf.RoundToInt(damagePercentage)}%";
         }
     }
 }
