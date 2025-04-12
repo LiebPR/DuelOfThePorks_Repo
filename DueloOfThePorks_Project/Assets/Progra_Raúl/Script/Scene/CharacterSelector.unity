@@ -132,39 +132,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 316356813}
-  - component: {fileID: 316356812}
+  - component: {fileID: 316356814}
   m_Layer: 0
-  m_Name: CharacterSelectorUI
+  m_Name: PlayerSelector1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &316356812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 316356811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68debc1692b94b446831234e4d02e94f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1Characters:
-  - name: P1
-    image: {fileID: 21300000, guid: 02be14f93553167428735e17bd59b100, type: 3}
-    prefab: {fileID: 6507895540698220551, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
-  player2Characters:
-  - name: P2
-    image: {fileID: 21300000, guid: f1efda9e68f156d4c9de022c9bd4d0a2, type: 3}
-    prefab: {fileID: 7150741774813517863, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
-  player1Image: {fileID: 1488679455}
-  player1Name: {fileID: 614136675}
-  player2Image: {fileID: 796840032}
-  player2Name: {fileID: 382210780}
-  nextScene: Scene_Pract
 --- !u!4 &316356813
 Transform:
   m_ObjectHideFlags: 0
@@ -180,6 +155,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &316356814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316356811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4a6e557e509314d86b3d2747976aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 6507895540698220551, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
+  characterNameText: {fileID: 614136675}
+  previewArea: {fileID: 1488679454}
+  slideDuration: 0.5
+  slideDistance: 500
+  nextKey: 100
+  previousKey: 97
+  confirmKey: 119
+  horizontalAxisName: Horizontal
+  confirmButtonName: Submit
+  axisInputDelay: 0.3
+  gamepadThreshold: 0.5
+  allowedInput: 1
 --- !u!1 &342474251
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +937,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17, y: 0.14936365}
   m_AnchorMax: {x: 0.37600002, y: 0.51100004}
-  m_AnchoredPosition: {x: -0.19999695, y: -0.5999985}
+  m_AnchoredPosition: {x: -0.19998169, y: -0.6000061}
   m_SizeDelta: {x: -2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488679455
@@ -977,3 +978,109 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488679453}
   m_CullTransparentMesh: 1
+--- !u!1 &1501071245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501071247}
+  - component: {fileID: 1501071246}
+  m_Layer: 0
+  m_Name: PlayerSelector2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1501071246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501071245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4a6e557e509314d86b3d2747976aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 7150741774813517863, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
+  characterNameText: {fileID: 382210780}
+  previewArea: {fileID: 796840031}
+  slideDuration: 0.5
+  slideDistance: 500
+  nextKey: 100
+  previousKey: 97
+  confirmKey: 119
+  horizontalAxisName: Horizontal
+  confirmButtonName: Submit
+  axisInputDelay: 0.3
+  gamepadThreshold: 0.5
+  allowedInput: 2
+--- !u!4 &1501071247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501071245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 272.25314, y: 300.41852, z: -2.47634}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1534266813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1534266815}
+  - component: {fileID: 1534266814}
+  m_Layer: 0
+  m_Name: CharacterSelectorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1534266814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534266813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea44a2111ce82745b3d7978a9d62a16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Selector: {fileID: 316356814}
+  player2Selector: {fileID: 1501071246}
+  nextScene: Scene_Pract
+  loadingScene: EscenaCarga
+--- !u!4 &1534266815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534266813}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 484.3208, y: 169.3626, z: -0.8356185}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
