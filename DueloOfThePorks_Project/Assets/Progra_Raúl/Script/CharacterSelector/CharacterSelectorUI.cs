@@ -26,7 +26,9 @@ public class CharacterSelectorUI : MonoBehaviour
     public TextMeshProUGUI player2Name;
 
     [Header("Scene Settings")]
-    public string nextScene = "JUEGO";
+    public string nextScene = "JUEGO"; // Escena de juego, destino
+    [Header("Loading Scene Settings")]
+    public string loadingScene = "EscenaCarga"; // Escena de carga
 
     private int p1Index = 0;
     private int p2Index = 0;
@@ -43,25 +45,52 @@ public class CharacterSelectorUI : MonoBehaviour
         // --- Player 1: A/D para mover, W para confirmar ---
         if (!p1Ready)
         {
-            if (Input.GetKeyDown(KeyCode.A)) { p1Index = (p1Index - 1 + player1Characters.Length) % player1Characters.Length; UpdateUI(); }
-            if (Input.GetKeyDown(KeyCode.D)) { p1Index = (p1Index + 1) % player1Characters.Length; UpdateUI(); }
-            if (Input.GetKeyDown(KeyCode.W)) { p1Ready = true; UpdateUI(); }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                p1Index = (p1Index - 1 + player1Characters.Length) % player1Characters.Length;
+                UpdateUI();
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                p1Index = (p1Index + 1) % player1Characters.Length;
+                UpdateUI();
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                p1Ready = true;
+                UpdateUI();
+            }
         }
 
         // --- Player 2: ←/→ para mover, ↑ para confirmar ---
         if (!p2Ready)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) { p2Index = (p2Index - 1 + player2Characters.Length) % player2Characters.Length; UpdateUI(); }
-            if (Input.GetKeyDown(KeyCode.RightArrow)) { p2Index = (p2Index + 1) % player2Characters.Length; UpdateUI(); }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { p2Ready = true; UpdateUI(); }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                p2Index = (p2Index - 1 + player2Characters.Length) % player2Characters.Length;
+                UpdateUI();
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                p2Index = (p2Index + 1) % player2Characters.Length;
+                UpdateUI();
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                p2Ready = true;
+                UpdateUI();
+            }
         }
 
-        // --- Si ambos están listos, cargar escena ---
+        // --- Si ambos están listos, guardar los personajes seleccionados, setear la escena destino y cargar la escena de carga ---
         if (p1Ready && p2Ready)
         {
             PlayerPrefs.SetString("Player1Character", player1Characters[p1Index].name);
             PlayerPrefs.SetString("Player2Character", player2Characters[p2Index].name);
-            SceneManager.LoadScene(nextScene);
+            // Guardamos en PlayerPrefs el nombre de la escena de destino
+            PlayerPrefs.SetString("EscenaDestino", nextScene);
+            // Cargamos la escena de carga, que se encargará de leer "EscenaDestino" y mostrar el progreso
+            SceneManager.LoadScene(loadingScene);
         }
     }
 
