@@ -11,7 +11,7 @@ public class LifeManager : MonoBehaviour
     [SerializeField] Transform[] puntosDeRespawn;
     [SerializeField] HitDetector hitDetector; //Reinicia el daño
     [SerializeField] private Image[] heartImages; //Ui: Imagenes de corazones
-    
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
@@ -20,6 +20,11 @@ public class LifeManager : MonoBehaviour
         {
             hitDetector = GetComponent<HitDetector>();
         }
+        if(spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
         hitDetector.damagePercentage = 0f;
         hitDetector.damageHandler?.UpdateHealthDisplay(0f);
     }
@@ -58,6 +63,41 @@ public class LifeManager : MonoBehaviour
         {
             hitDetector.damageHandler?.UpdateHealthDisplay(hitDetector.damagePercentage);
         }
+
+        //Activa la invecibilidad temporal
+        StartCoroutine(InvulnerabilityCoroutine(3f));
+    }
+
+    IEnumerator InvulnerabilityCoroutine(float duration)
+    {
+        hitDetector.isInvincible = true;
+
+        if(spriteRenderer != null)
+        {
+            Color color = spriteRenderer.color;
+            color.a = 0.5f; // Hacer transparente
+            spriteRenderer.color = color;
+        }
+
+        Debug.Log($"{(hitDetector.isPlayerOne ? "Player1" : "Player2")} es invencible por {duration} segundos.");
+
+        yield return new WaitForSeconds(duration);
+
+        hitDetector.isInvincible = false;
+
+        if(spriteRenderer != null)
+        {
+            Color color = spriteRenderer.color;
+            color.a = 1f; //Restaurar opacidad
+            spriteRenderer.color = color;
+        }
+
+        Debug.Log($"{(hitDetector.isPlayerOne ? "Player1" : "Player2")} ya no es invencible.");
+    }
+
+    public int GetLives()
+    {
+        return vidas; //Retorna las vidas actuales
     }
 
     private void OnTriggerEnter2D(Collider2D other)

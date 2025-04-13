@@ -40,9 +40,16 @@ public class Attack : ScriptableObject
     //Cast:
     public void OverlapAttack(Transform attackPoint, bool isPlayerOneAttacker)
     {
-        Vector2 origin = (Vector2)attackPoint.position + boxOffset;
+        // Usamos el signo del scale para reflejar la dirección del ataque
+        float facingDirection = Mathf.Sign(attackPoint.lossyScale.x); // Usamos lossyScale para heredar bien el flip
+
+        Vector2 flippedOffset = new Vector2(boxOffset.x * facingDirection, boxOffset.y);
+
+        Vector2 origin = (Vector2)attackPoint.position + flippedOffset;
+
         Collider2D[] hits = Physics2D.OverlapBoxAll(origin, boxSize, 0f, targetLayer);
-        foreach(Collider2D hit in hits)
+
+        foreach (Collider2D hit in hits)
         {
             TryDamageTarget(hit, attackPoint, isPlayerOneAttacker);
         }
@@ -57,11 +64,19 @@ public class Attack : ScriptableObject
             return;
         }
 
+        HitDetector hitDetector = targetCollider.GetComponent<HitDetector>();
         KnockbackManager knockbackManager = targetCollider.GetComponent<KnockbackManager>();
+
         if(knockbackManager != null)
         {
+            //Calculamos la dirección del knockback, que es la dirección desde el punto de ataque hacia el objetivo.
             Vector2 knockbacDirection = (targetCollider.transform.position - attackPoint.position).normalized;
-            knockbackManager.StartKnockback(knockbacDirection, knockbackForce, 0.5f); //Configura la fuerza y duración
+
+            //Obtenemos el knockback, pasándole el porcentaje de daño.
+            float targetDamagePercentage = hitDetector.damagePercentage;
+
+            //Iniciamos el knockback, pasandole el porcentaje de daño.
+            knockbackManager.StartKnockback(knockbacDirection, knockbackForce, 0.5f, targetDamagePercentage);
         }
 
         IDamageable damageable = targetCollider.GetComponent<IDamageable>();
@@ -71,15 +86,15 @@ public class Attack : ScriptableObject
         }
     }
 
-    public void DrawGizmos(Transform attackPoint) 
+    public void DrawGizmos(Transform attackPoint)
     {
-        debugAttackPoint = attackPoint; // Se guarda temporalmente el attackPoint
-        if (debugAttackPoint == null) return;
+        if (attackPoint == null) return;
+
+        float facingDirection = Mathf.Sign(attackPoint.lossyScale.x);
+        Vector2 flippedOffset = new Vector2(boxOffset.x * facingDirection, boxOffset.y);
+        Vector2 origin = (Vector2)attackPoint.position + flippedOffset;
 
         Gizmos.color = Color.red;
-        Vector2 origin = (Vector2)debugAttackPoint.position + boxOffset;
         Gizmos.DrawWireCube(origin, boxSize);
-        
-        
     }
 }

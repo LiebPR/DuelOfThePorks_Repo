@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: P1AttBase
   m_EditorClassIdentifier: 
   damage: 5
-  knockbackForce: 6
-  cooldownTime: 0.7
+  knockbackForce: 0
+  cooldownTime: 0.5
   radius: 1.4
   boxSize: {x: 1, y: 1}
-  boxOffset: {x: 0, y: 0}
+  boxOffset: {x: 0.99, y: 0}
   targetLayer:
     serializedVersion: 2
     m_Bits: 256

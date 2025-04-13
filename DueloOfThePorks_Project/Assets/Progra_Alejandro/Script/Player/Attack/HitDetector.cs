@@ -6,6 +6,7 @@ public class HitDetector : MonoBehaviour, IDamageable
 {
     public float damagePercentage = 0f;
     public bool isPlayerOne = false;
+    public bool isInvincible = false; //Necesaria para el LifeManager
 
     public DamageHandler damageHandler;
     LifeManager lifeManager;
@@ -18,9 +19,14 @@ public class HitDetector : MonoBehaviour, IDamageable
 
     public void ReciveDamage(float damage)
     {
+        if (isInvincible)
+        {
+            Debug.Log($"{(isPlayerOne ? "Player1" : "Player2")} es invencible no recibe daño.");
+            return; //Se le devuelve para que no le aplique el daño
+        }
+
         damagePercentage += damage;
         Debug.Log($"{(isPlayerOne ? "Player1" : "Player2")} ha recibido {damage} de daño. Nuevo porcentaje de daño: {damagePercentage}%");
-
         if (damageHandler != null)
         {
             damageHandler.UpdateHealthDisplay(damagePercentage);

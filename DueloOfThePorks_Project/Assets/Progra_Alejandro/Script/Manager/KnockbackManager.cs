@@ -15,6 +15,7 @@ public class KnockbackManager : MonoBehaviour
 
     InputManager _inputManager;
     PlayerController _playerController;
+    HitDetector _hitDetector;
 
     private void Start()
     {
@@ -23,17 +24,25 @@ public class KnockbackManager : MonoBehaviour
 
         _inputManager = GetComponent<InputManager>();
         _playerController = GetComponent<PlayerController>();
+        _hitDetector = GetComponent<HitDetector>();
     }
 
     //Funcion que activa el KnockBack
-    public void StartKnockback(Vector2 direction, float force, float duration)
+    public void StartKnockback(Vector2 direction, float force, float duration, float damagePercentage)
     {
-        if (_inputManager.crouchInput && _playerController.IsGrounded()) return;
-        if (isKnockBack) return;
+        if(_hitDetector != null && _hitDetector.isInvincible)
+        {
+            return;
+        }
+        if (_inputManager.crouchInput && _playerController.IsGrounded()) return; //No le afecta el knockback si esta agachado. 
+        if (isKnockBack) return; //Cuando esta en Knockback vuelve a la normalidad.
 
         isKnockBack = true;
         knockBackDirection = direction.normalized;
-        knockbackForce = force;
+
+        //Calculamos el knockback extra según el porcentaje del jugador
+        float knockbackExtra = Mathf.Floor(damagePercentage / 10f) * 1; //PARTE IMPORTANTE (Si quieres que el knockback base se sume más cada 10% aumentar en este apartado)
+        knockbackForce = force + knockbackExtra; // Sumamos el knockback extra a la fuerza del ataque
         knockbackDuration = duration;
 
         rb.gravityScale = 0; // Desactivamos gravedad momentáneamente
