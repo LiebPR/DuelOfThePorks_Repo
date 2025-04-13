@@ -1,52 +1,58 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class FinalSceneManager : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TextMeshProUGUI winnerText;
-    public TextMeshProUGUI loserText;
-    public Image victoryImage;
-    public Image defeatImage;
+    [Header("Referencias UI")]
+    [SerializeField] private TextMeshProUGUI winnerText;
+    [SerializeField] private TextMeshProUGUI loserText;
 
-    [Header("Character Sprites")]
-    public Sprite player1VictorySprite;
-    public Sprite player2VictorySprite;
+    [Header("Áreas de Instanciación")]
+    [SerializeField] private Transform victorySpawnPoint;
+    [SerializeField] private Transform defeatSpawnPoint;
 
     [Header("Audio")]
-    public AudioSource audioSource;
-    public AudioClip victoryClip;
+    [SerializeField] private AudioSource audioSource;
+
+    [Header("Ruta de Prefabs")]
+    [SerializeField] private string prefabFolderPath = "Characters";
 
     private void Start()
     {
-        // Cargar datos
-        string winner = PlayerPrefs.GetString("Winner");
-        string player1 = PlayerPrefs.GetString("Player1Character");
-        string player2 = PlayerPrefs.GetString("Player2Character");
+        string winnerName = PlayerPrefs.GetString("Winner", "Player1");
+        string player1 = PlayerPrefs.GetString("Player1Character", "Player1");
+        string player2 = PlayerPrefs.GetString("Player2Character", "Player2");
 
-        bool isPlayer1Winner = winner == player1;
+        string loserName = (winnerName == player1) ? player2 : player1;
 
-        winnerText.text = $"{winner} Wins!";
-        loserText.text = $"{(isPlayer1Winner ? player2 : player1)} Loses!";
+        // Cargar los prefabs de los personajes
+        GameObject winnerPrefab = Resources.Load<GameObject>($"{prefabFolderPath}/{winnerName}");
+        GameObject loserPrefab = Resources.Load<GameObject>($"{prefabFolderPath}/{loserName}");
 
-        // Imágenes
-        if (victoryImage != null)
+        if (winnerPrefab == null || loserPrefab == null)
         {
-            victoryImage.sprite = isPlayer1Winner ? player1VictorySprite : player2VictorySprite;
+            Debug.LogError("No se encontraron los prefabs de los personajes.");
+            return;
         }
 
-        if (defeatImage != null)
-        {
-            defeatImage.sprite = isPlayer1Winner ? player2VictorySprite : player1VictorySprite;
-        }
+        // Obtener datos visuales desde los prefabs
+        CharacterVisuals winnerVisuals = winnerPrefab.GetComponent<CharacterVisuals>();
+        CharacterVisuals loserVisuals = loserPrefab.GetComponent<CharacterVisuals>();
 
-        // Sonido de victoria
-        if (audioSource != null && victoryClip != null)
-        {
-            audioSource.PlayOneShot(victoryClip);
-        }
+        if (winnerText != null) winnerText.text = $"{winnerName} Wins!";
+        if (loserText != null) loserText.text = $"{loserName} Loses!";
+
+        // Instanciar animación de victoria y derrota
+        if (winnerVisuals?.victoryPrefab != null && victorySpawnPoint != null)
+            Instantiate(winnerVisuals.victoryPrefab, victorySpawnPoint.position, Quaternion.identity, victorySpawnPoint);
+
+        if (loserVisuals?.defeatPrefab != null && defeatSpawnPoint != null)
+            Instantiate(loserVisuals.defeatPrefab, defeatSpawnPoint.position, Quaternion.identity, defeatSpawnPoint);
+
+        // Reproducir sonido
+        if (audioSource != null && winnerVisuals?.victorySound != null)
+            audioSource.PlayOneShot(winnerVisuals.victorySound);
     }
 
     public void RetryGame()
@@ -56,10 +62,10 @@ public class FinalSceneManager : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
-
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
 #endif
     }
 }
