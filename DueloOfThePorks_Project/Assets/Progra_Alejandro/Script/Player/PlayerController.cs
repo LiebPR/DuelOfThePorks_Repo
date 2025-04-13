@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleCrouch()
     {
-        if(inputManager.crouchInput && isGrounded)
+        if (inputManager.crouchInput && isGrounded)
         {
             isCrouching = true;
             rb.velocity = new Vector2(rb.velocity.x * crouchSpeedMultiplier, rb.velocity.y);
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
             {
                 isCrouching = false;
 
-                if(standingCollider != null && crouchingCollider != null)
+                if (standingCollider != null && crouchingCollider != null)
                 {
                     standingCollider.enabled = true;
                     crouchingCollider.enabled = false;
@@ -311,5 +311,10 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(lateralBoxOrigin, wallCheckSize);
+    }
+
+    public bool IsGrounded()
+    {
+        return isGrounded;
     }
 }

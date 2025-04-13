@@ -11,38 +11,57 @@ public class KnockbackManager : MonoBehaviour
     Rigidbody2D rb;
     Vector2 knockBackDirection;
     float originalGravity;
+    
+
+    InputManager _inputManager;
+    PlayerController _playerController;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         originalGravity = rb.gravityScale;
+
+        _inputManager = GetComponent<InputManager>();
+        _playerController = GetComponent<PlayerController>();
     }
 
     //Funcion que activa el KnockBack
     public void StartKnockback(Vector2 direction, float force, float duration)
     {
-        if (isKnockBack) return; //Si ya esta en knockback ya no hacemos nada
+        if (_inputManager.crouchInput && _playerController.IsGrounded()) return;
+        if (isKnockBack) return;
+
         isKnockBack = true;
-        knockBackDirection = direction;
+        knockBackDirection = direction.normalized;
         knockbackForce = force;
         knockbackDuration = duration;
 
-        rb.velocity = Vector2.zero; //Detectamos al jugador antes de aplicar el knockback
-        rb.gravityScale = 0; //Desactivamos la gravedad para que el knockback no sea afectado por ella
-
-        //Aplicamos el efecto de knockback
-        rb.AddForce(knockBackDirection * knockbackForce, ForceMode2D.Impulse);
-
+        rb.gravityScale = 0; // Desactivamos gravedad momentáneamente
         StartCoroutine(KnockbackRoutine());
     }
 
     //Coroutine que maneja la duración del Knockback
     IEnumerator KnockbackRoutine()
     {
-        yield return new WaitForSeconds(knockbackDuration);
+        float timer = 0f;
+        float t = 0f;
 
+        Vector2 initialVelocity = knockBackDirection * knockbackForce;
+
+        while (timer < knockbackDuration)
+        {
+            // Usamos interpolación para simular la desaceleración
+            t = timer / knockbackDuration;
+            Vector2 currentVelocity = Vector2.Lerp(initialVelocity, Vector2.zero, t);
+            rb.velocity = currentVelocity;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        rb.velocity = Vector2.zero;
+        rb.gravityScale = originalGravity;
         isKnockBack = false;
-        rb.gravityScale = originalGravity; //Restaurar la gravedad
     }
 
     //Utilizado para verificar si el jugador está en knockback

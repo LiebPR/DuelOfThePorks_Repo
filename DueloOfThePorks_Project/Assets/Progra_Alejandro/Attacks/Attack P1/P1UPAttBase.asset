@@ -17,7 +17,7 @@ MonoBehaviour:
   cooldownTime: 0.7
   radius: 1
   boxSize: {x: 0.95, y: 2.19}
-  boxOffset: {x: -0.47, y: 1.63}
+  boxOffset: {x: 0.48, y: 1.63}
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
