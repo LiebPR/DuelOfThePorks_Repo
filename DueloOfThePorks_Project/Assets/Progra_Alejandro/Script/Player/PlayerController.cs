@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     [Header("Wall Check")]
     bool isTouchingWall;
     [SerializeField] float lateralCheckDistance = 0.5f;
+    [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f);
 
     private void Start()
     {
@@ -264,10 +265,10 @@ public class PlayerController : MonoBehaviour
         //Detector de la pared:
         float direction = transform.localScale.x;
         Vector2 lateralBoxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
-        Vector2 lateralBoxSize = new Vector2(0.3f, capsuleCollider.bounds.size.y * 0.5f);
+        Vector2 lateralBoxSize = wallCheckSize;
 
-        RaycastHit2D sidehit = Physics2D.BoxCast(lateralBoxOrigin, lateralBoxSize, 0, Vector2.down, groundLayer);
-        bool groundSide = hit.collider != null;
+        RaycastHit2D sidehit = Physics2D.BoxCast(lateralBoxOrigin, lateralBoxSize, 0f, Vector2.right * direction, 0f, groundLayer);
+        bool groundSide = sidehit.collider != null;
 
         isGrounded = groundBelow || groundSide; //Si cualquiera de las 2 variables toca el suelo isGrounded es true.
 
@@ -301,14 +302,14 @@ public class PlayerController : MonoBehaviour
 
         // Boxcast Suelo
         Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(bottomOfCapsule, new Vector2(capsuleCollider.bounds.size.x, groundCheckSize.y));
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(bottomOfCapsule, new Vector2(capsuleCollider.bounds.size.x, groundCheckSize.y));
 
         // Boxcast lateral
         float direction = transform.localScale.x;
-        Vector2 frontOfCapsule = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, 0);
+        Vector2 lateralBoxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(frontOfCapsule + Vector2.down * groundCheckSize.y / 2, new Vector2(0.3f, 0.1f));
+        Gizmos.DrawWireCube(lateralBoxOrigin, wallCheckSize);
     }
 }
