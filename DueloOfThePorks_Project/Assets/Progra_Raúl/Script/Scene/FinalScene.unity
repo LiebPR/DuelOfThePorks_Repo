@@ -684,7 +684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38300002, y: 0.326}
   m_AnchorMax: {x: 0.6125423, y: 0.40422797}
-  m_AnchoredPosition: {x: 1.5, y: -1.0999985}
+  m_AnchoredPosition: {x: 1.5, y: 0}
   m_SizeDelta: {x: 3, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1108655118
@@ -816,7 +816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6125423, y: 0.7201814}
   m_AnchorMax: {x: 0.9055423, y: 0.85800004}
-  m_AnchoredPosition: {x: -0.6000061, y: 0.5}
+  m_AnchoredPosition: {x: -0.6000061, y: 0}
   m_SizeDelta: {x: -1, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177041343
@@ -1298,7 +1298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.06845773, y: 0.7201814}
   m_AnchorMax: {x: 0.36, y: 0.85018134}
-  m_AnchoredPosition: {x: 0.3000183, y: -0.5999985}
+  m_AnchoredPosition: {x: 0.3000183, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888104252
@@ -1431,12 +1431,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winnerText: {fileID: 1888104252}
   loserText: {fileID: 1177041343}
-  victoryImage: {fileID: 992111515}
-  defeatImage: {fileID: 1731605541}
-  player1VictorySprite: {fileID: 0}
-  player2VictorySprite: {fileID: 0}
+  victorySpawnPoint: {fileID: 0}
+  defeatSpawnPoint: {fileID: 0}
   audioSource: {fileID: 0}
-  victoryClip: {fileID: 0}
+  prefabFolderPath: Prefabs
 --- !u!4 &1989175470
 Transform:
   m_ObjectHideFlags: 0
