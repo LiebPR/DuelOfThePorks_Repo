@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
   m_Name: P1AttStrong
   m_EditorClassIdentifier: 
-  damage: 20
+  damage: 15
   knockbackForce: 10
   cooldownTime: 2
   boxSize: {x: 1, y: 1}

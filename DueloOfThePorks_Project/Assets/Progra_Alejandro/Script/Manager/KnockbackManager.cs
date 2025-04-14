@@ -41,7 +41,7 @@ public class KnockbackManager : MonoBehaviour
         knockBackDirection = direction.normalized;
 
         //Calculamos el knockback extra según el porcentaje del jugador
-        float knockbackExtra = Mathf.Floor(damagePercentage / 10f) * 1; //PARTE IMPORTANTE (Si quieres que el knockback base se sume más cada 10% aumentar en este apartado)
+        float knockbackExtra = Mathf.Floor(damagePercentage / 10f) * 2; //PARTE IMPORTANTE (Si quieres que el knockback base se sume más cada 10% aumentar en este apartado)
         knockbackForce = force + knockbackExtra; // Sumamos el knockback extra a la fuerza del ataque
         knockbackDuration = duration;
 

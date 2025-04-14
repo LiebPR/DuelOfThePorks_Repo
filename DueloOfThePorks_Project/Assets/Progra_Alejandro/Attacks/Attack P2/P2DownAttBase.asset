@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 15
   knockbackForce: 6
-  cooldownTime: 3
-  radius: 1
+  cooldownTime: 0.9
   boxSize: {x: 4.47, y: 1.61}
   boxOffset: {x: -0.49, y: -1.1}
   targetLayer:
