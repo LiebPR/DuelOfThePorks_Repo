@@ -8,6 +8,12 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
     [SerializeField] OrbOwner currentOwner = OrbOwner.None;
     
     GameObject lastHitter;
+    Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     public void ReciveDamage(float damage)
     {
@@ -19,8 +25,17 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
         if(pLayerOrbs != null && pLayerOrbs.CanPickUpOrb())
         {
             pLayerOrbs.AddOrb();
-            Destroy(gameObject);
+            StartCoroutine(DestroyReturn());
         }
+    }
+
+    IEnumerator DestroyReturn()
+    {
+        anim.SetTrigger("Destroy");
+
+        yield return new WaitForSeconds(0.5714286f);
+
+        Destroy(gameObject);
     }
 
     public void SetLastHitter(GameObject hitter)

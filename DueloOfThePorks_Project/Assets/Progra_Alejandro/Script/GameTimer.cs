@@ -20,8 +20,25 @@ public class GameTimer : MonoBehaviour
 
     private void Start()
     {
+
         currentTime = countdownTime;
         StartCoroutine(PreMatchCountdown());
+
+        //Pisicionar a los jugadores antes de empezar
+        AssignInitialSpawn(player1LifeManager);
+        AssignInitialSpawn(player2LifeManager);
+    }
+
+    void AssignInitialSpawn(LifeManager lifeManager)
+    {
+        if (lifeManager == null) return;
+
+        Transform[] respawnPoints = lifeManager.GetRespawnPoints();
+        if (respawnPoints == null || respawnPoints.Length == 0) return;
+
+        int randomIndex = Random.Range(0, respawnPoints.Length);
+        Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0, 0); //Opcional: más aleatoriedad
+        lifeManager.transform.position = respawnPoints[randomIndex].position + randomOffset;
     }
 
     IEnumerator PreMatchCountdown()

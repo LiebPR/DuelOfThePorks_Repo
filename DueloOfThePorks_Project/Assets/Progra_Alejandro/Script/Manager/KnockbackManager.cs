@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class KnockbackManager : MonoBehaviour
 {
-    [SerializeField] bool isKnockBack; //¿Esta haciendo un Knockback?
+    public bool isKnockBack; //¿Esta haciendo un Knockback?
     [SerializeField] float knockbackForce; //Fuerza del knockback
     [SerializeField] float knockbackDuration; //Duracion del Knockback
 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     Vector2 knockBackDirection;
-    float originalGravity;
+    public float originalGravity;
     
 
     InputManager _inputManager;
