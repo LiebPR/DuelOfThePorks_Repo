@@ -8,12 +8,14 @@ public class AttackManager : MonoBehaviour
     [SerializeField] Transform attackPoint; // Punto de ataque
 
     private InputManager inputManager;
+    PlayerOrbs playerOrbs;
 
     float[] attackCooldownTimers; //Temporizador por cada ataque
 
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
+        playerOrbs = GetComponent<PlayerOrbs>();
     }
 
     private void Start()
@@ -78,6 +80,13 @@ public class AttackManager : MonoBehaviour
             PerformAttackIndex(3); //Ejecutamos el ataque del array que está en el índice
             inputManager.ResetStrongAttackInput();
             Debug.Log("Se ha realizado el StrongAttack");
+        }
+        else if (inputManager.specialAttackInput && playerOrbs.CanUseSpecialAttack())
+        {
+            playerOrbs.ConsumeOrbs();
+            PerformAttackIndex(4);
+            inputManager.ResetSpecialAttackInput();
+            Debug.Log("Se a realizado el ataque especial");
         }
     }
 

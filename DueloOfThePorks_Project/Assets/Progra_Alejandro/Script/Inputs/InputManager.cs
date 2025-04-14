@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
     // Attack Inputs
     public bool baseAttackInput;
     public bool strongAttackInput;
+    public bool specialAttackInput;
 
     // Variables para detectar ataques Up y Down
     public bool isWPressed;
@@ -55,6 +56,9 @@ public class InputManager : MonoBehaviour
                 // Detectamos Click Left
                 playerInput.Player1.BaseAttack.performed += i => TryExecuteAttack();
                 playerInput.Player1.StrongAttack.performed += i => strongAttackInput = true;
+
+                //Ataque espcial
+                playerInput.Player1.SpecialAttack.performed += i => specialAttackInput = true;
             }
             else
             {
@@ -76,6 +80,9 @@ public class InputManager : MonoBehaviour
                 // Detectamos Click Left
                 playerInput.Player2.BaseAttack.performed += i => TryExecuteAttack();
                 playerInput.Player2.StrongAttack.performed += i => strongAttackInput = true;
+
+                //Ataque especial
+                playerInput.Player2.SpecialAttack.performed += i => specialAttackInput = true;
             }
 
             // Activamos el mapa de Inputs
@@ -114,4 +121,5 @@ public class InputManager : MonoBehaviour
     public void ResetJumpInput() => jumpInput = false;
     public void ResetBaseAttackInput() => baseAttackInput = false;
     public void ResetStrongAttackInput() => strongAttackInput = false;
+    public void ResetSpecialAttackInput() => specialAttackInput = false;
 }

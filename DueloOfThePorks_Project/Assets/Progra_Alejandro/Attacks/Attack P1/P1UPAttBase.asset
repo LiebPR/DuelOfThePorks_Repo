@@ -15,7 +15,6 @@ MonoBehaviour:
   damage: 10
   knockbackForce: 6
   cooldownTime: 0.5
-  radius: 1
   boxSize: {x: 0.94, y: 2.25}
   boxOffset: {x: -0.03, y: 1.63}
   targetLayer:

@@ -12,6 +12,7 @@ public class LifeManager : MonoBehaviour
     [SerializeField] HitDetector hitDetector; //Reinicia el daño
     [SerializeField] private Image[] heartImages; //Ui: Imagenes de corazones
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] PlayerOrbs playerOrbs;
 
     private void Start()
     {
@@ -20,11 +21,16 @@ public class LifeManager : MonoBehaviour
         {
             hitDetector = GetComponent<HitDetector>();
         }
+
         if(spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
+        if(playerOrbs == null)
+        {
+            playerOrbs = GetComponent<PlayerOrbs>();
+        }
         hitDetector.damagePercentage = 0f;
         hitDetector.damageHandler?.UpdateHealthDisplay(0f);
     }
@@ -37,6 +43,7 @@ public class LifeManager : MonoBehaviour
         {
             heartImages[vidas].enabled = false;
         }
+
         if(vidas <= 0)
         {
             Debug.Log($"{(hitDetector.isPlayerOne ? "Player1" : "Player2")} se ha quedado sin vidas. GAME OVER. ");
@@ -46,6 +53,12 @@ public class LifeManager : MonoBehaviour
         {
             Debug.Log($"{(hitDetector.isPlayerOne ? "Player1" : "Player2")} pierde una vida. Respawneando...");
             Respawn();
+        }
+
+        if(playerOrbs != null)
+        {
+            playerOrbs.RemoveOrb();
+            Debug.Log($"{(hitDetector.isPlayerOne ? "Player1" : "Player2")} perdió una orbe al morir.");
         }
     }
 

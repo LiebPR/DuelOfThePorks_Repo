@@ -98,6 +98,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpecialAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""86deed93-ebe2-47a1-aef5-fd03d2094d90"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dca6e5ac-4365-4ab4-9a2c-a0501016235f"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpecialAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -310,13 +330,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpecialAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""89655733-e325-4cd5-92eb-40f82fd33645"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""99d26565-0a49-4512-95a0-bbe282936583"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -444,6 +473,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e568f711-ac12-4537-a2ad-dfa79dd6090b"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpecialAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -460,6 +500,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player1_StrongAttack = m_Player1.FindAction("StrongAttack", throwIfNotFound: true);
         m_Player1_Up = m_Player1.FindAction("Up", throwIfNotFound: true);
         m_Player1_Down = m_Player1.FindAction("Down", throwIfNotFound: true);
+        m_Player1_SpecialAttack = m_Player1.FindAction("SpecialAttack", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Dash = m_Player2.FindAction("Dash", throwIfNotFound: true);
@@ -470,6 +511,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player2_StrongAttack = m_Player2.FindAction("StrongAttack", throwIfNotFound: true);
         m_Player2_Up = m_Player2.FindAction("Up", throwIfNotFound: true);
         m_Player2_Down = m_Player2.FindAction("Down", throwIfNotFound: true);
+        m_Player2_SpecialAttack = m_Player2.FindAction("SpecialAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -539,6 +581,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_StrongAttack;
     private readonly InputAction m_Player1_Up;
     private readonly InputAction m_Player1_Down;
+    private readonly InputAction m_Player1_SpecialAttack;
     public struct Player1Actions
     {
         private @PlayerInputActions m_Wrapper;
@@ -551,6 +594,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @StrongAttack => m_Wrapper.m_Player1_StrongAttack;
         public InputAction @Up => m_Wrapper.m_Player1_Up;
         public InputAction @Down => m_Wrapper.m_Player1_Down;
+        public InputAction @SpecialAttack => m_Wrapper.m_Player1_SpecialAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -584,6 +628,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Down.started += instance.OnDown;
             @Down.performed += instance.OnDown;
             @Down.canceled += instance.OnDown;
+            @SpecialAttack.started += instance.OnSpecialAttack;
+            @SpecialAttack.performed += instance.OnSpecialAttack;
+            @SpecialAttack.canceled += instance.OnSpecialAttack;
         }
 
         private void UnregisterCallbacks(IPlayer1Actions instance)
@@ -612,6 +659,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Down.started -= instance.OnDown;
             @Down.performed -= instance.OnDown;
             @Down.canceled -= instance.OnDown;
+            @SpecialAttack.started -= instance.OnSpecialAttack;
+            @SpecialAttack.performed -= instance.OnSpecialAttack;
+            @SpecialAttack.canceled -= instance.OnSpecialAttack;
         }
 
         public void RemoveCallbacks(IPlayer1Actions instance)
@@ -641,6 +691,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_StrongAttack;
     private readonly InputAction m_Player2_Up;
     private readonly InputAction m_Player2_Down;
+    private readonly InputAction m_Player2_SpecialAttack;
     public struct Player2Actions
     {
         private @PlayerInputActions m_Wrapper;
@@ -653,6 +704,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @StrongAttack => m_Wrapper.m_Player2_StrongAttack;
         public InputAction @Up => m_Wrapper.m_Player2_Up;
         public InputAction @Down => m_Wrapper.m_Player2_Down;
+        public InputAction @SpecialAttack => m_Wrapper.m_Player2_SpecialAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -686,6 +738,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Down.started += instance.OnDown;
             @Down.performed += instance.OnDown;
             @Down.canceled += instance.OnDown;
+            @SpecialAttack.started += instance.OnSpecialAttack;
+            @SpecialAttack.performed += instance.OnSpecialAttack;
+            @SpecialAttack.canceled += instance.OnSpecialAttack;
         }
 
         private void UnregisterCallbacks(IPlayer2Actions instance)
@@ -714,6 +769,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Down.started -= instance.OnDown;
             @Down.performed -= instance.OnDown;
             @Down.canceled -= instance.OnDown;
+            @SpecialAttack.started -= instance.OnSpecialAttack;
+            @SpecialAttack.performed -= instance.OnSpecialAttack;
+            @SpecialAttack.canceled -= instance.OnSpecialAttack;
         }
 
         public void RemoveCallbacks(IPlayer2Actions instance)
@@ -741,6 +799,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnStrongAttack(InputAction.CallbackContext context);
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
+        void OnSpecialAttack(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -752,5 +811,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnStrongAttack(InputAction.CallbackContext context);
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
+        void OnSpecialAttack(InputAction.CallbackContext context);
     }
 }

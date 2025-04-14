@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] float jumpForce = 12f;
     [SerializeField] float secondJumpForce = 10f;
-    [SerializeField] int maxJumpCount = 2;
     int jumpCount = 0;
     [SerializeField] float coyoteTime = 0.2f; //Tiempo extra para poder realizar un salto.
     float coyoteTimeCounter; //Contador coyoteTime

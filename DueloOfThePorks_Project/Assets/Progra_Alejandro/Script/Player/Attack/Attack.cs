@@ -12,7 +12,6 @@ public class Attack : ScriptableObject
     public float cooldownTime;
 
     [Header("Cast Settings")]
-    [SerializeField] float radius = 1.0f;
     [SerializeField] Vector2 boxSize = new Vector2(1f, 1f);
     [SerializeField] Vector2 boxOffset = Vector2.zero;
     [SerializeField] LayerMask targetLayer;
@@ -80,6 +79,14 @@ public class Attack : ScriptableObject
         }
 
         IDamageable damageable = targetCollider.GetComponent<IDamageable>();
+
+        //Si es una orbe le pasamos quién la golpeó
+        OrbsSpecialAtt orb = targetCollider.GetComponent<OrbsSpecialAtt>();
+        if(orb != null)
+        {
+            orb.SetLastHitter(playerController.gameObject);
+        }
+
         if(damageable != null) 
         {
             damageable.ReciveDamage(damage);
