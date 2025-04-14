@@ -3667,7 +3667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9a12d20dec9a143a789453a0e2e6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillImage: {fileID: 316052253}
+  fillImage: {fileID: 1508397454}
 --- !u!4 &1617211078
 Transform:
   m_ObjectHideFlags: 0
@@ -5170,6 +5170,10 @@ PrefabInstance:
       value: 0.029
       objectReference: {fileID: 0}
     - target: {fileID: 2556298688930284112, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
+      propertyPath: playerOrbs
+      value: 
+      objectReference: {fileID: 2064010946}
+    - target: {fileID: 2556298688930284112, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: heartImages.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -5328,6 +5332,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.1745283
       objectReference: {fileID: 0}
+    - target: {fileID: 8408218799687059512, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
+      propertyPath: playerOrbs
+      value: 
+      objectReference: {fileID: 1419423344}
     - target: {fileID: 8408218799687059512, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: heartImages.Array.size
       value: 3

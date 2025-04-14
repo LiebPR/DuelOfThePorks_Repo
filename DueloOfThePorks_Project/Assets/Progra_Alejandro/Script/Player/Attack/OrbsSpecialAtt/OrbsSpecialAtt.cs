@@ -8,11 +8,6 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
     [SerializeField] OrbOwner currentOwner = OrbOwner.None;
     
     GameObject lastHitter;
-    Animator animator;
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     public void ReciveDamage(float damage)
     {
