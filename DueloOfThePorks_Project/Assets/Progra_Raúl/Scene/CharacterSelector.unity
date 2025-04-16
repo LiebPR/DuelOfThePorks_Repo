@@ -169,6 +169,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters:
   - {fileID: 6507895540698220551, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
+  enableRandomOption: 1
+  randomOptionLabel: Aleatorio
+  randomPreviewPrefab: {fileID: 0}
   characterNameText: {fileID: 614136675}
   previewArea: {fileID: 1488679454}
   slideDuration: 0.5
@@ -247,7 +250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6765423, y: 0.7254094}
   m_AnchorMax: {x: 0.9675423, y: 0.85740936}
-  m_AnchoredPosition: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.5, y: 0}
   m_SizeDelta: {x: 0, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &382210779
@@ -549,7 +552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.128, y: 0.71137434}
   m_AnchorMax: {x: 0.42100003, y: 0.8363567}
-  m_AnchoredPosition: {x: -0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.5, y: 0}
   m_SizeDelta: {x: -1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &650836728
@@ -618,7 +621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6867672, y: 0.17127272}
   m_AnchorMax: {x: 0.89400005, y: 0.52918184}
-  m_AnchoredPosition: {x: -0.6000061, y: 0.19999695}
+  m_AnchoredPosition: {x: -0.6000061, y: 0}
   m_SizeDelta: {x: 0, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796840032
@@ -937,7 +940,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17, y: 0.14936365}
   m_AnchorMax: {x: 0.37600002, y: 0.51100004}
-  m_AnchoredPosition: {x: -0.19998169, y: -0.6000061}
+  m_AnchoredPosition: {x: -0.19998169, y: 0}
   m_SizeDelta: {x: -2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488679455
@@ -1009,6 +1012,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters:
   - {fileID: 7150741774813517863, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
+  enableRandomOption: 1
+  randomOptionLabel: Aleatorio
+  randomPreviewPrefab: {fileID: 0}
   characterNameText: {fileID: 382210780}
   previewArea: {fileID: 796840031}
   slideDuration: 0.5

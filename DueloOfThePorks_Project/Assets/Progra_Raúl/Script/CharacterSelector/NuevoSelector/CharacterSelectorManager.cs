@@ -1,3 +1,6 @@
+// CharacterSelectorManager.cs
+// (Sin cambios respecto al original) :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

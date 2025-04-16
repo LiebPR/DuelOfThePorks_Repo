@@ -1,3 +1,6 @@
+// PlayerCharacterSelector.cs
+// Opción Aleatorio como “?” (quinta opción)
+
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -11,6 +14,14 @@ public class PlayerCharacterSelector : MonoBehaviour
     [Tooltip("Lista de prefabs de personajes disponibles para este jugador")]
     public GameObject[] characters;
 
+    [Header("Opción Aleatoria")]
+    [Tooltip("¿Incluir la opción Aleatorio al final de la lista?")]
+    public bool enableRandomOption = true;
+    [Tooltip("Etiqueta que se mostrará para la opción Aleatorio")]
+    public string randomOptionLabel = "?";
+    [Tooltip("Prefab para la vista previa de Aleatorio (ícono de interrogación)")]
+    public GameObject randomPreviewPrefab;
+
     [Header("Referencias UI")]
     [Tooltip("Texto que muestra el nombre y estado del personaje seleccionado")]
     public TextMeshProUGUI characterNameText;
@@ -23,29 +34,22 @@ public class PlayerCharacterSelector : MonoBehaviour
     [Tooltip("Distancia de desplazamiento de la animación de transición")]
     public float slideDistance = 500f;
 
-    [Header("Configuración de Inputs - Teclado")]
-    [Tooltip("Tecla para seleccionar el siguiente personaje (teclado)")]
+    [Header("Inputs - Teclado")]
     public KeyCode nextKey = KeyCode.D;
-    [Tooltip("Tecla para seleccionar el personaje anterior (teclado)")]
     public KeyCode previousKey = KeyCode.A;
-    [Tooltip("Tecla para confirmar la selección (teclado)")]
     public KeyCode confirmKey = KeyCode.W;
 
-    [Header("Configuración de Inputs - Mando")]
-    [Tooltip("Nombre del eje horizontal (definido en el Input Manager) para el mando")]
+    [Header("Inputs - Mando")]
     public string horizontalAxisName = "Horizontal";
-    [Tooltip("Nombre del botón de confirmación (definido en el Input Manager) para el mando")]
     public string confirmButtonName = "Submit";
-    [Tooltip("Retraso entre entradas (mando) para evitar entradas repetidas")]
     public float axisInputDelay = 0.3f;
-    [Tooltip("Umbral del eje para considerar la entrada del mando")]
     public float gamepadThreshold = 0.5f;
 
-    [Header("Configuración de Modo de Entrada")]
-    [Tooltip("Selecciona desde el Inspector qué métodos de entrada estarán permitidos")]
+    [Header("Modo de Entrada")]
     public InputMode allowedInput = InputMode.Both;
 
     private int currentIndex = 0;
+    private int totalOptions;
     private GameObject currentPreviewInstance;
     private SelectionState state = SelectionState.Idle;
     private float axisInputTimer = 0f;
@@ -54,14 +58,16 @@ public class PlayerCharacterSelector : MonoBehaviour
 
     void Start()
     {
-        if (characters != null && characters.Length > 0)
+        totalOptions = characters.Length + (enableRandomOption ? 1 : 0);
+        if (totalOptions > 0)
         {
+            currentIndex = 0;
             CreatePreviewImmediate(currentIndex);
             UpdateCharacterName();
         }
         else
         {
-            Debug.LogError("No se han asignado prefabs de personajes en " + gameObject.name);
+            Debug.LogError("No hay opciones en el selector de " + gameObject.name);
         }
     }
 
@@ -70,132 +76,158 @@ public class PlayerCharacterSelector : MonoBehaviour
         if (axisInputTimer > 0f)
             axisInputTimer -= Time.deltaTime;
 
-        if (state == SelectionState.Idle)
-        {
-            // Procesar entrada por teclado si se permite
-            if (allowedInput == InputMode.Both || allowedInput == InputMode.OnlyKeyboard)
-            {
-                if (Input.GetKeyDown(previousKey))
-                {
-                    int newIndex = (currentIndex - 1 + characters.Length) % characters.Length;
-                    StartCoroutine(TransitionToCharacter(newIndex, -1));
-                    currentIndex = newIndex;
-                }
-                else if (Input.GetKeyDown(nextKey))
-                {
-                    int newIndex = (currentIndex + 1) % characters.Length;
-                    StartCoroutine(TransitionToCharacter(newIndex, 1));
-                    currentIndex = newIndex;
-                }
-                if (Input.GetKeyDown(confirmKey))
-                {
-                    state = SelectionState.Confirmed;
-                    UpdateCharacterName();
-                }
-            }
+        if (state != SelectionState.Idle)
+            return;
 
-            // Procesar entrada por mando si se permite
-            if (allowedInput == InputMode.Both || allowedInput == InputMode.OnlyGamepad)
+        // Teclado
+        if (allowedInput == InputMode.Both || allowedInput == InputMode.OnlyKeyboard)
+        {
+            if (Input.GetKeyDown(previousKey))
+                ChangeIndex((currentIndex - 1 + totalOptions) % totalOptions, -1);
+            else if (Input.GetKeyDown(nextKey))
+                ChangeIndex((currentIndex + 1) % totalOptions, 1);
+            else if (Input.GetKeyDown(confirmKey))
+                ConfirmSelection();
+        }
+
+        // Mando
+        if (allowedInput == InputMode.Both || allowedInput == InputMode.OnlyGamepad)
+        {
+            float h = Input.GetAxis(horizontalAxisName);
+            if (axisInputTimer <= 0f)
             {
-                float horizontalInput = Input.GetAxis(horizontalAxisName);
-                if (axisInputTimer <= 0f)
+                if (h > gamepadThreshold)
                 {
-                    if (horizontalInput > gamepadThreshold)
-                    {
-                        int newIndex = (currentIndex + 1) % characters.Length;
-                        StartCoroutine(TransitionToCharacter(newIndex, 1));
-                        currentIndex = newIndex;
-                        axisInputTimer = axisInputDelay;
-                    }
-                    else if (horizontalInput < -gamepadThreshold)
-                    {
-                        int newIndex = (currentIndex - 1 + characters.Length) % characters.Length;
-                        StartCoroutine(TransitionToCharacter(newIndex, -1));
-                        currentIndex = newIndex;
-                        axisInputTimer = axisInputDelay;
-                    }
+                    ChangeIndex((currentIndex + 1) % totalOptions, 1);
+                    axisInputTimer = axisInputDelay;
                 }
-                if (Input.GetButtonDown(confirmButtonName))
+                else if (h < -gamepadThreshold)
                 {
-                    state = SelectionState.Confirmed;
-                    UpdateCharacterName();
+                    ChangeIndex((currentIndex - 1 + totalOptions) % totalOptions, -1);
+                    axisInputTimer = axisInputDelay;
                 }
             }
+            if (Input.GetButtonDown(confirmButtonName))
+                ConfirmSelection();
         }
     }
 
-    /// <summary>
-    /// Actualiza el texto del nombre utilizando el nombre del prefab y muestra "[READY]" si la selección fue confirmada.
-    /// </summary>
+    private void ChangeIndex(int newIndex, int direction)
+    {
+        StartCoroutine(TransitionToIndex(newIndex, direction));
+        currentIndex = newIndex;
+    }
+
+    private void ConfirmSelection()
+    {
+        // Si confirma “?”, resuelve a uno de los personajes
+        if (enableRandomOption && currentIndex == characters.Length)
+        {
+            int randIdx = Random.Range(0, characters.Length);
+            currentIndex = randIdx;
+            // Limpia preview “?” y muestra el elegido
+            ClearPreview();
+            CreatePreviewImmediate(randIdx);
+        }
+        state = SelectionState.Confirmed;
+        UpdateCharacterName();
+    }
+
     void UpdateCharacterName()
     {
-        characterNameText.text = characters[currentIndex].name + (state == SelectionState.Confirmed ? " [READY]" : "");
+        string name = (enableRandomOption && currentIndex == characters.Length)
+            ? randomOptionLabel
+            : characters[currentIndex].name;
+        characterNameText.text = name + (state == SelectionState.Confirmed ? " [READY]" : "");
     }
 
-    /// <summary>
-    /// Instancia el preview del personaje sin animación.
-    /// </summary>
-    /// <param name="index">Índice del personaje a mostrar</param>
     void CreatePreviewImmediate(int index)
     {
-        if (currentPreviewInstance != null)
-            Destroy(currentPreviewInstance);
-        currentPreviewInstance = Instantiate(characters[index], previewArea);
-        currentPreviewInstance.transform.localPosition = Vector3.zero;
-        currentPreviewInstance.transform.localScale = Vector3.one;
+        ClearPreview();
+
+        if (enableRandomOption && index == characters.Length)
+        {
+            // Muestra tu prefab de “?” en el centro
+            if (randomPreviewPrefab != null)
+            {
+                currentPreviewInstance = Instantiate(randomPreviewPrefab, previewArea);
+                currentPreviewInstance.transform.localPosition = Vector3.zero;
+                currentPreviewInstance.transform.localScale = Vector3.one;
+            }
+        }
+        else
+        {
+            currentPreviewInstance = Instantiate(characters[index], previewArea);
+            currentPreviewInstance.transform.localPosition = Vector3.zero;
+            currentPreviewInstance.transform.localScale = Vector3.one;
+        }
     }
 
-    /// <summary>
-    /// Realiza la transición animada entre previews utilizando corutinas y Lerp.
-    /// </summary>
-    /// <param name="newIndex">Nuevo índice de personaje</param>
-    /// <param name="direction">Dirección de la transición (1 para avanzar, -1 para retroceder)</param>
-    IEnumerator TransitionToCharacter(int newIndex, int direction)
+    IEnumerator TransitionToIndex(int newIndex, int direction)
     {
         state = SelectionState.Transitioning;
 
-        // Animación de salida del preview actual
+        // Salida
         if (currentPreviewInstance != null)
         {
-            Vector3 startPos = currentPreviewInstance.transform.localPosition;
-            Vector3 endPos = startPos + new Vector3(direction * slideDistance, 0, 0);
-            float elapsed = 0f;
-            while (elapsed < slideDuration)
+            Vector3 start = currentPreviewInstance.transform.localPosition;
+            Vector3 end = start + new Vector3(direction * slideDistance, 0, 0);
+            float t = 0f;
+            while (t < slideDuration)
             {
-                currentPreviewInstance.transform.localPosition = Vector3.Lerp(startPos, endPos, elapsed / slideDuration);
-                elapsed += Time.deltaTime;
+                currentPreviewInstance.transform.localPosition = Vector3.Lerp(start, end, t / slideDuration);
+                t += Time.deltaTime;
                 yield return null;
             }
-            currentPreviewInstance.transform.localPosition = endPos;
             Destroy(currentPreviewInstance);
+            currentPreviewInstance = null;
         }
 
-        // Instanciar el nuevo preview fuera de la vista (lado opuesto)
-        GameObject newPreview = Instantiate(characters[newIndex], previewArea);
-        newPreview.transform.localPosition = new Vector3(-direction * slideDistance, 0, 0);
-        newPreview.transform.localScale = Vector3.one;
-
-        // Animación de entrada del nuevo preview
-        float elapsedIn = 0f;
-        Vector3 startPosIn = newPreview.transform.localPosition;
-        Vector3 targetPos = Vector3.zero;
-        while (elapsedIn < slideDuration)
+        // Entrada
+        if (enableRandomOption && newIndex == characters.Length)
         {
-            newPreview.transform.localPosition = Vector3.Lerp(startPosIn, targetPos, elapsedIn / slideDuration);
-            elapsedIn += Time.deltaTime;
+            // Instancia “?” fuera de la vista
+            if (randomPreviewPrefab != null)
+            {
+                currentPreviewInstance = Instantiate(randomPreviewPrefab, previewArea);
+                currentPreviewInstance.transform.localPosition = new Vector3(-direction * slideDistance, 0, 0);
+                currentPreviewInstance.transform.localScale = Vector3.one;
+            }
+        }
+        else
+        {
+            currentPreviewInstance = Instantiate(characters[newIndex], previewArea);
+            currentPreviewInstance.transform.localPosition = new Vector3(-direction * slideDistance, 0, 0);
+            currentPreviewInstance.transform.localScale = Vector3.one;
+        }
+
+        // Animación de entrada
+        float tIn = 0f;
+        Vector3 startIn = currentPreviewInstance.transform.localPosition;
+        while (tIn < slideDuration)
+        {
+            currentPreviewInstance.transform.localPosition = Vector3.Lerp(startIn, Vector3.zero, tIn / slideDuration);
+            tIn += Time.deltaTime;
             yield return null;
         }
-        newPreview.transform.localPosition = targetPos;
-        currentPreviewInstance = newPreview;
+
         state = SelectionState.Idle;
         UpdateCharacterName();
     }
 
-    /// <summary>
-    /// Devuelve el nombre del personaje actualmente seleccionado (tomado del nombre del prefab).
-    /// </summary>
+    void ClearPreview()
+    {
+        if (currentPreviewInstance != null)
+        {
+            Destroy(currentPreviewInstance);
+            currentPreviewInstance = null;
+        }
+    }
+
     public string GetSelectedCharacterName()
     {
-        return (characters != null && characters.Length > 0) ? characters[currentIndex].name : "";
+        return characters != null && characters.Length > 0
+            ? characters[currentIndex].name
+            : "";
     }
 }
