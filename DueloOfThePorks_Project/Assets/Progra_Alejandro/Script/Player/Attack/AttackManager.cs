@@ -34,11 +34,6 @@ public class AttackManager : MonoBehaviour
                     attackCooldownTimers[i] = 0f; //Al principio, los ataques no tienen cooldown
                 }
             }
-            Debug.Log("AttackSettings inicializado correctamente");
-        }
-        else
-        {
-            Debug.LogError("PlayerController o AttackSettings no están asignados correctamente.");
         }
     }
 
@@ -62,7 +57,7 @@ public class AttackManager : MonoBehaviour
                 inputManager.ResetBaseAttackInput();
                 Debug.Log("UpAttack ejecutado");
             }
-            else if(inputManager.isSPressed && !inputManager.isWPressed)
+            else if (inputManager.isSPressed && !inputManager.isWPressed)
             {
                 PerformAttackIndex(1);
                 inputManager.ResetBaseAttackInput();
@@ -105,7 +100,7 @@ public class AttackManager : MonoBehaviour
             {
                 Debug.Log($"Cooldown activo para el ataque {attackSettingsArray[index].name}, queda: {attackCooldownTimers[index]} segundos.");
             }
-            
+
         }
         else
         {

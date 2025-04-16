@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
-  m_Name: P2DownAttBase
+  m_Script: {fileID: 11500000, guid: 9a0ca21cbe1a4774db2ed6ce83ca6a23, type: 3}
+  m_Name: P1UPATTBULLET
   m_EditorClassIdentifier: 
-  damage: 15
-  knockbackForce: 6
-  cooldownTime: 0.9
-  boxSize: {x: 4.47, y: 1.61}
-  boxOffset: {x: -0.49, y: -1.1}
+  speed: 10
+  damage: 5
+  knockbackForce: 0
+  cooldownTime: 1
+  maxTravelDistance: 7
+  bulletPrefab: {fileID: 6675038125294268567, guid: a068b94a0f63da14e9b5d6a27247209c, type: 3}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256
