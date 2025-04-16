@@ -2173,27 +2173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb50d14c65118e442b113f3c24e90e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlePools:
-  - nombreID: 
-    prefab: {fileID: 0}
-    poolSize: 0
-    audioClip: {fileID: 0}
-  - nombreID: 
-    prefab: {fileID: 0}
-    poolSize: 0
-    audioClip: {fileID: 0}
-  - nombreID: 
-    prefab: {fileID: 0}
-    poolSize: 0
-    audioClip: {fileID: 0}
-  - nombreID: 
-    prefab: {fileID: 0}
-    poolSize: 0
-    audioClip: {fileID: 0}
-  - nombreID: 
-    prefab: {fileID: 0}
-    poolSize: 0
-    audioClip: {fileID: 0}
+  particlePools: []
 --- !u!4 &1824984929
 Transform:
   m_ObjectHideFlags: 0
