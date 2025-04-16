@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameTimer : MonoBehaviour
 {
@@ -17,6 +18,14 @@ public class GameTimer : MonoBehaviour
     public LifeManager player2LifeManager;
     public HitDetector player1HitDetector;
     public HitDetector player2HitDetector;
+
+    //Referencia al ImputManager
+    public InputManager player1InputManager;
+    public InputManager player2InputManager;
+
+    //Referencia al BulletManager
+    public BulletManager player1BulletManager;
+    public BulletManager player2BulletManager;
 
     private void Start()
     {
@@ -41,9 +50,31 @@ public class GameTimer : MonoBehaviour
         lifeManager.transform.position = respawnPoints[randomIndex].position + randomOffset;
     }
 
+    
     IEnumerator PreMatchCountdown()
     {
-        Time.timeScale = 0f;
+        //Bloquear inputs
+        if (player1InputManager != null)
+        {
+            player1InputManager.inputLocked = true;
+            player1InputManager.ResetAllInputs();
+        }
+
+        if(player2InputManager != null)
+        {
+            player2InputManager.inputLocked = true;
+            player2InputManager.ResetAllInputs();
+        }
+
+        //Bloquear bullets
+        if(player1BulletManager != null)
+        {
+            player1BulletManager.isLocked = true;
+        }
+        if(player2BulletManager != null)
+        {
+            player2BulletManager.isLocked = true;
+        }
 
         int count = 3;
 
@@ -58,7 +89,23 @@ public class GameTimer : MonoBehaviour
         yield return StartCoroutine(WaitForRealSeconds(1f));
 
         countdownText.text = "";
-        Time.timeScale = 1f; //Reanuda el tiempo del jugador
+        //Desbloquea los inputs
+        if (player1InputManager != null)
+        {
+            player1InputManager.ResetAllInputs();
+            player1InputManager.inputLocked = false;
+        }
+        if (player2InputManager != null)
+        {
+            player2InputManager.ResetAllInputs();
+            player2InputManager.inputLocked = false;
+        }
+
+        //Desbloquear bullets
+        if (player1BulletManager != null) player1BulletManager.isLocked = false;
+        if (player2BulletManager != null) player2BulletManager.isLocked = false;
+
+        
         isTimmerRuning = true;
         StartCoroutine(UpdateTimer());
 

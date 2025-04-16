@@ -90,6 +90,7 @@ public class Attack : ScriptableObject
         }
     }
 
+
     public void DrawGizmos(Transform attackPoint)
     {
         if (attackPoint == null) return;

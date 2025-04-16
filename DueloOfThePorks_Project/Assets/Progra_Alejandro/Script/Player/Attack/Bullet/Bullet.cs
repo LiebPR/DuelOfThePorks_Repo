@@ -7,17 +7,26 @@ public class Bullet : MonoBehaviour
     public GameObject owner; //Propietario (quien disparó la bala)
 
     private Vector3 startPosition; //Posición inicial de la bala
+    private Rigidbody2D _rb;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
 
     private void OnEnable()
     {
         startPosition = transform.position; //Al activarse, guardamos la posición de inicio
+
+        //Aplicamos movimiento al Rigidbody2D
+        if(_rb != null)
+        {
+            _rb.velocity = direction.normalized * settings.speed;
+        }
     }
 
     private void Update()
     {
-        //Movemos la bala según su dirección y velocidad
-        transform.Translate(direction * settings.speed * Time.deltaTime);
-
         //Comporbamos la distancia recorrida por la bala
         float distanceTravelled = Vector3.Distance(startPosition, transform.position);
         if (distanceTravelled > settings.maxTravelDistance)
@@ -61,6 +70,11 @@ public class Bullet : MonoBehaviour
 
     void DeactivateBullet()
     {
+        if(_rb != null)
+        {
+            _rb.velocity = Vector2.zero;
+        }
+
         //Devolver la bala al pool para su reutilización
         BulletPool.Instance.ReturnBullet(gameObject);
     }

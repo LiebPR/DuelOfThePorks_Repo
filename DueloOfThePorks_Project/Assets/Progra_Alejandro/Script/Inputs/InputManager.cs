@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     PlayerInputActions playerInput;
     public bool isPlayerOne;
+    public bool inputLocked = false;
 
     // Propiedad estática para acceder desde cualquier lugar
     public static InputManager Instance { get; private set; }
@@ -38,51 +39,51 @@ public class InputManager : MonoBehaviour
 
             if (isPlayerOne)
             {
-                playerInput.Player1.Move.performed += i => moveInput = i.ReadValue<Vector2>();
-                playerInput.Player1.Move.canceled += i => moveInput = Vector2.zero;
-                playerInput.Player1.Dash.performed += i => dashInput = true;
-                playerInput.Player1.Dash.canceled += i => dashInput = false;
-                playerInput.Player1.Crouch.performed += i => crouchInput = true;
-                playerInput.Player1.Crouch.canceled += i => crouchInput = false;
-                playerInput.Player1.Jump.performed += i => jumpInput = true;
+                playerInput.Player1.Move.performed += i => { if (!inputLocked) moveInput = i.ReadValue<Vector2>(); };
+                playerInput.Player1.Move.canceled += i => { if (!inputLocked) moveInput = Vector2.zero; };
+                playerInput.Player1.Dash.performed += i => { if (!inputLocked) dashInput = true; };
+                playerInput.Player1.Dash.canceled += i => { if (!inputLocked) dashInput = false; };
+                playerInput.Player1.Crouch.performed += i => { if (!inputLocked) crouchInput = true; };
+                playerInput.Player1.Crouch.canceled += i => { if (!inputLocked) crouchInput = false; };
+                playerInput.Player1.Jump.performed += i => { if (!inputLocked) jumpInput = true; };
 
                 // Detectamos las teclas W o S
-                playerInput.Player1.Up.performed += i => isWPressed = true;
-                playerInput.Player1.Up.canceled += i => isWPressed = false;
+                playerInput.Player1.Up.performed += i => { if (!inputLocked) isWPressed = true; };
+                playerInput.Player1.Up.canceled += i => { if (!inputLocked) isWPressed = false; };
 
-                playerInput.Player1.Down.performed += i => isSPressed = true;
-                playerInput.Player1.Down.canceled += i => isSPressed = false;
+                playerInput.Player1.Down.performed += i => { if (!inputLocked) isSPressed = true; };
+                playerInput.Player1.Down.canceled += i => { if (!inputLocked) isSPressed = false; };
 
                 // Detectamos Click Left
                 playerInput.Player1.BaseAttack.performed += i => TryExecuteAttack();
-                playerInput.Player1.StrongAttack.performed += i => strongAttackInput = true;
+                playerInput.Player1.StrongAttack.performed += i => { if (!inputLocked) strongAttackInput = true; };
 
                 //Ataque espcial
-                playerInput.Player1.SpecialAttack.performed += i => specialAttackInput = true;
+                playerInput.Player1.SpecialAttack.performed += i => { if (!inputLocked) specialAttackInput = true; };
             }
             else
             {
-                playerInput.Player2.Move.performed += i => moveInput = i.ReadValue<Vector2>();
-                playerInput.Player2.Move.canceled += i => moveInput = Vector2.zero;
-                playerInput.Player2.Dash.performed += i => dashInput = true;
-                playerInput.Player2.Dash.canceled += i => dashInput = false;
-                playerInput.Player2.Crouch.performed += i => crouchInput = true;
-                playerInput.Player2.Crouch.canceled += i => crouchInput = false;
-                playerInput.Player2.Jump.performed += i => jumpInput = true;
+                playerInput.Player2.Move.performed += i => { if (!inputLocked) moveInput = i.ReadValue<Vector2>(); };
+                playerInput.Player2.Move.canceled += i => { if (!inputLocked) moveInput = Vector2.zero; };
+                playerInput.Player2.Dash.performed += i => { if (!inputLocked) dashInput = true; };
+                playerInput.Player2.Dash.canceled += i => { if (!inputLocked) dashInput = false; };
+                playerInput.Player2.Crouch.performed += i => { if (!inputLocked) crouchInput = true; };
+                playerInput.Player2.Crouch.canceled += i => { if (!inputLocked) crouchInput = false; };
+                playerInput.Player2.Jump.performed += i => { if (!inputLocked) jumpInput = true; };
 
                 // Detectamos las teclas W o S
-                playerInput.Player2.Up.performed += i => isWPressed = true;
-                playerInput.Player2.Up.canceled += i => isWPressed = false;
+                playerInput.Player2.Up.performed += i => { if (!inputLocked) isWPressed = true; };
+                playerInput.Player2.Up.canceled += i => { if (!inputLocked) isWPressed = false; };
 
-                playerInput.Player2.Down.performed += i => isSPressed = true;
-                playerInput.Player2.Down.canceled += i => isSPressed = false;
+                playerInput.Player2.Down.performed += i => { if (!inputLocked) isSPressed = true; };
+                playerInput.Player2.Down.canceled += i => { if (!inputLocked) isSPressed = false; };
 
                 // Detectamos Click Left
                 playerInput.Player2.BaseAttack.performed += i => TryExecuteAttack();
-                playerInput.Player2.StrongAttack.performed += i => strongAttackInput = true;
+                playerInput.Player2.StrongAttack.performed += i => { if (!inputLocked) strongAttackInput = true; };
 
                 //Ataque especial
-                playerInput.Player2.SpecialAttack.performed += i => specialAttackInput = true;
+                playerInput.Player2.SpecialAttack.performed += i => { if (!inputLocked) specialAttackInput = true; };
             }
 
             // Activamos el mapa de Inputs
@@ -116,6 +117,22 @@ public class InputManager : MonoBehaviour
             baseAttackInput = true;
             Debug.Log("Ready to perform Normal BaseAttack");
         }
+        if (inputLocked) return;
+    }
+
+    public void ResetAllInputs()
+    {
+        moveInput = Vector2.zero;
+        dashInput = false;
+        crouchInput = false;
+        jumpInput = false;
+        baseAttackInput = false;
+        strongAttackInput = false;
+        specialAttackInput = false;
+        isWPressed = false;
+        isSPressed = false;
+        isUpAttackReady = false;
+        isDownAttackReady = false;
     }
 
     public void ResetJumpInput() => jumpInput = false;
