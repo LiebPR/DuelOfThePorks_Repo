@@ -5089,6 +5089,10 @@ PrefabInstance:
       propertyPath: groundCheckSize.y
       value: 0.71
       objectReference: {fileID: 0}
+    - target: {fileID: 1940130055072415960, guid: 39a42a59521a5ce48a7fe13be6b23bd1, type: 3}
+      propertyPath: lateralCheckDistance
+      value: 0.63
+      objectReference: {fileID: 0}
     - target: {fileID: 2365802939789809197, guid: 39a42a59521a5ce48a7fe13be6b23bd1, type: 3}
       propertyPath: m_RootOrder
       value: 6

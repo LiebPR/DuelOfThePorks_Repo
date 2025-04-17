@@ -94,15 +94,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239184831181038037, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: wallCheckSize.x
-      value: 0.22
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 239184831181038037, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: wallCheckSize.y
-      value: 1.01
+      value: 1.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 239184831181038037, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
+      propertyPath: groundCheckSize.y
+      value: 0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 239184831181038037, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
+      propertyPath: headCheckDistance
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 239184831181038037, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: lateralCheckDistance
-      value: 0.57
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 918716701730013227, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: m_LocalPosition.x
@@ -110,7 +118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4136695253454075680, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4136695253454075680, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: m_LocalPosition.x
