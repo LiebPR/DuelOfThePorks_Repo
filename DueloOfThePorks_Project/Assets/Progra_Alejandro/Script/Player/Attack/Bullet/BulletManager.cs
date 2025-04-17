@@ -52,7 +52,7 @@ public class BulletManager : MonoBehaviour
             inputManager.ResetStrongAttackInput();
         }
 
-        if (isLocked && inputManager.specialAttackInput && GetComponent<PlayerOrbs>().CanUseSpecialAttack())
+        if (!isLocked && inputManager.specialAttackInput && GetComponent<PlayerOrbs>().CanUseSpecialAttack())
         {
             GetComponent<PlayerOrbs>().ConsumeOrbs();
             HandleAttackLogic(4);

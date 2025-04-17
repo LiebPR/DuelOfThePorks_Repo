@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     bool isCrouching = false;
 
     //Detectores:
-    [Header("Boxcast")]
+    [Header("Ground Wall Detectio")]
     [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f);
     [SerializeField] LayerMask groundLayer;
     [SerializeField] bool isGrounded;

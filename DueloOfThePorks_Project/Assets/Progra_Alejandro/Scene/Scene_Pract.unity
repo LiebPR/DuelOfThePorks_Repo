@@ -5366,6 +5366,10 @@ PrefabInstance:
       propertyPath: attackSettingsArray.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: fd2bc78cc4e53c54db21af4bc2df7798, type: 2}
+    - target: {fileID: 4531131023474188454, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7150741774813517863, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: m_Name
       value: P2
