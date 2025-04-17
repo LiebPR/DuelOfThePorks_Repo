@@ -40,6 +40,12 @@ public class Bullet : MonoBehaviour
         //No hacer nada si la bala colisiona con el propietario
         if (collision.gameObject == owner) return;
 
+        //Si no esta en el targetLayer, simplemente la ignoramos
+        if(((1 << collision.gameObject.layer) & settings.targetLayer) == 0)
+        {
+            return;
+        }
+
         //Si la ba golpea a otro jugador del mismo equipo, no hacer nada
         InputManager targetInput = collision.GetComponent<InputManager>();
         if (targetInput != null && targetInput.isPlayerOne == owner.GetComponent<InputManager>().isPlayerOne)

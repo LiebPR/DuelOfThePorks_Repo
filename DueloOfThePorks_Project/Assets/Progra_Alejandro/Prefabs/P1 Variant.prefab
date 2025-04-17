@@ -192,6 +192,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.1745283
       objectReference: {fileID: 0}
+    - target: {fileID: 7541470541782009735, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8408218799687059512, guid: e1f9a3b4615e0224d9a42c3c97bda338, type: 3}
       propertyPath: playerOrbs
       value: 
@@ -262,5 +266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ead1a938bb7d2224e99e514592a7899e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSettings: {fileID: 11400000, guid: 3ce8a81d88f6b0b479dffeeea9a5e780, type: 2}
+  bulletSettingsArray: []
   bulletSpawnPoint: {fileID: 1517679745067899577}
+  isLocked: 0
