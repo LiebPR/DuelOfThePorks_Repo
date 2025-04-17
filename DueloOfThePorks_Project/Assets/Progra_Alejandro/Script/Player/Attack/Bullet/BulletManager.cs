@@ -4,6 +4,8 @@ public class BulletManager : MonoBehaviour
 {
     [SerializeField] BulletSettings[] bulletSettingsArray;
     [SerializeField] Transform bulletSpawnPoint;
+    [SerializeField] float globalAttackCooldown = 0.4f;
+    float lastAttackTime = -999f;
 
     private InputManager inputManager;
     private AttackManager attackManager;
@@ -30,10 +32,28 @@ public class BulletManager : MonoBehaviour
     {
         if (isLocked) return;
 
+        //Reducimos cooldowns individuales
         for (int i = 0; i < bulletCooldowns.Length; i++)
         {
             if (bulletCooldowns[i] > 0f)
                 bulletCooldowns[i] -= Time.deltaTime;
+        }
+
+        if (Time.time - lastAttackTime < globalAttackCooldown) return;
+
+        //Orden de prioridad de ataques
+
+        if (!isLocked && inputManager.specialAttackInput && GetComponent<PlayerOrbs>().CanUseSpecialAttack())
+        {
+            GetComponent<PlayerOrbs>().ConsumeOrbs();
+            HandleAttackLogic(4);
+            ResetAllAttackInoputs();
+        }
+
+        if (!isLocked && inputManager.strongAttackInput)
+        {
+            HandleAttackLogic(3);
+            ResetAllAttackInoputs();
         }
 
         if (!isLocked && inputManager.baseAttackInput)
@@ -42,22 +62,17 @@ public class BulletManager : MonoBehaviour
             if (index != -1)
             {
                 HandleAttackLogic(index);
-                inputManager.ResetBaseAttackInput();
+                ResetAllAttackInoputs();
             }
-        }
+        }  
+    }
 
-        if (!isLocked && inputManager.strongAttackInput)
-        {
-            HandleAttackLogic(3);
-            inputManager.ResetStrongAttackInput();
-        }
-
-        if (!isLocked && inputManager.specialAttackInput && GetComponent<PlayerOrbs>().CanUseSpecialAttack())
-        {
-            GetComponent<PlayerOrbs>().ConsumeOrbs();
-            HandleAttackLogic(4);
-            inputManager.ResetSpecialAttackInput();
-        }
+    // Método de utilidad para limpiar todos los inputs de ataque
+    void ResetAllAttackInoputs()
+    {
+        inputManager.ResetBaseAttackInput();
+        inputManager.ResetStrongAttackInput();
+        inputManager.ResetStrongAttackInput();
     }
 
     int GetInputDirectionIndex()

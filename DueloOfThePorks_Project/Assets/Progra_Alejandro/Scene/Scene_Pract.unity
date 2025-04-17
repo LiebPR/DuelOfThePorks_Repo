@@ -5087,7 +5087,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1940130055072415960, guid: 39a42a59521a5ce48a7fe13be6b23bd1, type: 3}
       propertyPath: groundCheckSize.y
-      value: 0.71
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 1940130055072415960, guid: 39a42a59521a5ce48a7fe13be6b23bd1, type: 3}
       propertyPath: lateralCheckDistance
@@ -5288,19 +5288,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: wallCheckSize.x
-      value: 0.22
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: wallCheckSize.y
-      value: 1.01
+      value: 1.45
       objectReference: {fileID: 0}
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: groundCheckSize.y
-      value: 0.71
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: lateralCheckDistance
-      value: 0.57
+      value: 0.63
       objectReference: {fileID: 0}
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: crouchSpeedMultiplier
