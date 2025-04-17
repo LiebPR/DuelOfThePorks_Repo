@@ -5087,7 +5087,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1940130055072415960, guid: 39a42a59521a5ce48a7fe13be6b23bd1, type: 3}
       propertyPath: groundCheckSize.y
-      value: 0.4
+      value: 0.71
       objectReference: {fileID: 0}
     - target: {fileID: 2365802939789809197, guid: 39a42a59521a5ce48a7fe13be6b23bd1, type: 3}
       propertyPath: m_RootOrder
@@ -5289,6 +5289,10 @@ PrefabInstance:
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: wallCheckSize.y
       value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
+      propertyPath: groundCheckSize.y
+      value: 0.71
       objectReference: {fileID: 0}
     - target: {fileID: 1438057112837878277, guid: a13cadc0f9b14de42bcb21e1005a3727, type: 3}
       propertyPath: lateralCheckDistance
