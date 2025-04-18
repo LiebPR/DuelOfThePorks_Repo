@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Types;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -135,61 +136,62 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (inputManager.jumpInput) //El input de Jump: Si presiono el boton asignado el el InputManager salta.
+        if (inputManager.jumpInput) //Condición; Si presiono el boton asignado en el jumpInput hace: 
         {
-            if (isCrouching) //Si esta agachado:
+            if (isCrouching) //Condición si esta agachado:
             {
-                //Resetea el input de Jump: Si no hiciera esto si soltara el boton de crouch el player almacenaría la presión del boton y te haría un salto fantasma, de esta manera te aseguras de que no pase.
-                inputManager.ResetJumpInput(); 
-                //Vuelve a al anterior if (¿Has pulsado el boton? Si ¿Estas agachado? No. Pasa al siguiente.
-                return; 
+                
+                inputManager.ResetJumpInput(); //Reset del jumpInput. (Para evitar saltos fantasma)
+                return; //Vuelve a leerlo, por lo que si no esta agachado pasa al siguiente if.
             }
-            /*Hacemos referencia al _knockBackManager para usar el void publico IsKnockback() que es una comprobación de si esta en knockback o no, si lo esta vuelve al principio
-             * y vuelve a leer, así hasta que no este en knockback y viceversa*/
-            if (_knockbackManager.IsInKnockback()) return; 
+           
+            if (_knockbackManager.IsInKnockback()) //Condición si esta con knockback aplicado hace:
+                return; //vuelve a leer el void desde el principio. 
 
-            // Primer salto: Cuando el contador de saltos es igual a 0 (y esta tocando el suelo o coyoteTimeCounter es mayor a 0, hace:
-            if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
+            if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f)) //Condiciones para hacer:
             {
-                inputManager.jumpInput = false; //Pasa el input de salto a falso para poder realizar el segundo salto. 
-                rb.velocity = new Vector2(rb.velocity.x, 0); //Se coje la velocidad del rigidbody y se matiene en x, pero se reestableze a 0 en y 
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // Se le aplica una fuerza igual al valor de jumpForce y se le aplica esta fuerza con el tipo de Fuerza2D Impulse. 
+                inputManager.jumpInput = false; //Restableze el input para poder realizar un segundo salto.
+                rb.velocity = new Vector2(rb.velocity.x, 0); //Restableze la velocidad del RB en 0 y mantiene el eje en x intacto.
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); //Se aplica una fuerza 2D al RB en el eje vertical y se multiplica por JumpForce. Tipo de fuerza aplicada Impulse.
                 AudioManager.instance.Play("Jump"); //Para el audio de salto.
-                jumpCount = 1; // El contador detecta que has hecho un salto. No lo detecta se lo dices tu pero así podra pasar al segundo salto.
+                jumpCount = 1; // Indica a la consola si has saltado y si has saltado 1 vez se suma 1.
             }
-            // Segundo salto
+            // Segundo salto:
             else 
             {
-                if (jumpCount == 1) //Si el jumpCount es 1 puede ralizar el segundo salto.
+                if (jumpCount == 1) //Condición si el jumpCount es igual a 1 hace:
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, 0);
-                    Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce); //Diferencia con el primer salto, el salto 2 se aplica el valor de jumpForce2 a la fuerza en Impulse.
-                    rb.AddForce(jumpDirection, ForceMode2D.Impulse); 
-                    AudioManager.instance.Play("Jump");
-                    jumpCount = 2; // Segundo salto
+                    rb.velocity = new Vector2(rb.velocity.x, 0); //Mantiene la velocidad en el eje x y la restablece en el eje y a 0 (Para evitar problemas).
+
+                    /*Se genera una nueva variable que solo afecta al SecondJump, esta aplica una fuerza horizontal que es la propia del moveSpeed,
+                     * esta se multiplica * 0.5 por lo tanto se reduce a la mitad.Y por ultimo se le aplica una fuerza en y con el SecondJumpforce para que tenga una fuerza inferior.*/
+                    Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce); 
+                    rb.AddForce(jumpDirection, ForceMode2D.Impulse); //Aplica el tipo de fuerza que se aplico en el salto 1 y se lo aplica con la variable creada en este if.
+                    AudioManager.instance.Play("Jump"); 
+                    jumpCount = 2; // Se le suma a 2 el contador porque a realizado el segundo salto. Por lo tanto se restableze a 0 en el GroundCheck.
                 }
                     
             }
-            inputManager.ResetJumpInput();
+            inputManager.ResetJumpInput(); //Se restablece el jumpInput.
         }
     }
 
     void HandleCrouch()
     {
-        if (inputManager.crouchInput && isGrounded)
+        if (inputManager.crouchInput && isGrounded) //Condición; Sí aprietas el boton de agacharse y estas isgrounded hace:
         {
-            isCrouching = true;
-            rb.velocity = new Vector2(rb.velocity.x * crouchSpeedMultiplier, rb.velocity.y);
+            isCrouching = true; //Esta agachado.
+            rb.velocity = new Vector2(rb.velocity.x * crouchSpeedMultiplier, rb.velocity.y); //Te multiplica la velocidad por el valor asignado en el crouchSpeedMultipler en x y te mantiene el eje y.
 
-            if (standingCollider != null && crouchingCollider != null)
+            if (standingCollider != null && crouchingCollider != null) //Condición: ¿Estan asignados los collider? No. Pues seguimos con el resto del codigo || Si, hacemos:
             {
-                standingCollider.enabled = false;
-                crouchingCollider.enabled = true;
+                standingCollider.enabled = false; //Desactiva el collider de estar de pie.
+                crouchingCollider.enabled = true; //Activa el collider de estar agachado.
             }
         }
         else
         {
-            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * capsuleCollider.bounds.extents.y;
+            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * capsuleCollider.bounds.extents.y; //Cojemos la posición del transform y la sumamos en el eje y, para multiplicarlo por 
             bool headBlocked = Physics2D.Raycast(checkPosition, Vector2.up, 0.1f, groundLayer);
 
             if (!headBlocked)
@@ -333,19 +335,22 @@ public class PlayerController : MonoBehaviour
 }
 
 /*Mathf: 
- *Es una clase estetica que contiene un montón de funciones y constantes matemáticas útiles, pensadas para trabajar con números tipo Float.
- *(Ahorra tiempo de codeo y te facilita el no tener que saber de algebra o trigonometria)*/
-
-/*Infinity:
- *Es el valor más extremo de algo si. (Mathf.Infinity = Es el infinito positiovo osea el numero más grande / -Mathf.Infinity = Es el infinito negativo que es el numero más pequeño)
- *Solo se usa en comparaciones "Absurdas" de un numero entero o Float con un numero infinito positivo o negativo.*/
-
-/*Sign:
- *Si dices Mathf.Sign(x) pillaría 1, -1 o 0. Lo mismo con todos los ejes.(Tiene definido de base en unity cual es la izquierda o derecha y cual es arriba o abajo)
- *Muy util para ahorrar codigo. Ejemplo.
- *Mathf.Sign(y) == 1 Significa que esta Subiendo
- *Mathf.Sign(y) == -1 Significa que esta Bajando
- *Mathf.Sign(y) == 0 Significa que esta Flotando*/
+  Es una clase estetica que contiene un montón de funciones y constantes matemáticas útiles, pensadas para trabajar con números tipo Float.
+  (Ahorra tiempo de codeo y te facilita el no tener que saber de algebra o trigonometria)
+  
+  Calculos de Mathf:
+    -Sign:
+     Si dices Mathf.Sign(x) pillaría 1, -1 o 0. Lo mismo con todos los ejes.(Tiene definido de base en unity cual es la izquierda o derecha y cual es arriba o abajo)
+     Muy util para ahorrar codigo. Ejemplo.
+     Mathf.Sign(y) == 1 Significa que esta Subiendo
+     Mathf.Sign(y) == -1 Significa que esta Bajando
+     Mathf.Sign(y) == 0 Significa que esta Flotando
+    
+    -Abs: Es igual que Mathf pero menos concreto. Te pasa los valores osea 1, 2, 3 o 100 pero no te pasa -100 o +100.
+    
+    -Infinity:
+     Es el valor más extremo de algo si. (Mathf.Infinity = Es el infinito positiovo osea el numero más grande / -Mathf.Infinity = Es el infinito negativo que es el numero más pequeño)
+     Solo se usa en comparaciones "Absurdas" de un numero entero o Float con un numero infinito positivo o negativo.*/
 
 /* void Flip(float horizontalInput): 
  * Esto es una clase con un parametro tipo Float  horitzontalInput es el nombre de la variable que va a recibir este valor.*/
@@ -361,4 +366,14 @@ public class PlayerController : MonoBehaviour
  *      -VelocityChange = La teletransportas con velocidad
  *      -Acceleratión = Aplica una fuerza constante sin tener en cuenta la masa del Rigidbody*/
 
+/* ¿Porque se hace esto?
+ * 
+ * rb.velocity = new Vector2(rb.velocity.x, 0); 
+ * Para poder evitar que el doble salto herede la caida. Borra la bajada antes de impulsarse hacía arriba para evitarse problemas.*/
+
+/* enabled: 
+ * Es una propiedad que poseen mchos componentes (Colliders, scripts, renderers..) sirven para activar o desactivar dichos componentes.*/
+
+/* bounds:
+   Es un dibujo que hace unity para referenciar el tamaño del collider. */
 
