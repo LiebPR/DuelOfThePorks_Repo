@@ -6,55 +6,59 @@ using UnityEngine.XR;
 public class PlayerController : MonoBehaviour
 {
     [Header("Componentes")]
-    Rigidbody2D rb;
+    Rigidbody2D rb; 
     CapsuleCollider2D capsuleCollider;
-    PlatformEffector2D platformEff2D;
+    PlatformEffector2D platformEff2D; 
     float originalGravity;
     InputManager inputManager;
     KnockbackManager _knockbackManager;
     //Stats Player
+    [Header("Variables Globales")]
+    float horizontalInput;
+
     [Header("Movement")]
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float moveSpeed = 5f; //Velocidad de movimiento
 
     [Header("Jump")]
-    [SerializeField] float jumpForce = 12f;
-    [SerializeField] float secondJumpForce = 10f;
-    int jumpCount = 0;
+    [SerializeField] float jumpForce = 12f; //Fuerza de primer salto
+    [SerializeField] float secondJumpForce = 10f; //Fuerza de segundo salto
+    int jumpCount = 0; //Contador de saltos
     [SerializeField] float coyoteTime = 0.2f; //Tiempo extra para poder realizar un salto.
     float coyoteTimeCounter; //Contador coyoteTime
 
     [Header("Falling")]
-    [SerializeField] float fallMultipler = 2.5f; //Que tan rapido cae rl jugsdor comparado con la gravedad normal.
+    [SerializeField] float fallMultipler = 2.5f; //Que tan rapido cae el jugador comparado con la gravedad normal.
     [SerializeField] float lowJumpMultiplier = 2f; //Para hacer el salto más corto si se suelta el boton antes.
 
     [Header("Dash")]
-    [SerializeField] float dashForce = 12f;
-    [SerializeField] float dashDuration = 0.2f;
-    [SerializeField] float dashCooldown = 1f;
-    bool isDashing = false;
-    bool canDash = true;
-    float lastDashTime = -Mathf.Infinity;
+    [SerializeField] float dashForce = 12f; //Fuerza aplicada en el dash
+    [SerializeField] float dashDuration = 0.2f; //Duración del dash
+    [SerializeField] float dashCooldown = 1f; //Tiempo de reutilización del dash
+    bool isDashing = false; //Esta haciendo un dash?
+    bool canDash = true; //No esta haciendo un dash?
+    float lastDashTime = -Mathf.Infinity; //Infinito negativo.
 
     [Header("Crounch")]
     [SerializeField] float crouchSpeedMultiplier = 0.5f;
     [SerializeField] Collider2D standingCollider;
     [SerializeField] Collider2D crouchingCollider;
-    bool isCrouching = false;
+    bool isCrouching = false; //Esta agachado?
 
     //Detectores:
-    [Header("Ground Wall Detectio")]
-    [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f);
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] bool isGrounded;
+    [Header("Ground Check")]
+    [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f); //Tamaño del detector
+    [SerializeField] LayerMask groundLayer; //Layer del Ground
+    [SerializeField] bool isGrounded; //Esta tocando el suelo?
 
     [Header("Wall Check")]
-    bool isTouchingWall;
-    [SerializeField] float lateralCheckDistance = 0.5f;
-    [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f);
-
+    [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f); //Tamaño del detector
+    [SerializeField] float lateralCheckDistance = 0.5f; //Posición del detector
+    bool isTouchingWall; //Esta tocando la pared?
+    
+    
     private void Start()
     {
-        platformEff2D = GetComponent<PlatformEffector2D>();
+        platformEff2D = GetComponent<PlatformEffector2D>(); //Para asignar el componente
         inputManager = GetComponent<InputManager>();
     }
     private void Awake()
@@ -76,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //Variables globales:
+        horizontalInput = inputManager.moveInput.x;
         GroundCheck();
         Jump();
         HandleCrouch();
@@ -85,23 +91,30 @@ public class PlayerController : MonoBehaviour
     //Voids encargados de los statas del player.
     void Move()
     {
-        if (_knockbackManager.IsInKnockback()) return;
-        float horizontalInput = inputManager.moveInput.x;
+        if (_knockbackManager.IsInKnockback()) return; //Si tiene aplicado el Knockback el player no puede caminar.
 
-        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        //Estas diciendo que quieres que la velocidad del rb sea igual a la velocidad en el eje x multiplicada por el moveSpeed y que mantenga la velocidad en y para que no se vea alterada.
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y); 
 
-        if (horizontalInput != 0 && !isTouchingWall)
+        if (horizontalInput != 0 && !isTouchingWall) //Cuando la posición es lo contrario a 0 el player Flip. "!isTouchingWall" te dice que si no estas tocando la pared tambien se flipea.
         {
-            Flip(horizontalInput);
+            Flip();
         }
     }
 
-    void Flip(float horizontalInput)
+    void Flip() 
     {
-        if (Mathf.Sign(horizontalInput) != Mathf.Sign(transform.localScale.x))
+        /*La dirección a la que me quiero mover es diferente a la que estoy mirando? (Mathf.Sign(horizontaInput es la brujula de la direccion hor y
+         * Mathf.Sign(transform.localScale.x) es la escala definida en los 3 valores de Sign (-1, 1, 0) por lo que si el move es 1 y la escala es -1 ejecuta el "if"*/ 
+        if (Mathf.Sign(horizontalInput) != Mathf.Sign(transform.localScale.x)) 
         {
+            //Te flipea el personaje al usar Mathf.Sign ya sabe cual es la izquierda y cual la derecha por lo que te coje la direccion del movimiento y se lo aplica a la escala para que mire al lado correcto.
             transform.localScale = new Vector3(Mathf.Sign(horizontalInput), 1f, 1f);
-            Vector2 newOffset = new Vector2(capsuleCollider.offset.x * Mathf.Sign(horizontalInput), capsuleCollider.offset.y);
+           
+            /*Creamos una nueva variable Vector2 llamada newOffset. Referenciamos el capsulleCollider mas exactamente su posición respecto al pivote del player.
+             *Si el pivote del player a rotado el resto de componentes rotaran junto al player en la dirección en la que este orientado y mantenemos igual la direccion 
+             *en y para que los componentes no flipeen.*/
+            Vector2 newOffset = new Vector2(capsuleCollider.offset.x * Mathf.Sign(horizontalInput), capsuleCollider.offset.y); 
             capsuleCollider.offset = newOffset;
         }
     }
@@ -111,7 +124,7 @@ public class PlayerController : MonoBehaviour
         if(rb.velocity.y < 0)
         {
             //Si esta callendo
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultipler - 1) * Time.deltaTime;
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultipler - 0.5f) * Time.deltaTime;
         }
         else if(rb.velocity.y > 0 && !inputManager.jumpInput)
         {
@@ -122,35 +135,36 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (inputManager.jumpInput)
+        if (inputManager.jumpInput) //El input de Jump: Si presiono el boton asignado el el InputManager salta.
         {
-            if (isCrouching)
+            if (isCrouching) //Si esta agachado:
             {
-                inputManager.ResetJumpInput();
-                return;
+                //Resetea el input de Jump: Si no hiciera esto si soltara el boton de crouch el player almacenaría la presión del boton y te haría un salto fantasma, de esta manera te aseguras de que no pase.
+                inputManager.ResetJumpInput(); 
+                //Vuelve a al anterior if (¿Has pulsado el boton? Si ¿Estas agachado? No. Pasa al siguiente.
+                return; 
             }
-            if (_knockbackManager.IsInKnockback()) return;
+            /*Hacemos referencia al _knockBackManager para usar el void publico IsKnockback() que es una comprobación de si esta en knockback o no, si lo esta vuelve al principio
+             * y vuelve a leer, así hasta que no este en knockback y viceversa*/
+            if (_knockbackManager.IsInKnockback()) return; 
 
-            float horizontalInput = inputManager.moveInput.x;
-
-            // Primer salto
+            // Primer salto: Cuando el contador de saltos es igual a 0 (y esta tocando el suelo o coyoteTimeCounter es mayor a 0, hace:
             if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f))
             {
-                inputManager.jumpInput = false;
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                AudioManager.instance.Play("Jump");
-                jumpCount = 1; // Primer salto
+                inputManager.jumpInput = false; //Pasa el input de salto a falso para poder realizar el segundo salto. 
+                rb.velocity = new Vector2(rb.velocity.x, 0); //Se coje la velocidad del rigidbody y se matiene en x, pero se reestableze a 0 en y 
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // Se le aplica una fuerza igual al valor de jumpForce y se le aplica esta fuerza con el tipo de Fuerza2D Impulse. 
+                AudioManager.instance.Play("Jump"); //Para el audio de salto.
+                jumpCount = 1; // El contador detecta que has hecho un salto. No lo detecta se lo dices tu pero así podra pasar al segundo salto.
             }
             // Segundo salto
             else 
             {
-                if (jumpCount == 1)
+                if (jumpCount == 1) //Si el jumpCount es 1 puede ralizar el segundo salto.
                 {
-                    inputManager.jumpInput = false;
                     rb.velocity = new Vector2(rb.velocity.x, 0);
-                    Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce);
-                    rb.AddForce(jumpDirection, ForceMode2D.Impulse);
+                    Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce); //Diferencia con el primer salto, el salto 2 se aplica el valor de jumpForce2 a la fuerza en Impulse.
+                    rb.AddForce(jumpDirection, ForceMode2D.Impulse); 
                     AudioManager.instance.Play("Jump");
                     jumpCount = 2; // Segundo salto
                 }
@@ -317,3 +331,34 @@ public class PlayerController : MonoBehaviour
         return isGrounded;
     }
 }
+
+/*Mathf: 
+ *Es una clase estetica que contiene un montón de funciones y constantes matemáticas útiles, pensadas para trabajar con números tipo Float.
+ *(Ahorra tiempo de codeo y te facilita el no tener que saber de algebra o trigonometria)*/
+
+/*Infinity:
+ *Es el valor más extremo de algo si. (Mathf.Infinity = Es el infinito positiovo osea el numero más grande / -Mathf.Infinity = Es el infinito negativo que es el numero más pequeño)
+ *Solo se usa en comparaciones "Absurdas" de un numero entero o Float con un numero infinito positivo o negativo.*/
+
+/*Sign:
+ *Si dices Mathf.Sign(x) pillaría 1, -1 o 0. Lo mismo con todos los ejes.(Tiene definido de base en unity cual es la izquierda o derecha y cual es arriba o abajo)
+ *Muy util para ahorrar codigo. Ejemplo.
+ *Mathf.Sign(y) == 1 Significa que esta Subiendo
+ *Mathf.Sign(y) == -1 Significa que esta Bajando
+ *Mathf.Sign(y) == 0 Significa que esta Flotando*/
+
+/* void Flip(float horizontalInput): 
+ * Esto es una clase con un parametro tipo Float  horitzontalInput es el nombre de la variable que va a recibir este valor.*/
+
+/*offset: 
+ *Este se encarga de ajustar o orinter correctamente los componentes del GameObject que tiene adjuntado el script.*/
+
+/* AddForce:
+ * Función de unity que se usa para aplicar una fuerza a un Rigidbody ya sea 2D o 3D
+ * Formas de aplicar dicha fuerza:
+ *      -Impulse = Le das una patada -> sale volando.
+ *      -Force = Aplica una fuerza constante pero teniendo en cuenta la masa del player.
+ *      -VelocityChange = La teletransportas con velocidad
+ *      -Acceleratión = Aplica una fuerza constante sin tener en cuenta la masa del Rigidbody*/
+
+
