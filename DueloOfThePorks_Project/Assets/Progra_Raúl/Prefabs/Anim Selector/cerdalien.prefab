@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5183488486914670933}
   - component: {fileID: 5488076833676802023}
   - component: {fileID: 6214647369781867059}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cerdalien
   m_TagString: Untagged
   m_Icon: {fileID: 0}

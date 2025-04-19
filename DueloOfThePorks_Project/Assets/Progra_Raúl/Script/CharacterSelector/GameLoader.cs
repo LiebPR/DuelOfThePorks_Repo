@@ -1,5 +1,4 @@
-
-// GameLoader.cs - Usa prefabs completos para el combate
+// GameLoader.cs - corregido con validación de layers "Player1" y "Player2"
 using UnityEngine;
 
 public class GameLoader : MonoBehaviour
@@ -17,13 +16,13 @@ public class GameLoader : MonoBehaviour
         if (p1Prefab != null)
         {
             GameObject p1 = Instantiate(p1Prefab, new Vector2(-2, 0), Quaternion.identity);
-            SetLayerRecursively(p1, LayerMask.NameToLayer("Player 1"));
+            SetLayerRecursivelySafe(p1, "Player1");
         }
 
         if (p2Prefab != null)
         {
             GameObject p2 = Instantiate(p2Prefab, new Vector2(2, 0), Quaternion.identity);
-            SetLayerRecursively(p2, LayerMask.NameToLayer("Player 2"));
+            SetLayerRecursivelySafe(p2, "Player2");
         }
     }
 
@@ -33,6 +32,19 @@ public class GameLoader : MonoBehaviour
             if (prefab.name == name)
                 return prefab;
         return null;
+    }
+
+    void SetLayerRecursivelySafe(GameObject obj, string layerName)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+
+        if (layer < 0 || layer > 31)
+        {
+            Debug.LogError($"Layer '{layerName}' no existe. Crealo en Edit > Project Settings > Tags and Layers.");
+            return;
+        }
+
+        SetLayerRecursively(obj, layer);
     }
 
     void SetLayerRecursively(GameObject obj, int layer)

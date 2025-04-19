@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5500806682850317869}
   - component: {fileID: 2260874603420023663}
   - component: {fileID: 4483141610121899429}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: jamonator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

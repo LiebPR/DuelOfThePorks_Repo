@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5981378050464405953}
   - component: {fileID: 7614286245399765967}
   - component: {fileID: 7063382599208027017}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Keanupigs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
