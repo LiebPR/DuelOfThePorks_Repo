@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton para acceso global (opcional pero útil)
+        // Aplicar patrón Singleton
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -15,20 +15,20 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Opcional si necesitas que persista
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
-    /// Llama este método cuando un jugador gana.
+    /// Termina el juego y guarda los datos del ganador y personajes.
     /// </summary>
-    /// <param name="winnerName">Nombre del personaje que ganó.</param>
-    /// <param name="player1Name">Nombre del personaje del Player 1.</param>
-    /// <param name="player2Name">Nombre del personaje del Player 2.</param>
-    public void EndGame(string winnerName, string player1Name, string player2Name)
+    /// <param name="winner">Nombre del personaje ganador.</param>
+    /// <param name="player1">Nombre del personaje del Jugador 1.</param>
+    /// <param name="player2">Nombre del personaje del Jugador 2.</param>
+    public void EndGame(string winner, string player1, string player2)
     {
-        PlayerPrefs.SetString("Winner", winnerName);
-        PlayerPrefs.SetString("Player1Character", player1Name);
-        PlayerPrefs.SetString("Player2Character", player2Name);
+        PlayerPrefs.SetString("Winner", winner);
+        PlayerPrefs.SetString("Player1Character", player1);
+        PlayerPrefs.SetString("Player2Character", player2);
         PlayerPrefs.Save();
 
         SceneManager.LoadScene("FinalScene");
