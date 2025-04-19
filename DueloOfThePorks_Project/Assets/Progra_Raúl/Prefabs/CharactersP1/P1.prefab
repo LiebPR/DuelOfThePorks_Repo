@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 3249812674206077778}
   - component: {fileID: 7985516224643979888}
   - component: {fileID: 2609627354722371385}
+  - component: {fileID: 3456102510298463006}
   m_Layer: 6
   m_Name: P1
   m_TagString: Untagged
@@ -71,7 +72,7 @@ Transform:
   m_Children:
   - {fileID: 918716701730013227}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7541470541782009735
 SpriteRenderer:
@@ -144,6 +145,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   hitDetector: {fileID: 6255675573531138125}
+  heartImages: []
+  spriteRenderer: {fileID: 0}
+  playerOrbs: {fileID: 0}
 --- !u!114 &6650340342219382495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePercentage: 0
   isPlayerOne: 1
+  isInvincible: 0
   damageHandler: {fileID: 0}
 --- !u!114 &239184831181038037
 MonoBehaviour:
@@ -205,19 +210,21 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 5
   secondJumpForce: 3
-  maxJumpCount: 2
   coyoteTime: 0.2
+  fallMultipler: 2.5
+  lowJumpMultiplier: 2
   dashForce: 12
   dashDuration: 0.2
   dashCooldown: 1
   crouchSpeedMultiplier: 0.5
   standingCollider: {fileID: 0}
   crouchingCollider: {fileID: 0}
-  groundCheckDistance: 0.2
+  groundCheckSize: {x: 0.5, y: 0.2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
   isGrounded: 0
+  wallCheckSize: {x: 0.3, y: 0.5}
   lateralCheckDistance: 0.5
 --- !u!50 &2656673927287991449
 Rigidbody2D:
@@ -294,12 +301,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerOne: 1
+  inputLocked: 0
   moveInput: {x: 0, y: 0}
   dashInput: 0
   crouchInput: 0
   jumpInput: 0
   baseAttackInput: 0
   strongAttackInput: 0
+  specialAttackInput: 0
   isWPressed: 0
   isSPressed: 0
   isUpAttackReady: 0
@@ -319,3 +328,20 @@ MonoBehaviour:
   isKnockBack: 0
   knockbackForce: 0
   knockbackDuration: 0
+  rb: {fileID: 0}
+  originalGravity: 0
+--- !u!114 &3456102510298463006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507895540698220551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c652092740d153d4193575c95deb1980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victoryPrefab: {fileID: 0}
+  defeatPrefab: {fileID: 0}
+  victorySound: {fileID: 0}

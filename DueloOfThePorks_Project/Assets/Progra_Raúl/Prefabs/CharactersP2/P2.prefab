@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 4598446351254200572}
   - component: {fileID: 4662468002075855588}
   - component: {fileID: 1059003047178286926}
+  - component: {fileID: 5545465460405986950}
   m_Layer: 8
   m_Name: P2
   m_TagString: Untagged
@@ -144,6 +145,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   hitDetector: {fileID: 3732859288254774493}
+  heartImages: []
+  spriteRenderer: {fileID: 0}
+  playerOrbs: {fileID: 0}
 --- !u!114 &3000125915201357024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePercentage: 0
   isPlayerOne: 0
+  isInvincible: 0
   damageHandler: {fileID: 0}
 --- !u!114 &1438057112837878277
 MonoBehaviour:
@@ -205,19 +210,21 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 7
   secondJumpForce: 6
-  maxJumpCount: 2
   coyoteTime: 0.2
+  fallMultipler: 2.5
+  lowJumpMultiplier: 2
   dashForce: 12
   dashDuration: 0.2
   dashCooldown: 1
   crouchSpeedMultiplier: 0.5
   standingCollider: {fileID: 0}
   crouchingCollider: {fileID: 0}
-  groundCheckDistance: 0.2
+  groundCheckSize: {x: 0.5, y: 0.2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
   isGrounded: 0
+  wallCheckSize: {x: 0.3, y: 0.5}
   lateralCheckDistance: 0.5
 --- !u!50 &272760199784905596
 Rigidbody2D:
@@ -294,12 +301,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerOne: 0
+  inputLocked: 0
   moveInput: {x: 0, y: 0}
   dashInput: 0
   crouchInput: 0
   jumpInput: 0
   baseAttackInput: 0
   strongAttackInput: 0
+  specialAttackInput: 0
   isWPressed: 0
   isSPressed: 0
   isUpAttackReady: 0
@@ -319,3 +328,20 @@ MonoBehaviour:
   isKnockBack: 0
   knockbackForce: 0
   knockbackDuration: 0
+  rb: {fileID: 0}
+  originalGravity: 0
+--- !u!114 &5545465460405986950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7150741774813517863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c652092740d153d4193575c95deb1980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victoryPrefab: {fileID: 0}
+  defeatPrefab: {fileID: 0}
+  victorySound: {fileID: 0}

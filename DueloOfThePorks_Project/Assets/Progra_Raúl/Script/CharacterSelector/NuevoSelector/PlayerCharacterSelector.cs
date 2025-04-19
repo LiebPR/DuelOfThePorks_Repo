@@ -1,3 +1,4 @@
+// PlayerCharacterSelector.cs
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -8,32 +9,31 @@ public class PlayerCharacterSelector : MonoBehaviour
     public enum SelectionState { Idle, Transitioning, Confirmed }
     public enum InputMode { Both, OnlyKeyboard, OnlyGamepad }
 
+    [Header("Identificador del Jugador")]
+    public string playerID = "P1"; // P1 o P2
+
     [Header("Personajes (Prefabs)")]
-    [Tooltip("Lista de prefabs de personajes disponibles para este jugador")]
     public GameObject[] characters;
 
     [Header("Opción Aleatoria")]
-    [Tooltip("¿Incluir la opción Aleatorio al final de la lista?")]
     public bool enableRandomOption = true;
-    [Tooltip("Etiqueta que se mostrará para la opción Aleatorio")]
     public string randomOptionLabel = "?";
-    [Tooltip("Prefab para la vista previa de Aleatorio (ícono de interrogación)")]
     public GameObject randomPreviewPrefab;
 
     [Header("Referencias UI")]
     public TextMeshProUGUI characterNameText;
     public Transform previewArea;
 
-    [Header("Configuración de Transición")]
+    [Header("Transición")]
     public float slideDuration = 0.5f;
     public float slideDistance = 500f;
 
-    [Header("Inputs - Teclado")]
+    [Header("Teclado")]
     public KeyCode nextKey = KeyCode.D;
     public KeyCode previousKey = KeyCode.A;
     public KeyCode confirmKey = KeyCode.W;
 
-    [Header("Inputs - Mando")]
+    [Header("Mando")]
     public string horizontalAxisName = "Horizontal";
     public string confirmButtonName = "Submit";
     public float axisInputDelay = 0.3f;
@@ -42,14 +42,9 @@ public class PlayerCharacterSelector : MonoBehaviour
     [Header("Modo de Entrada")]
     public InputMode allowedInput = InputMode.Both;
 
-    [Header("Sonidos")]
-    [Tooltip("Sonido al navegar entre opciones")]
+    [Header("Sonido")]
     public AudioClip navigateClip;
-    [Tooltip("Sonido al confirmar selección")]
     public AudioClip confirmClip;
-
-    [Header("Opciones de Sonido")]
-    [Tooltip("Activar o desactivar efectos de sonido")]
     public bool enableSound = true;
 
     private AudioSource audioSource;
@@ -68,7 +63,7 @@ public class PlayerCharacterSelector : MonoBehaviour
 
         if (totalOptions == 0)
         {
-            Debug.LogError("No hay opciones en el selector de " + gameObject.name);
+            Debug.LogError("No hay personajes asignados en " + gameObject.name);
             enabled = false;
             return;
         }
@@ -80,21 +75,15 @@ public class PlayerCharacterSelector : MonoBehaviour
 
     void Update()
     {
-        if (state != SelectionState.Idle)
-            return;
-
-        if (axisInputTimer > 0f)
-            axisInputTimer -= Time.deltaTime;
+        if (state != SelectionState.Idle) return;
+        if (axisInputTimer > 0f) axisInputTimer -= Time.deltaTime;
 
         // Teclado
         if (allowedInput == InputMode.Both || allowedInput == InputMode.OnlyKeyboard)
         {
-            if (Input.GetKeyDown(previousKey))
-                OnNavigate((currentIndex - 1 + totalOptions) % totalOptions, -1);
-            else if (Input.GetKeyDown(nextKey))
-                OnNavigate((currentIndex + 1) % totalOptions, 1);
-            else if (Input.GetKeyDown(confirmKey))
-                OnConfirm();
+            if (Input.GetKeyDown(previousKey)) OnNavigate((currentIndex - 1 + totalOptions) % totalOptions, -1);
+            else if (Input.GetKeyDown(nextKey)) OnNavigate((currentIndex + 1) % totalOptions, 1);
+            else if (Input.GetKeyDown(confirmKey)) OnConfirm();
         }
 
         // Mando
@@ -114,39 +103,37 @@ public class PlayerCharacterSelector : MonoBehaviour
                     axisInputTimer = axisInputDelay;
                 }
             }
-            if (Input.GetButtonDown(confirmButtonName))
-                OnConfirm();
+
+            if (Input.GetButtonDown(confirmButtonName)) OnConfirm();
         }
     }
 
-    private void OnNavigate(int newIndex, int direction)
+    void OnNavigate(int newIndex, int direction)
     {
         PlaySound(navigateClip);
         StartCoroutine(TransitionToIndex(newIndex, direction));
         currentIndex = newIndex;
     }
 
-    private void OnConfirm()
+    void OnConfirm()
     {
         PlaySound(confirmClip);
 
         if (enableRandomOption && currentIndex == characters.Length)
         {
-            int rand = Random.Range(0, characters.Length);
-            currentIndex = rand;
+            currentIndex = Random.Range(0, characters.Length);
             ClearPreview();
-            CreatePreviewImmediate(rand);
+            CreatePreviewImmediate(currentIndex);
         }
 
         state = SelectionState.Confirmed;
         UpdateCharacterName();
     }
 
-    private void PlaySound(AudioClip clip)
+    void PlaySound(AudioClip clip)
     {
-        if (!enableSound || clip == null || audioSource == null)
-            return;
-        audioSource.PlayOneShot(clip);
+        if (enableSound && clip && audioSource)
+            audioSource.PlayOneShot(clip);
     }
 
     void UpdateCharacterName()
@@ -155,8 +142,7 @@ public class PlayerCharacterSelector : MonoBehaviour
             ? randomOptionLabel
             : characters[currentIndex].name;
 
-        characterNameText.text = name +
-            (state == SelectionState.Confirmed ? " [READY]" : "");
+        characterNameText.text = name + (state == SelectionState.Confirmed ? " [READY]" : "");
     }
 
     void CreatePreviewImmediate(int index)
@@ -165,7 +151,7 @@ public class PlayerCharacterSelector : MonoBehaviour
 
         if (enableRandomOption && index == characters.Length)
         {
-            if (randomPreviewPrefab != null)
+            if (randomPreviewPrefab)
             {
                 currentPreviewInstance = Instantiate(randomPreviewPrefab, previewArea);
                 currentPreviewInstance.transform.localPosition = Vector3.zero;
@@ -184,39 +170,33 @@ public class PlayerCharacterSelector : MonoBehaviour
     {
         state = SelectionState.Transitioning;
 
-        // Salida
-        if (currentPreviewInstance != null)
+        if (currentPreviewInstance)
         {
             Vector3 start = currentPreviewInstance.transform.localPosition;
             Vector3 end = start + new Vector3(direction * slideDistance, 0, 0);
             float t = 0f;
             while (t < slideDuration)
             {
-                currentPreviewInstance.transform.localPosition =
-                    Vector3.Lerp(start, end, t / slideDuration);
+                currentPreviewInstance.transform.localPosition = Vector3.Lerp(start, end, t / slideDuration);
                 t += Time.deltaTime;
                 yield return null;
             }
             Destroy(currentPreviewInstance);
-            currentPreviewInstance = null;
         }
 
-        // Entrada
         if (enableRandomOption && newIndex == characters.Length)
         {
-            if (randomPreviewPrefab != null)
+            if (randomPreviewPrefab)
             {
                 currentPreviewInstance = Instantiate(randomPreviewPrefab, previewArea);
-                currentPreviewInstance.transform.localPosition =
-                    new Vector3(-direction * slideDistance, 0, 0);
+                currentPreviewInstance.transform.localPosition = new Vector3(-direction * slideDistance, 0, 0);
                 currentPreviewInstance.transform.localScale = Vector3.one;
             }
         }
         else
         {
             currentPreviewInstance = Instantiate(characters[newIndex], previewArea);
-            currentPreviewInstance.transform.localPosition =
-                new Vector3(-direction * slideDistance, 0, 0);
+            currentPreviewInstance.transform.localPosition = new Vector3(-direction * slideDistance, 0, 0);
             currentPreviewInstance.transform.localScale = Vector3.one;
         }
 
@@ -224,8 +204,7 @@ public class PlayerCharacterSelector : MonoBehaviour
         Vector3 startIn = currentPreviewInstance.transform.localPosition;
         while (tIn < slideDuration)
         {
-            currentPreviewInstance.transform.localPosition =
-                Vector3.Lerp(startIn, Vector3.zero, tIn / slideDuration);
+            currentPreviewInstance.transform.localPosition = Vector3.Lerp(startIn, Vector3.zero, tIn / slideDuration);
             tIn += Time.deltaTime;
             yield return null;
         }
@@ -236,7 +215,7 @@ public class PlayerCharacterSelector : MonoBehaviour
 
     void ClearPreview()
     {
-        if (currentPreviewInstance != null)
+        if (currentPreviewInstance)
         {
             Destroy(currentPreviewInstance);
             currentPreviewInstance = null;
