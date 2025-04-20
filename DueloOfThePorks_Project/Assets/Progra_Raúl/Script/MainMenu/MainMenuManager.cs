@@ -5,35 +5,40 @@ using System.Collections;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Paneles del Menú")]
-    public CanvasGroup panelMainMenu;    // Panel principal del menú (visible al inicio)
-    public CanvasGroup panelHowToPlay;   // Panel de "How To Play" (oculto al inicio)
+    public CanvasGroup panelMainMenu;
+    public CanvasGroup panelHowToPlay;
 
     [Header("Transición Visual (Opcional)")]
-    public CanvasGroup canvasTransicion; // Canvas para la transición (fade in/out)
+    public CanvasGroup canvasTransicion;
     public float duracionTransicion = 1f;
 
     [Header("Escena a Cargar")]
-    public string escenaAJugar;          // Nombre de la escena a cargar al pulsar "Jugar"
+    public string escenaAJugar; // Ej: "Scene_Pract"
+    public string escenaDeCarga = "EscenaCarga"; // Asegúrate que esta escena esté en Build Settings
+
+    [Header("Fondo de Vídeo (Opcional)")]
+    public GameObject videoBackground; // Arrastra aquí el GameObject con VideoBackground
 
     private void Start()
     {
-        // Se muestra solo el menú principal y se oculta el panel "How To Play"
         if (panelMainMenu != null)
             panelMainMenu.gameObject.SetActive(true);
         if (panelHowToPlay != null)
             panelHowToPlay.gameObject.SetActive(false);
 
-        // Configura el canvas de transición para que inicie oculto (opcional)
         if (canvasTransicion != null)
         {
             canvasTransicion.alpha = 0f;
             canvasTransicion.interactable = false;
             canvasTransicion.blocksRaycasts = false;
         }
+
+        // Activar fondo de vídeo si existe
+        if (videoBackground != null)
+            videoBackground.SetActive(true);
     }
 
     #region Gestión de Paneles
-    // Abre el panel "How To Play": oculta el menú principal y muestra el panel con un fade in
     public void AbrirHowToPlay()
     {
         if (panelMainMenu != null)
@@ -49,7 +54,6 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    // Cierra el panel "How To Play" y vuelve a mostrar el menú principal
     public void CerrarHowToPlay()
     {
         if (panelHowToPlay != null)
@@ -61,10 +65,11 @@ public class MainMenuManager : MonoBehaviour
     #endregion
 
     #region Cambio de Escena (Jugar)
-    // Llama a este método desde el botón "Jugar"
     public void Jugar()
     {
-        // Opcional: Realiza un efecto de fade de salida antes de cambiar de escena
+        PlayerPrefs.SetString("EscenaDestino", escenaAJugar);
+        PlayerPrefs.Save();
+
         if (canvasTransicion != null)
         {
             canvasTransicion.gameObject.SetActive(true);
@@ -72,20 +77,17 @@ public class MainMenuManager : MonoBehaviour
             canvasTransicion.blocksRaycasts = true;
             StartCoroutine(FadeCanvasGroup(canvasTransicion, 0f, 1f, 0.5f, () =>
             {
-                // Una vez completado el fade, carga la escena
-                SceneManager.LoadScene(escenaAJugar);
+                SceneManager.LoadScene(escenaDeCarga);
             }));
         }
         else
         {
-            // Si no se usa transición, carga la escena de inmediato
-            SceneManager.LoadScene(escenaAJugar);
+            SceneManager.LoadScene(escenaDeCarga);
         }
     }
     #endregion
 
     #region Corrutinas de Fade
-    // Corrutina para realizar un fade in/out de un CanvasGroup
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float startAlpha, float targetAlpha, float duration, System.Action onComplete = null)
     {
         float elapsed = 0f;
@@ -100,7 +102,6 @@ public class MainMenuManager : MonoBehaviour
         onComplete?.Invoke();
     }
 
-    // Corrutina que realiza el fade out de un CanvasGroup y luego lo desactiva
     private IEnumerator FadeOutAndDisable(CanvasGroup cg, float duration)
     {
         float startAlpha = cg.alpha;
@@ -119,7 +120,6 @@ public class MainMenuManager : MonoBehaviour
     #endregion
 
     #region Salir del Juego
-    // Método para salir del juego (incluye salida en el Editor de Unity)
     public void SalirDelJuego()
     {
         Application.Quit();
