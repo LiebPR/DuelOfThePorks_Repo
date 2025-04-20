@@ -50,7 +50,7 @@ public class GameTimer : MonoBehaviour
         lifeManager.transform.position = respawnPoints[randomIndex].position + randomOffset;
     }
 
-    
+
     IEnumerator PreMatchCountdown()
     {
         //Bloquear inputs
@@ -60,25 +60,25 @@ public class GameTimer : MonoBehaviour
             player1InputManager.ResetAllInputs();
         }
 
-        if(player2InputManager != null)
+        if (player2InputManager != null)
         {
             player2InputManager.inputLocked = true;
             player2InputManager.ResetAllInputs();
         }
 
         //Bloquear bullets
-        if(player1BulletManager != null)
+        if (player1BulletManager != null)
         {
             player1BulletManager.isLocked = true;
         }
-        if(player2BulletManager != null)
+        if (player2BulletManager != null)
         {
             player2BulletManager.isLocked = true;
         }
 
         int count = 3;
 
-        while(count > 0)
+        while (count > 0)
         {
             countdownText.text = count.ToString();
             yield return StartCoroutine(WaitForRealSeconds(1f));
@@ -105,7 +105,7 @@ public class GameTimer : MonoBehaviour
         if (player1BulletManager != null) player1BulletManager.isLocked = false;
         if (player2BulletManager != null) player2BulletManager.isLocked = false;
 
-        
+
         isTimmerRuning = true;
         StartCoroutine(UpdateTimer());
 
@@ -152,7 +152,7 @@ public class GameTimer : MonoBehaviour
         int player2Lives = player2LifeManager.GetLives();
 
         //Si las vidas no son iguales, el jugador con más vidas gana
-        if(player1Lives > player2Lives)
+        if (player1Lives > player2Lives)
         {
             Debug.Log("Jugador 1 gana por más vidas!");
         }

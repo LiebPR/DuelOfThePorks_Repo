@@ -53,7 +53,7 @@ public class PlayerAnimationBridge : MonoBehaviour
     {
         bool grounded = IsGrounded();
         animator.SetBool("Jump", !grounded);
-        if (inputManager.jumpInput && !grounded)
+        if (inputManager.jumpInput && grounded)
         {
             audioCtrl.PlayJump();
             inputManager.jumpInput = false;
@@ -64,27 +64,30 @@ public class PlayerAnimationBridge : MonoBehaviour
     private void HandleCrouch()
     {
         bool grounded = IsGrounded();
+        float h = inputManager.moveInput.x;
 
-        // entrar/agacharse
         if (inputManager.crouchInput && grounded && !isCrouched)
         {
             animator.SetTrigger("Crouch");
             isCrouched = true;
         }
-        // levantarse
-        else if (!inputManager.crouchInput && isCrouched)
-        {
-            animator.SetTrigger("StandUp");
-            isCrouched = false;
-        }
 
-        // caminar agachado
         if (isCrouched)
         {
-            float h = inputManager.moveInput.x;
-            animator.SetBool("CrouchWalk", Mathf.Abs(h) > 0.1f);
+            if (inputManager.crouchInput)
+            {
+                animator.SetBool("CrouchWalk", Mathf.Abs(h) > 0.1f && grounded); //Si se mueve. 
+            }
+            else
+            {
+
+                animator.SetTrigger("StandUp");
+                animator.SetBool("CrouchWalk", false);
+                isCrouched = false;
+            }
         }
-        else animator.SetBool("CrouchWalk", false);
+
+
     }
 
     private void HandleDash()

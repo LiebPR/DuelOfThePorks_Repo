@@ -769,10 +769,10 @@ MonoBehaviour:
   countdownTime: 205
   timerText: {fileID: 1650401333}
   countdownText: {fileID: 1784915792}
-  player1LifeManager: {fileID: 0}
-  player2LifeManager: {fileID: 0}
-  player1HitDetector: {fileID: 0}
-  player2HitDetector: {fileID: 0}
+  player1LifeManager: {fileID: 1353075423}
+  player2LifeManager: {fileID: 1105706181}
+  player1HitDetector: {fileID: 1353075418}
+  player2HitDetector: {fileID: 1105706171}
   player1InputManager: {fileID: 0}
   player2InputManager: {fileID: 0}
   player1BulletManager: {fileID: 0}
@@ -993,7 +993,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 13.53
+  orthographic size: 18.7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2001,6 +2001,7 @@ GameObject:
   - component: {fileID: 1105706173}
   - component: {fileID: 1105706172}
   - component: {fileID: 1105706171}
+  - component: {fileID: 1105706187}
   m_Layer: 8
   m_Name: LaserP2
   m_TagString: Untagged
@@ -2396,6 +2397,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1105706187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105706170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e08851184345734b959d1ad84f35286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTimer: {fileID: 0}
+  player1AnimBridge: {fileID: 0}
+  player2AnimBridge: {fileID: 0}
+  player1InputManager: {fileID: 0}
+  player2InputManager: {fileID: 0}
+  player1BulletManager: {fileID: 0}
+  player2BulletManager: {fileID: 0}
+  matchStarted: 0
+  matchEnded: 0
 --- !u!1 &1138698111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,6 +2969,7 @@ GameObject:
   - component: {fileID: 1353075428}
   - component: {fileID: 1353075427}
   - component: {fileID: 1353075426}
+  - component: {fileID: 1353075429}
   m_Layer: 6
   m_Name: LaserP1
   m_TagString: Untagged
@@ -3128,13 +3151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34bfbb68f3188141b76e3338f9687f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
   jumpForce: 12
   secondJumpForce: 10
   coyoteTime: 0.2
   fallMultipler: 2.5
   lowJumpMultiplier: 2
-  dashForce: 12
+  dashForce: 25
   dashDuration: 0.2
   dashCooldown: 1
   crouchSpeedMultiplier: 0.5
@@ -3469,6 +3492,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1353075429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353075409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e08851184345734b959d1ad84f35286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTimer: {fileID: 0}
+  player1AnimBridge: {fileID: 0}
+  player2AnimBridge: {fileID: 0}
+  player1InputManager: {fileID: 0}
+  player2InputManager: {fileID: 0}
+  player1BulletManager: {fileID: 0}
+  player2BulletManager: {fileID: 0}
+  matchStarted: 0
+  matchEnded: 0
 --- !u!1 &1365963404
 GameObject:
   m_ObjectHideFlags: 0
