@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: "Assets/Progra_Ra\xFAl/Scene/SceneIntro.unity"
+    guid: 0350e0f0642ec5443b3067651adf6599
+  - enabled: 1
     path: "Assets/Progra_Ra\xFAl/Scene/SceneManager.unity"
     guid: c545429cded4b2840aaec9f0795b509f
   - enabled: 1
