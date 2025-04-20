@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Componentes")]
     Rigidbody2D rb; 
-    CapsuleCollider2D capsuleCollider;
+    BoxCollider2D boxCollider;
     PlatformEffector2D platformEff2D; 
     float originalGravity;
     InputManager inputManager;
@@ -48,11 +48,13 @@ public class PlayerController : MonoBehaviour
     //Detectores:
     [Header("Ground Check")]
     [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f); //Tamaño del detector
+    [SerializeField] Vector2 groundCheckOffset = new Vector2(0f, -0.5f); //Posición del detector
     [SerializeField] LayerMask groundLayer; //Layer del Ground
     [SerializeField] bool isGrounded; //Esta tocando el suelo?
 
     [Header("Wall Check")]
     [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f); //Tamaño del detector
+    [SerializeField] Vector2 wallCheckOffset = new Vector2(0.5f, 0f); //Posición del detector
     [SerializeField] float lateralCheckDistance = 0.5f; //Posición del detector
     bool isTouchingWall; //Esta tocando la pared?
     
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         originalGravity = rb.gravityScale;
         _knockbackManager = GetComponent<KnockbackManager>();
     }
@@ -115,8 +117,8 @@ public class PlayerController : MonoBehaviour
             /*Creamos una nueva variable Vector2 llamada newOffset. Referenciamos el capsulleCollider mas exactamente su posición respecto al pivote del player.
              *Si el pivote del player a rotado el resto de componentes rotaran junto al player en la dirección en la que este orientado y mantenemos igual la direccion 
              *en y para que los componentes no flipeen.*/
-            Vector2 newOffset = new Vector2(capsuleCollider.offset.x * Mathf.Sign(horizontalInput), capsuleCollider.offset.y); 
-            capsuleCollider.offset = newOffset;
+            Vector2 newOffset = new Vector2(boxCollider.offset.x * Mathf.Sign(horizontalInput), boxCollider.offset.y); 
+            boxCollider.offset = newOffset;
         }
     }
 
@@ -191,7 +193,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * capsuleCollider.bounds.extents.y; //Cojemos la posición del transform y la sumamos en el eje y, para multiplicarlo por 
+            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * boxCollider.bounds.extents.y; //Cojemos la posición del transform y la sumamos en el eje y, para multiplicarlo por 
             bool headBlocked = Physics2D.Raycast(checkPosition, Vector2.up, 0.1f, groundLayer);
 
             if (!headBlocked)
@@ -268,25 +270,19 @@ public class PlayerController : MonoBehaviour
     //Detectores:
     void GroundCheck()
     {
-        Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
+        // Ground
+        Vector2 groundOrigin = (Vector2)transform.position + groundCheckOffset;
+        RaycastHit2D groundHit = Physics2D.BoxCast(groundOrigin, groundCheckSize, 0f, Vector2.down, 0f, groundLayer);
+        bool groundBelow = groundHit.collider != null;
 
-        //Detector del suelo:
-        Vector2 boxOrigin = bottomOfCapsule;
-        Vector2 boxSize = new Vector2(capsuleCollider.bounds.size.x, groundCheckSize.y);
+        // Wall (usa dirección del personaje)
+        float direction = Mathf.Sign(transform.localScale.x);
+        Vector2 wallOrigin = (Vector2)transform.position + new Vector2(wallCheckOffset.x * direction, wallCheckOffset.y);
+        RaycastHit2D wallHit = Physics2D.BoxCast(wallOrigin, wallCheckSize, 0f, Vector2.right * direction, 0f, groundLayer);
+        bool wallTouch = wallHit.collider != null;
 
-        RaycastHit2D hit = Physics2D.BoxCast(boxOrigin, boxSize, 0f, Vector2.down, 0f, groundLayer);
-        bool groundBelow = hit.collider != null;
-
-        //Detector de la pared:
-        float direction = transform.localScale.x;
-        Vector2 lateralBoxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
-        Vector2 lateralBoxSize = wallCheckSize;
-
-        RaycastHit2D sidehit = Physics2D.BoxCast(lateralBoxOrigin, lateralBoxSize, 0f, Vector2.right * direction, 0f, groundLayer);
-        bool groundSide = sidehit.collider != null;
-
-        isGrounded = groundBelow || groundSide; //Si cualquiera de las 2 variables toca el suelo isGrounded es true.
-
+        isGrounded = groundBelow || wallTouch; //Si cualquiera de las 2 variables toca el suelo isGrounded es true.
+        isTouchingWall = wallTouch;
 
         if (isGrounded)
         {
@@ -306,26 +302,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (capsuleCollider == null)
+        if (boxCollider == null)
         {
-            capsuleCollider = GetComponent<CapsuleCollider2D>();
-            if (capsuleCollider == null)
+            boxCollider = GetComponent<BoxCollider2D>();
+            if (boxCollider == null)
             {
                 return;
             }
         }
 
-        // Boxcast Suelo
-        Vector2 bottomOfCapsule = (Vector2)transform.position - new Vector2(0, capsuleCollider.bounds.extents.y);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(bottomOfCapsule, new Vector2(capsuleCollider.bounds.size.x, groundCheckSize.y));
 
-        // Boxcast lateral
-        float direction = transform.localScale.x;
-        Vector2 lateralBoxOrigin = (Vector2)transform.position + new Vector2(direction * lateralCheckDistance, -capsuleCollider.bounds.extents.y * 0.5f);
+        // Ground
+        Vector2 groundOrigin = (Vector2)transform.position + groundCheckOffset;
+        Gizmos.DrawWireCube(groundOrigin, groundCheckSize);
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(lateralBoxOrigin, wallCheckSize);
+        // Wall
+        float direction = Application.isPlaying ? Mathf.Sign(transform.localScale.x) : 1f;
+        Vector2 wallOrigin = (Vector2)transform.position + new Vector2(wallCheckOffset.x * direction, wallCheckOffset.y);
+        Gizmos.DrawWireCube(wallOrigin, wallCheckSize);
     }
 
     public bool IsGrounded()
