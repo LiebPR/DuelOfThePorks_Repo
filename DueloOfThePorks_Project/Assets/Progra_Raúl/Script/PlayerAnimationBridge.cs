@@ -11,37 +11,18 @@ public class PlayerAnimationBridge : MonoBehaviour
     private Animator animator;
     private InputManager inputManager;
     private PlayerController playerController;
-    private KnockbackManager knockbackManager;
     private CharacterAudioController audioCtrl;
     private FieldInfo groundedField;
-
-    [Header("Configuración de sufijo")]
-    [Tooltip("Ej: _Jamonnator, _Tocinete… Si queda vacío, se detecta del primer clip.")]
-    public string characterSuffix;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         inputManager = GetComponent<InputManager>();
         playerController = GetComponent<PlayerController>();
-        knockbackManager = GetComponent<KnockbackManager>();
         audioCtrl = GetComponent<CharacterAudioController>();
 
-        // Para leer el campo privado isGrounded de PlayerController
         groundedField = typeof(PlayerController)
             .GetField("isGrounded", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        // Auto‑sufijo si no se pone manual
-        if (string.IsNullOrEmpty(characterSuffix))
-        {
-            var clips = animator.GetCurrentAnimatorClipInfo(0);
-            if (clips.Length > 0)
-            {
-                string n = clips[0].clip.name;
-                int i = n.IndexOf('_');
-                if (i != -1) characterSuffix = n.Substring(i);
-            }
-        }
     }
 
     void Update()
@@ -50,7 +31,7 @@ public class PlayerAnimationBridge : MonoBehaviour
         HandleJump();
         HandleCrouch();
         HandleDash();
-        HandleAttackInputs();
+        HandleAttacks();
     }
 
     private bool IsGrounded()
@@ -60,97 +41,100 @@ public class PlayerAnimationBridge : MonoBehaviour
         return false;
     }
 
-    void HandleMovement()
+    private void HandleMovement()
     {
-        float x = inputManager.moveInput.x;
-        animator.SetBool("Walk", Mathf.Abs(x) > 0.1f);
-        if (x != 0f)
-            transform.localScale = new Vector3(Mathf.Sign(x), 1f, 1f);
+        float h = inputManager.moveInput.x;
+        animator.SetBool("Walk", Mathf.Abs(h) > 0.1f);
+        if (h != 0f)
+            transform.localScale = new Vector3(Mathf.Sign(h), 1f, 1f);
     }
 
-    void HandleJump()
+    private void HandleJump()
     {
         bool grounded = IsGrounded();
         animator.SetBool("Jump", !grounded);
-
         if (inputManager.jumpInput && !grounded)
+        {
             audioCtrl.PlayJump();
+            inputManager.jumpInput = false;
+        }
     }
 
-    void HandleCrouch()
+    private bool isCrouched;
+    private void HandleCrouch()
     {
         bool grounded = IsGrounded();
-        bool crouch = inputManager.crouchInput && grounded;
-        animator.SetBool("Crouch", crouch);
-        animator.SetBool("CrouchWalk", crouch && Mathf.Abs(inputManager.moveInput.x) > 0.1f);
+
+        // entrar/agacharse
+        if (inputManager.crouchInput && grounded && !isCrouched)
+        {
+            animator.SetTrigger("Crouch");
+            isCrouched = true;
+        }
+        // levantarse
+        else if (!inputManager.crouchInput && isCrouched)
+        {
+            animator.SetTrigger("StandUp");
+            isCrouched = false;
+        }
+
+        // caminar agachado
+        if (isCrouched)
+        {
+            float h = inputManager.moveInput.x;
+            animator.SetBool("CrouchWalk", Mathf.Abs(h) > 0.1f);
+        }
+        else animator.SetBool("CrouchWalk", false);
     }
 
-    void HandleDash()
+    private void HandleDash()
     {
         if (inputManager.dashInput)
         {
-            animator.SetTrigger("Dash" + characterSuffix);
+            animator.SetTrigger("Dash");
             audioCtrl.PlayDash();
+            inputManager.dashInput = false;
         }
     }
 
-    void HandleAttackInputs()
+    private void HandleAttacks()
     {
+        // básico / up / down / special
         if (inputManager.baseAttackInput)
         {
-            if (inputManager.isWPressed && !inputManager.isSPressed) PlayUpAttack();
-            else if (inputManager.isSPressed && !inputManager.isWPressed) PlayDownAttack();
-            else PlayBaseAttack();
+            if (inputManager.isWPressed && !inputManager.isSPressed)
+            {
+                animator.SetTrigger("UpAttack");
+                audioCtrl.PlayUpAttack();
+            }
+            else if (inputManager.isSPressed && !inputManager.isWPressed)
+            {
+                animator.SetTrigger("DownAttack");
+                audioCtrl.PlayDownAttack();
+            }
+            else
+            {
+                animator.SetTrigger("AttackBasic");
+                audioCtrl.PlayBaseAttack();
+            }
 
             inputManager.ResetBaseAttackInput();
         }
+
+        // ataque fuerte
         if (inputManager.strongAttackInput)
         {
-            PlayStrongAttack();
+            animator.SetTrigger("AttackStrong");
+            audioCtrl.PlayStrongAttack();
             inputManager.ResetStrongAttackInput();
         }
-    }
 
-    // Cada método de ataque dispara animación + audio correspondiente:
-    public void PlayBaseAttack()
-    {
-        animator.SetTrigger("AttackBasic" + characterSuffix);
-        audioCtrl.PlayBaseAttack();
-    }
-
-    public void PlayUpAttack()
-    {
-        animator.SetTrigger("UpAttack" + characterSuffix);
-        audioCtrl.PlayUpAttack();
-    }
-
-    public void PlayDownAttack()
-    {
-        animator.SetTrigger("DownAttack" + characterSuffix);
-        audioCtrl.PlayDownAttack();
-    }
-
-    public void PlayStrongAttack()
-    {
-        animator.SetTrigger("AttackStrong" + characterSuffix);
-        audioCtrl.PlayStrongAttack();
-    }
-
-    public void PlaySpecialAttack()
-    {
-        animator.SetTrigger("AttackSpecial" + characterSuffix);
-        audioCtrl.PlaySpecialAttack();
-    }
-
-    public void PlayJumpAttack()
-    {
-        animator.SetTrigger("JumpAttack" + characterSuffix);
-        audioCtrl.PlayJumpAttack();
-    }
-
-    public void PlayHurt()
-    {
-        animator.SetTrigger("Hurt" + characterSuffix);
-        audioCtrl.PlayHurt();
+        // **ataque especial** (si tienes un input para ello)
+        if (inputManager.specialAttackInput)  // ← asume que existe en tu InputManager
+        {
+            animator.SetTrigger("AttackSpecial");
+            audioCtrl.PlaySpecialAttack();
+            inputManager.ResetSpecialAttackInput();
+        }
     }
 }
