@@ -6003,11 +6003,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 11400000, guid: 0127d1f754b7103498d3993de86660dd, type: 2}
-  - {fileID: 11400000, guid: d9f080e9de8a8224b9e9cfcc8f6c0dcc, type: 2}
-  - {fileID: 11400000, guid: 67bee57ee3660514e963752d1f6f8a6c, type: 2}
-  - {fileID: 11400000, guid: 03dca6d51a3d91c4cb1e8f5830a2236c, type: 2}
-  - {fileID: 11400000, guid: ea15b28dcfeb7ac419385d8597aaacfe, type: 2}
+  - {fileID: 11400000, guid: 2d56c3f6132ad8d449e54b5e3dfed8f9, type: 2}
+  - {fileID: 11400000, guid: a833378f5bca39a489cc1d04c9a5bfd0, type: 2}
+  - {fileID: 11400000, guid: 32b775469335d0e45a38892e677f2386, type: 2}
+  - {fileID: 11400000, guid: 0fc35cc30278c4d489af4496aa97154a, type: 2}
+  - {fileID: 11400000, guid: 8b38fe24fea3a9a459d1cff1c2223922, type: 2}
   attackPoint: {fileID: 1912519656}
 --- !u!114 &1879982400
 MonoBehaviour:
