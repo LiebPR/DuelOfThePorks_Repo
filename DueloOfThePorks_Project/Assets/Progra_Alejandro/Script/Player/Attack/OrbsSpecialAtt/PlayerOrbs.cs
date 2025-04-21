@@ -27,6 +27,11 @@ public class PlayerOrbs : MonoBehaviour
         if (CanPickUpOrb())
         {
             currentOrbs++;
+            if(orbChargeUI != null && !orbChargeUI.gameObject.activeSelf)
+            {
+                orbChargeUI.SetVisible(true);
+            }
+
             UpdateUI();
         }
     }
