@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewAttack", menuName = "Attack/ AttackSettings", order = 1)]
+[CreateAssetMenu(fileName = "NewAttack", menuName = "Attack/AttackSettings", order = 1)]
 public class Attack : ScriptableObject
 {
     [Header("Attack Settings")]
@@ -13,92 +13,65 @@ public class Attack : ScriptableObject
     [SerializeField] Vector2 boxOffset = Vector2.zero;
     [SerializeField] LayerMask targetLayer;
 
-    Rigidbody2D playerRb;
-    PlayerController playerController;
-    static Transform debugAttackPoint;
+    public float GetCooldownTime() => cooldownTime;
 
-    public void Initialize(PlayerController controller)
+    /// <summary>
+    /// Ejecuta el ataque. 
+    /// - attackPoint: Transform del punto de origen.
+    /// - hitter: GameObject que realiza el ataque.
+    /// - isPlayerOneAttacker: si es el jugador 1 o no.
+    /// </summary>
+    public void PerformAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
     {
-        playerController = controller;
-        playerRb = playerController.GetComponent<Rigidbody2D>();
+        OverlapAttack(attackPoint, hitter, isPlayerOneAttacker);
     }
 
-    public float GetCooldownTime()
+    private void OverlapAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
     {
-        return cooldownTime;
-    }
-
-    public void PerformAttack(Transform attackPoint, bool isPlayerOneAttacker)
-    {
-        OverlapAttack(attackPoint, isPlayerOneAttacker);
-    }
-
-    //Cast:
-    public void OverlapAttack(Transform attackPoint, bool isPlayerOneAttacker)
-    {
-        // Usamos el signo del scale para reflejar la dirección del ataque
-        float facingDirection = Mathf.Sign(attackPoint.lossyScale.x); // Usamos lossyScale para heredar bien el flip
-
-        Vector2 flippedOffset = new Vector2(boxOffset.x * facingDirection, boxOffset.y);
-
+        float facing = Mathf.Sign(attackPoint.lossyScale.x);
+        Vector2 flippedOffset = new Vector2(boxOffset.x * facing, boxOffset.y);
         Vector2 origin = (Vector2)attackPoint.position + flippedOffset;
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(origin, boxSize, 0f, targetLayer);
-
-        foreach (Collider2D hit in hits)
-        {
-            TryDamageTarget(hit, attackPoint, isPlayerOneAttacker);
-        }
+        foreach (var hit in hits)
+            TryDamageTarget(hit, attackPoint, hitter, isPlayerOneAttacker);
     }
 
-    void TryDamageTarget(Collider2D targetCollider, Transform attackPoint, bool isPlayerOneAttacker)
+    private void TryDamageTarget(Collider2D target, Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
     {
-        InputManager targetInput = targetCollider.GetComponent<InputManager>();
-        if (targetInput != null && targetInput.isPlayerOne == isPlayerOneAttacker)
-        {
-            //No ataca al mismo bando
+        // No golpear aliados
+        var inp = target.GetComponent<InputManager>();
+        if (inp != null && inp.isPlayerOne == isPlayerOneAttacker)
             return;
-        }
 
-        HitDetector hitDetector = targetCollider.GetComponent<HitDetector>();
-        KnockbackManager knockbackManager = targetCollider.GetComponent<KnockbackManager>();
-
-        if (knockbackManager != null)
+        // Knockback
+        var hd = target.GetComponent<HitDetector>();
+        var kb = target.GetComponent<KnockbackManager>();
+        if (kb != null && hd != null)
         {
-            //Calculamos la dirección del knockback, que es la dirección desde el punto de ataque hacia el objetivo.
-            Vector2 knockbacDirection = (targetCollider.transform.position - attackPoint.position).normalized;
-
-            //Obtenemos el knockback, pasándole el porcentaje de daño.
-            float targetDamagePercentage = hitDetector.damagePercentage;
-
-            //Iniciamos el knockback, pasandole el porcentaje de daño.
-            knockbackManager.StartKnockback(knockbacDirection, knockbackForce, 0.5f, targetDamagePercentage);
+            Vector2 dir = (target.transform.position - attackPoint.position).normalized;
+            float extra = Mathf.Floor(hd.damagePercentage / 10f) * 2f;
+            kb.StartKnockback(dir, knockbackForce + extra, 0.5f, hd.damagePercentage);
         }
 
-        IDamageable damageable = targetCollider.GetComponent<IDamageable>();
-
-        //Si es una orbe le pasamos quién la golpeó
-        OrbsSpecialAtt orb = targetCollider.GetComponent<OrbsSpecialAtt>();
+        // Orbes especiales: asignar hitter
+        var orb = target.GetComponent<OrbsSpecialAtt>();
         if (orb != null)
-        {
-            orb.SetLastHitter(playerController.gameObject);
-        }
+            orb.SetLastHitter(hitter);
 
-        if (damageable != null)
-        {
-            damageable.ReciveDamage(damage);
-        }
+        // Daño
+        var dmg = target.GetComponent<IDamageable>();
+        if (dmg != null)
+            dmg.ReciveDamage(damage);
     }
 
-
+    // Para dibujar el área de ataque en el Scene view
     public void DrawGizmos(Transform attackPoint)
     {
         if (attackPoint == null) return;
-
-        float facingDirection = Mathf.Sign(attackPoint.lossyScale.x);
-        Vector2 flippedOffset = new Vector2(boxOffset.x * facingDirection, boxOffset.y);
+        float facing = Mathf.Sign(attackPoint.lossyScale.x);
+        Vector2 flippedOffset = new Vector2(boxOffset.x * facing, boxOffset.y);
         Vector2 origin = (Vector2)attackPoint.position + flippedOffset;
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(origin, boxSize);
     }

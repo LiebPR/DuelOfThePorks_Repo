@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class AttackManager : MonoBehaviour
 {
-    [SerializeField] public Attack[] attackSettingsArray; // Array de ataques
-    [SerializeField] Transform attackPoint; // Punto de ataque
+    [SerializeField] public Attack[] attackSettingsArray;
+    [SerializeField] Transform attackPoint;
 
     private InputManager inputManager;
     private PlayerOrbs playerOrbs;
-
-    private float[] attackCooldownTimers; // Temporizador por cada ataque
+    private float[] cooldownTimers;
 
     private void Awake()
     {
@@ -20,57 +19,48 @@ public class AttackManager : MonoBehaviour
 
     private void Start()
     {
-        var playerController = GetComponent<PlayerController>();
-        if (playerController != null && attackSettingsArray.Length > 0)
-        {
-            attackCooldownTimers = new float[attackSettingsArray.Length];
-
-            for (int i = 0; i < attackSettingsArray.Length; i++)
-            {
-                if (attackSettingsArray[i] != null)
-                {
-                    attackSettingsArray[i].Initialize(playerController);
-                    attackCooldownTimers[i] = 0f;
-                }
-            }
-        }
+        cooldownTimers = new float[attackSettingsArray.Length];
+        for (int i = 0; i < cooldownTimers.Length; i++)
+            cooldownTimers[i] = 0f;
     }
 
     private void Update()
     {
-        for (int i = 0; i < attackCooldownTimers.Length; i++)
-        {
-            if (attackCooldownTimers[i] > 0f)
-                attackCooldownTimers[i] -= Time.deltaTime;
-        }
+        for (int i = 0; i < cooldownTimers.Length; i++)
+            if (cooldownTimers[i] > 0f)
+                cooldownTimers[i] -= Time.deltaTime;
     }
 
+    /// <summary>
+    /// Intenta realizar el ataque de índice ‘index’.
+    /// Devuelve true si se ejecutó correctamente.
+    /// </summary>
     public bool TryPerformAttack(int index)
     {
-        if (index < 0 || index >= attackSettingsArray.Length || attackSettingsArray[index] == null)
+        if (index < 0 || index >= attackSettingsArray.Length) return false;
+        if (attackSettingsArray[index] == null) return false;
+        if (cooldownTimers[index] > 0f) return false;
+
+        // Sólo permitir Special (4) si hay orbes suficientes
+        if (index == 4 && !playerOrbs.CanUseSpecialAttack())
             return false;
 
-        if (attackCooldownTimers[index] <= 0f)
-        {
-            attackSettingsArray[index].PerformAttack(attackPoint, inputManager.isPlayerOne);
-            attackCooldownTimers[index] = attackSettingsArray[index].GetCooldownTime();
-            Debug.Log($"Ataque realizado con daño: {attackSettingsArray[index].damage}, cooldown: {attackCooldownTimers[index]}s.");
-            return true;
-        }
+        // Ejecutar ataque
+        attackSettingsArray[index]
+            .PerformAttack(attackPoint, gameObject, inputManager.isPlayerOne);
+        cooldownTimers[index] = attackSettingsArray[index].GetCooldownTime();
 
-        Debug.Log($"Cooldown activo para el ataque {attackSettingsArray[index].name}, queda: {attackCooldownTimers[index]}s.");
-        return false;
+        // Si era Special, consumimos las orbes
+        if (index == 4)
+            playerOrbs.ConsumeOrbs();
+
+        return true;
     }
 
     private void OnDrawGizmos()
     {
-        if (attackSettingsArray != null && attackPoint != null)
-        {
-            foreach (var attack in attackSettingsArray)
-            {
-                if (attack != null)
-                    attack.DrawGizmos(attackPoint);
-            }
-        }
+        if (attackSettingsArray == null || attackPoint == null) return;
+        foreach (var atk in attackSettingsArray)
+            atk?.DrawGizmos(attackPoint);
     }
 }

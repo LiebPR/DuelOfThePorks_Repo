@@ -29,52 +29,35 @@ public class AnimatorManager : MonoBehaviour
 
     void HandleJump()
     {
-        if(animInput.jumpInput && playerControlanim.IsGrounded())
-        {
+        bool grounded = playerControlanim.IsGrounded();
+        if ((animInput.jumpInput && grounded) || !grounded)
             animManager.SetBool("Jump", true);
-        }
-        else if (!playerControlanim.IsGrounded())
-        {
-            animManager.SetBool("Jump", true);
-        }
         else
-        {
             animManager.SetBool("Jump", false);
-        }
     }
 
     void HandleDash()
     {
         bool isDashingNow = playerControlanim.IsDashing();
-
-        if(!wasDashing && isDashingNow)
+        if (!wasDashing && isDashingNow)
         {
-            animManager.ResetTrigger("Dash"); //Por si estaba bloqueado
+            animManager.ResetTrigger("Dash");
             animManager.SetTrigger("Dash");
         }
     }
 
     void HandleWalk()
     {
-        bool isMoving = Mathf.Abs(playerControlanim.GetComponent<Rigidbody2D>().velocity.x) > 0.1f; //El player se esta moviendo
-
-        if (playerControlanim.IsGrounded() && isMoving)
-        {
-            animManager.SetBool("Walk", true);
-        }
-        else
-        {
-            animManager.SetBool("Walk", false);
-        }
+        bool isMoving = Mathf.Abs(playerControlanim.GetComponent<Rigidbody2D>().velocity.x) > 0.1f;
+        animManager.SetBool("Walk", playerControlanim.IsGrounded() && isMoving);
     }
 
-    
     void HandleCrouch()
     {
-        bool ground = playerControlanim.IsGrounded();
+        bool grounded = playerControlanim.IsGrounded();
         float h = animInput.moveInput.x;
 
-        if(animInput.crouchInput && ground && !isCrouching)
+        if (animInput.crouchInput && grounded && !isCrouching)
         {
             animManager.SetTrigger("Crouch");
             isCrouching = true;
@@ -83,9 +66,7 @@ public class AnimatorManager : MonoBehaviour
         if (isCrouching)
         {
             if (animInput.crouchInput)
-            {
-                animManager.SetBool("CrouchWalk", Mathf.Abs(h) > 0.1f && ground);
-            }
+                animManager.SetBool("CrouchWalk", Mathf.Abs(h) > 0.1f && grounded);
             else
             {
                 animManager.SetTrigger("StandUp");
@@ -95,17 +76,30 @@ public class AnimatorManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Lanza la animación según el índice de ataque.
+    /// 0: UpAttack, 1: DownAttack, 2: AttackBasic, 3: AttackStrong, 4: AttackSpecial
+    /// </summary>
     public void PlayAttackAnimation(int index)
     {
-        if (index == 0)
-            animManager.SetTrigger("UpAttack");
-        else if (index == 1)
-            animManager.SetTrigger("DownAttack");
-        else if (index == 2)
-            animManager.SetTrigger("AttackBasic");
-        else if (index == 3)
-            animManager.SetTrigger("AttackStrong");
-        else if (index == 4 && GetComponent<PlayerOrbs>().CanUseSpecialAttack())
-            animManager.SetTrigger("AttackSpecial");
+        switch (index)
+        {
+            case 0:
+                animManager.SetTrigger("UpAttack");
+                break;
+            case 1:
+                animManager.SetTrigger("DownAttack");
+                break;
+            case 2:
+                animManager.SetTrigger("AttackBasic");
+                break;
+            case 3:
+                animManager.SetTrigger("AttackStrong");
+                break;
+            case 4:
+                if (GetComponent<PlayerOrbs>().CanUseSpecialAttack())
+                    animManager.SetTrigger("AttackSpecial");
+                break;
+        }
     }
 }

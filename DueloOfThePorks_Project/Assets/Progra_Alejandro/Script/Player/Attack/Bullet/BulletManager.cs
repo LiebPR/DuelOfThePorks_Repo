@@ -5,20 +5,20 @@ public class BulletManager : MonoBehaviour
     [SerializeField] BulletSettings[] bulletSettingsArray;
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float globalAttackCooldown = 0.4f;
-    float lastAttackTime = -999f;
 
     private InputManager inputManager;
     private AttackManager attackManager;
+    private PlayerOrbs playerOrbs;
 
     private float[] bulletCooldowns;
-
-    //Variable publica para el GameTimer
-    public bool isLocked = false; //Se podrá modificar desde GameTimer
+    private float lastAttackTime = -999f; // ahora es campo de instancia
+    public bool isLocked = false;         // modificado por GameTimer
 
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
         attackManager = GetComponent<AttackManager>();
+        playerOrbs = GetComponent<PlayerOrbs>();
         bulletCooldowns = new float[bulletSettingsArray.Length];
     }
 
@@ -32,47 +32,54 @@ public class BulletManager : MonoBehaviour
     {
         if (isLocked) return;
 
-        //Reducimos cooldowns individuales
+        // Reducir cooldowns individuales
         for (int i = 0; i < bulletCooldowns.Length; i++)
-        {
             if (bulletCooldowns[i] > 0f)
                 bulletCooldowns[i] -= Time.deltaTime;
-        }
 
+        // Cooldown global
         if (Time.time - lastAttackTime < globalAttackCooldown) return;
 
-        //Orden de prioridad de ataques
-
-        if (!isLocked && inputManager.specialAttackInput && GetComponent<PlayerOrbs>().CanUseSpecialAttack())
+        // Special Attack (índice 4)
+        if (inputManager.specialAttackInput && playerOrbs.CanUseSpecialAttack())
         {
-            GetComponent<PlayerOrbs>().ConsumeOrbs();
-            HandleAttackLogic(4);
-            ResetAllAttackInoputs();
-        }
-
-        if (!isLocked && inputManager.strongAttackInput)
-        {
-            HandleAttackLogic(3);
-            ResetAllAttackInoputs();
-        }
-
-        if (!isLocked && inputManager.baseAttackInput)
-        {
-            int index = GetInputDirectionIndex();
-            if (index != -1)
+            bool didFire = HandleAttackLogic(4);
+            if (didFire)
             {
-                HandleAttackLogic(index);
-                ResetAllAttackInoputs();
+                playerOrbs.ConsumeOrbs();
+                lastAttackTime = Time.time;
             }
-        }  
+            ResetAllAttackInputs();
+            return;
+        }
+
+        // Strong Attack (índice 3)
+        if (inputManager.strongAttackInput)
+        {
+            bool didFire = HandleAttackLogic(3);
+            if (didFire) lastAttackTime = Time.time;
+            ResetAllAttackInputs();
+            return;
+        }
+
+        // Base Attack (índices 0–2 según dirección)
+        if (inputManager.baseAttackInput)
+        {
+            int idx = GetInputDirectionIndex();
+            if (idx != -1)
+            {
+                bool didFire = HandleAttackLogic(idx);
+                if (didFire) lastAttackTime = Time.time;
+                ResetAllAttackInputs();
+            }
+        }
     }
 
-    // Método de utilidad para limpiar todos los inputs de ataque
-    void ResetAllAttackInoputs()
+    void ResetAllAttackInputs()
     {
         inputManager.ResetBaseAttackInput();
         inputManager.ResetStrongAttackInput();
-        inputManager.ResetStrongAttackInput();
+        inputManager.ResetSpecialAttackInput();
     }
 
     int GetInputDirectionIndex()
@@ -83,36 +90,40 @@ public class BulletManager : MonoBehaviour
         return -1;
     }
 
-    void HandleAttackLogic(int index)
+    /// <summary>
+    /// Ejecuta ataque o dispara bala según el índice.
+    /// Devuelve true si realmente se disparó/atacó.
+    /// </summary>
+    bool HandleAttackLogic(int index)
     {
-        bool bulletExists = index < bulletSettingsArray.Length && bulletSettingsArray[index] != null;
-        bool attackExists = attackManager != null && index < attackManager.attackSettingsArray.Length && attackManager.attackSettingsArray[index] != null;
+        bool hasBullet = index < bulletSettingsArray.Length && bulletSettingsArray[index] != null;
+        bool hasAttack = attackManager != null &&
+                         index < attackManager.attackSettingsArray.Length &&
+                         attackManager.attackSettingsArray[index] != null;
 
-        if (bulletExists && attackExists)
+        if (hasBullet && hasAttack)
         {
-            Debug.LogError($"¡Conflicto! Ambos sistemas tienen ataques en la misma posición del array ({index})");
-            return;
+            Debug.LogError($"¡Conflicto! Ambos sistemas en índice {index}");
+            return false;
         }
 
-        // Obtenemos el AnimatorManager
-        var animatorManager = GetComponent<AnimatorManager>();
-
-        if (bulletExists)
+        var animator = GetComponent<AnimatorManager>();
+        if (hasBullet)
         {
-            TryShoot(index); // Disparo
-            animatorManager?.PlayAttackAnimation(index); // Animación correspondiente
-            return;
+            TryShoot(index);
+            animator?.PlayAttackAnimation(index);
+            bulletCooldowns[index] = bulletSettingsArray[index].cooldownTime;
+            return true;
         }
-        if (attackExists)
+        if (hasAttack)
         {
-            if (attackManager.TryPerformAttack(index)) // Si el ataque se ejecuta correctamente
-            {
-                animatorManager?.PlayAttackAnimation(index); // Animación correspondiente
-            }
-            return;
+            bool ok = attackManager.TryPerformAttack(index);
+            if (ok) animator?.PlayAttackAnimation(index);
+            return ok;
         }
 
-        Debug.LogWarning($"No hay ataque ni bala asignado en el índice {index}.");
+        Debug.LogWarning($"No hay ataque ni bala asignado en índice {index}.");
+        return false;
     }
 
     void TryShoot(int index)
@@ -135,8 +146,5 @@ public class BulletManager : MonoBehaviour
         bullet.direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
         bulletObj.SetActive(true);
-        bulletCooldowns[index] = bulletSettingsArray[index].cooldownTime;
-
-        Debug.Log("Bullet fired from index: " + index);
     }
 }
