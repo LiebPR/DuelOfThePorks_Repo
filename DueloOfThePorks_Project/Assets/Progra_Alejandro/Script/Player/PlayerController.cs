@@ -178,6 +178,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public int GetJumpCount()
+    {
+        return jumpCount;
+    }
+
     void HandleCrouch()
     {
         if (inputManager.crouchInput && isGrounded) //Condición; Sí aprietas el boton de agacharse y estas isgrounded hace:
@@ -267,6 +272,11 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public bool IsDashing()
+    {
+        return isDashing;
+    }
+
     //Detectores:
     void GroundCheck()
     {
@@ -329,46 +339,5 @@ public class PlayerController : MonoBehaviour
     }
 }
 
-/*Mathf: 
-  Es una clase estetica que contiene un montón de funciones y constantes matemáticas útiles, pensadas para trabajar con números tipo Float.
-  (Ahorra tiempo de codeo y te facilita el no tener que saber de algebra o trigonometria)
-  
-  Calculos de Mathf:
-    -Sign:
-     Si dices Mathf.Sign(x) pillaría 1, -1 o 0. Lo mismo con todos los ejes.(Tiene definido de base en unity cual es la izquierda o derecha y cual es arriba o abajo)
-     Muy util para ahorrar codigo. Ejemplo.
-     Mathf.Sign(y) == 1 Significa que esta Subiendo
-     Mathf.Sign(y) == -1 Significa que esta Bajando
-     Mathf.Sign(y) == 0 Significa que esta Flotando
-    
-    -Abs: Es igual que Mathf pero menos concreto. Te pasa los valores osea 1, 2, 3 o 100 pero no te pasa -100 o +100.
-    
-    -Infinity:
-     Es el valor más extremo de algo si. (Mathf.Infinity = Es el infinito positiovo osea el numero más grande / -Mathf.Infinity = Es el infinito negativo que es el numero más pequeño)
-     Solo se usa en comparaciones "Absurdas" de un numero entero o Float con un numero infinito positivo o negativo.*/
 
-/* void Flip(float horizontalInput): 
- * Esto es una clase con un parametro tipo Float  horitzontalInput es el nombre de la variable que va a recibir este valor.*/
-
-/*offset: 
- *Este se encarga de ajustar o orinter correctamente los componentes del GameObject que tiene adjuntado el script.*/
-
-/* AddForce:
- * Función de unity que se usa para aplicar una fuerza a un Rigidbody ya sea 2D o 3D
- * Formas de aplicar dicha fuerza:
- *      -Impulse = Le das una patada -> sale volando.
- *      -Force = Aplica una fuerza constante pero teniendo en cuenta la masa del player.
- *      -VelocityChange = La teletransportas con velocidad
- *      -Acceleratión = Aplica una fuerza constante sin tener en cuenta la masa del Rigidbody*/
-
-/* ¿Porque se hace esto?
- * 
- * rb.velocity = new Vector2(rb.velocity.x, 0); 
- * Para poder evitar que el doble salto herede la caida. Borra la bajada antes de impulsarse hacía arriba para evitarse problemas.*/
-
-/* enabled: 
- * Es una propiedad que poseen mchos componentes (Colliders, scripts, renderers..) sirven para activar o desactivar dichos componentes.*/
-
-/* bounds:
-   Es un dibujo que hace unity para referenciar el tamaño del collider. */
 

@@ -94,20 +94,25 @@ public class BulletManager : MonoBehaviour
             return;
         }
 
+        // Obtenemos el AnimatorManager
+        var animatorManager = GetComponent<AnimatorManager>();
+
         if (bulletExists)
         {
-            TryShoot(index); //Si hay bala disparamos
+            TryShoot(index); // Disparo
+            animatorManager?.PlayAttackAnimation(index); // Animación correspondiente
             return;
         }
         if (attackExists)
         {
-            attackManager.TryPerformAttack(index); //Si no hay bala pero si ataque, atacamos
+            if (attackManager.TryPerformAttack(index)) // Si el ataque se ejecuta correctamente
+            {
+                animatorManager?.PlayAttackAnimation(index); // Animación correspondiente
+            }
             return;
         }
-        else
-        {
-            Debug.LogWarning($"No hay ataque ni bala asignado en el índice {index}.");
-        }
+
+        Debug.LogWarning($"No hay ataque ni bala asignado en el índice {index}.");
     }
 
     void TryShoot(int index)

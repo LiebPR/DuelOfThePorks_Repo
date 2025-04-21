@@ -13,6 +13,7 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
 
     [SerializeField] float orbLifetime = 10f;
     [SerializeField] float warningTime = 3f;
+    bool isDestroy = false;
 
     private void Awake()
     {
@@ -31,7 +32,8 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
 
     public void ReciveDamage(float damage)
     {
-        //Identificamos quién la golpeó
+        if (isDestroy) return;
+
         GameObject hitter = GetLastHitter();
         if (hitter == null) return;
 
@@ -39,6 +41,7 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
         if(pLayerOrbs != null && pLayerOrbs.CanPickUpOrb())
         {
             pLayerOrbs.AddOrb();
+            isDestroy = true;
             StopAllCoroutines(); //Detener la destruccion automatica si fuer recogida
             StartCoroutine(DestroyReturn());
         }

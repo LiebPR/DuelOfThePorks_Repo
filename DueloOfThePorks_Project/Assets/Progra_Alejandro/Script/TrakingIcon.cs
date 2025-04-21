@@ -14,17 +14,20 @@ public class TrakingIcon : MonoBehaviour
 
     private void Update()
     {
-        if(target == null)
-        {
-            searchTimer -= Time.deltaTime;
+        searchTimer -= Time.deltaTime;
 
-            if(searchTimer <= 0f)
+        // Reintenta encontrar target si no hay uno, o si el target está inactivo o ha cambiado de layer
+        if (target == null || !target.gameObject.activeInHierarchy || ((1 << target.gameObject.layer) & IconLayer.value) == 0)
+        {
+            if (searchTimer <= 0f)
             {
                 FindTarget();
                 searchTimer = searchInterval;
             }
         }
-        else
+
+        // Seguir al target si es válido
+        if (target != null && target.gameObject.activeInHierarchy)
         {
             Vector3 targetPos = new Vector3(target.position.x, target.position.y + verticalOffset, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
@@ -37,7 +40,7 @@ public class TrakingIcon : MonoBehaviour
 
         foreach (GameObject obj in allObjects)
         {
-            if (((1 << obj.layer) & IconLayer.value) != 0)
+            if (obj.activeInHierarchy && ((1 << obj.layer) & IconLayer.value) != 0)
             {
                 target = obj.transform;
                 transform.position = new Vector3(target.position.x, target.position.y + verticalOffset, transform.position.z);
