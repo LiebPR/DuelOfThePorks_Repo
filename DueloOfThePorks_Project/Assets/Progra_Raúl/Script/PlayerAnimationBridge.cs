@@ -1,18 +1,33 @@
 ﻿using UnityEngine;
-using System.Reflection;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(InputManager))]
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(KnockbackManager))]
 [RequireComponent(typeof(CharacterAudioController))]
+[RequireComponent(typeof(AttackManager))]
 public class PlayerAnimationBridge : MonoBehaviour
 {
     private Animator animator;
     private InputManager inputManager;
     private PlayerController playerController;
     private CharacterAudioController audioCtrl;
-    private FieldInfo groundedField;
+    private AttackManager attackManager;
+
+    // Cached Animator parameter hashes
+    static readonly int HashWalk = Animator.StringToHash("Walk");
+    static readonly int HashJump = Animator.StringToHash("Jump");
+    static readonly int HashCrouch = Animator.StringToHash("Crouch");
+    static readonly int HashStandUp = Animator.StringToHash("StandUp");
+    static readonly int HashCrouchWalk = Animator.StringToHash("CrouchWalk");
+    static readonly int HashDash = Animator.StringToHash("Dash");
+    static readonly int HashAttackBasic = Animator.StringToHash("AttackBasic");
+    static readonly int HashUpAttack = Animator.StringToHash("UpAttack");
+    static readonly int HashDownAttack = Animator.StringToHash("DownAttack");
+    static readonly int HashStrong = Animator.StringToHash("AttackStrong");
+    static readonly int HashSpecial = Animator.StringToHash("AttackSpecial");
+
+    private bool isCrouched;
 
     void Awake()
     {
@@ -20,9 +35,18 @@ public class PlayerAnimationBridge : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         playerController = GetComponent<PlayerController>();
         audioCtrl = GetComponent<CharacterAudioController>();
+        attackManager = GetComponent<AttackManager>();
 
-        groundedField = typeof(PlayerController)
-            .GetField("isGrounded", BindingFlags.Instance | BindingFlags.NonPublic);
+        // Suscribir al evento de ataque
+        attackManager.onAttackPerformed += OnAttackPerformed;
+
+        // Opcional: permite que el Animator siga corriendo si Time.timeScale == 0
+        animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+    }
+
+    void OnDestroy()
+    {
+        attackManager.onAttackPerformed -= OnAttackPerformed;
     }
 
     void Update()
@@ -31,28 +55,21 @@ public class PlayerAnimationBridge : MonoBehaviour
         HandleJump();
         HandleCrouch();
         HandleDash();
-        HandleAttacks();
-    }
-
-    private bool IsGrounded()
-    {
-        if (groundedField != null)
-            return (bool)groundedField.GetValue(playerController);
-        return false;
+        // Los ataques se manejan por evento, no por polling
     }
 
     private void HandleMovement()
     {
         float h = inputManager.moveInput.x;
-        animator.SetBool("Walk", Mathf.Abs(h) > 0.1f);
+        animator.SetBool(HashWalk, Mathf.Abs(h) > 0.1f);
         if (h != 0f)
             transform.localScale = new Vector3(Mathf.Sign(h), 1f, 1f);
     }
 
     private void HandleJump()
     {
-        bool grounded = IsGrounded();
-        animator.SetBool("Jump", !grounded);
+        bool grounded = playerController.IsGrounded();
+        animator.SetBool(HashJump, !grounded);
         if (inputManager.jumpInput && grounded)
         {
             audioCtrl.PlayJump();
@@ -60,84 +77,58 @@ public class PlayerAnimationBridge : MonoBehaviour
         }
     }
 
-    private bool isCrouched;
     private void HandleCrouch()
     {
-        bool grounded = IsGrounded();
+        bool grounded = playerController.IsGrounded();
         float h = inputManager.moveInput.x;
 
         if (inputManager.crouchInput && grounded && !isCrouched)
         {
-            animator.SetTrigger("Crouch");
+            animator.SetTrigger(HashCrouch);
             isCrouched = true;
         }
-
         if (isCrouched)
         {
             if (inputManager.crouchInput)
-            {
-                animator.SetBool("CrouchWalk", Mathf.Abs(h) > 0.1f && grounded); //Si se mueve. 
-            }
+                animator.SetBool(HashCrouchWalk, Mathf.Abs(h) > 0.1f && grounded);
             else
             {
-
-                animator.SetTrigger("StandUp");
-                animator.SetBool("CrouchWalk", false);
+                animator.SetTrigger(HashStandUp);
+                animator.SetBool(HashCrouchWalk, false);
                 isCrouched = false;
             }
         }
-
-
     }
 
     private void HandleDash()
     {
         if (inputManager.dashInput)
         {
-            animator.SetTrigger("Dash");
+            animator.SetTrigger(HashDash);
             audioCtrl.PlayDash();
             inputManager.dashInput = false;
         }
     }
 
-    private void HandleAttacks()
+    // Se ejecuta únicamente cuando AttackManager dispara el evento
+    private void OnAttackPerformed(int index)
     {
-        // básico / up / down / special
-        if (inputManager.baseAttackInput)
+        switch (index)
         {
-            if (inputManager.isWPressed && !inputManager.isSPressed)
-            {
-                animator.SetTrigger("UpAttack");
-                audioCtrl.PlayUpAttack();
-            }
-            else if (inputManager.isSPressed && !inputManager.isWPressed)
-            {
-                animator.SetTrigger("DownAttack");
-                audioCtrl.PlayDownAttack();
-            }
-            else
-            {
-                animator.SetTrigger("AttackBasic");
-                audioCtrl.PlayBaseAttack();
-            }
-
-            inputManager.ResetBaseAttackInput();
-        }
-
-        // ataque fuerte
-        if (inputManager.strongAttackInput)
-        {
-            animator.SetTrigger("AttackStrong");
-            audioCtrl.PlayStrongAttack();
-            inputManager.ResetStrongAttackInput();
-        }
-
-        // **ataque especial** (si tienes un input para ello)
-        if (inputManager.specialAttackInput)  // ← asume que existe en tu InputManager
-        {
-            animator.SetTrigger("AttackSpecial");
-            audioCtrl.PlaySpecialAttack();
-            inputManager.ResetSpecialAttackInput();
+            case 0:
+                if (inputManager.isWPressed && !inputManager.isSPressed)
+                    animator.SetTrigger(HashUpAttack);
+                else if (inputManager.isSPressed && !inputManager.isWPressed)
+                    animator.SetTrigger(HashDownAttack);
+                else
+                    animator.SetTrigger(HashAttackBasic);
+                break;
+            case 1:
+                animator.SetTrigger(HashStrong);
+                break;
+            case 2:
+                animator.SetTrigger(HashSpecial);
+                break;
         }
     }
 }
