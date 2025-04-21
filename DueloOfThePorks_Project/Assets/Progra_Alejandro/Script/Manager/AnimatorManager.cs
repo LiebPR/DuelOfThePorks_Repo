@@ -20,7 +20,6 @@ public class AnimatorManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Player activo: " + gameObject.activeSelf + " | Sprite activo: " + GetComponent<SpriteRenderer>().enabled);
         HandleJump();
         HandleDash();
         wasDashing = playerControlanim.IsDashing();

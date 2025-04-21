@@ -91,7 +91,7 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
     {
         anim.SetTrigger("Destroy");
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
         Destroy(gameObject);
     }

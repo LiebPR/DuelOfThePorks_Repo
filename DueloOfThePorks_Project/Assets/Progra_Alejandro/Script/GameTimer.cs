@@ -4,23 +4,26 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
-    [SerializeField] float countdownTime = 300f;
-    bool isTimerRunning = true;
-    float currentTime;
+    [SerializeField] private float countdownTime = 300f;
+    private bool isTimerRunning = true;
+    private float currentTime;
 
-    [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] TextMeshProUGUI countdownText;
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI countdownText;
 
-    public LifeManager player1LifeManager;
-    public LifeManager player2LifeManager;
-    public HitDetector player1HitDetector;
-    public HitDetector player2HitDetector;
+    [SerializeField] private LifeManager player1LifeManager;
+    [SerializeField] private LifeManager player2LifeManager;
 
-    public InputManager player1InputManager;
-    public InputManager player2InputManager;
+    [SerializeField] private InputManager player1InputManager;
+    [SerializeField] private InputManager player2InputManager;
 
-    public BulletManager player1BulletManager;
-    public BulletManager player2BulletManager;
+    [SerializeField] private BulletManager player1BulletManager;
+    [SerializeField] private BulletManager player2BulletManager;
+
+    private void Awake()
+    {
+        // Asegurarse de no tener referencias obsoletas a HitDetector
+    }
 
     private void Start()
     {
@@ -32,21 +35,21 @@ public class GameTimer : MonoBehaviour
     }
 
     // Congela o reanuda las animaciones de los jugadores
-    void SetPlayersAnimatorSpeed(float speed)
+    private void SetPlayersAnimatorSpeed(float speed)
     {
         if (player1LifeManager != null)
         {
-            var anim = player1LifeManager.GetComponent<Animator>();
+            Animator anim = player1LifeManager.GetComponent<Animator>();
             if (anim) anim.speed = speed;
         }
         if (player2LifeManager != null)
         {
-            var anim = player2LifeManager.GetComponent<Animator>();
+            Animator anim = player2LifeManager.GetComponent<Animator>();
             if (anim) anim.speed = speed;
         }
     }
 
-    IEnumerator PreMatchCountdown()
+    private IEnumerator PreMatchCountdown()
     {
         // Bloquear inputs
         if (player1InputManager != null)
@@ -64,7 +67,7 @@ public class GameTimer : MonoBehaviour
         if (player1BulletManager != null) player1BulletManager.isLocked = true;
         if (player2BulletManager != null) player2BulletManager.isLocked = true;
 
-        // Congelar animaciones de los jugadores
+        // Congelar animaciones
         SetPlayersAnimatorSpeed(0f);
 
         int count = 3;
@@ -80,7 +83,7 @@ public class GameTimer : MonoBehaviour
 
         countdownText.text = string.Empty;
 
-        // Reanudar animaciones de los jugadores
+        // Reanudar animaciones
         SetPlayersAnimatorSpeed(1f);
 
         // Desbloquear inputs
@@ -135,12 +138,11 @@ public class GameTimer : MonoBehaviour
         int player1Lives = player1LifeManager.GetLives();
         int player2Lives = player2LifeManager.GetLives();
 
-        // Lógica de ganadores...
-
+        // Aquí tu lógica de final de partida...
         Time.timeScale = 0f;
     }
 
-    void AssignInitialSpawn(LifeManager lifeManager)
+    private void AssignInitialSpawn(LifeManager lifeManager)
     {
         if (lifeManager == null) return;
 
@@ -148,7 +150,7 @@ public class GameTimer : MonoBehaviour
         if (respawnPoints == null || respawnPoints.Length == 0) return;
 
         int randomIndex = Random.Range(0, respawnPoints.Length);
-        Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0, 0);
+        Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0f, 0f);
         lifeManager.transform.position = respawnPoints[randomIndex].position + randomOffset;
     }
 }

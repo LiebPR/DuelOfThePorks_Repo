@@ -50,6 +50,7 @@ public class PlayerOrbs : MonoBehaviour
 
     public void RemoveOrb()
     {
+        Debug.Log($"[PlayerOrbs.RemoveOrb] llamando en {gameObject.name}, orbs antes: {currentOrbs}");
         if(currentOrbs > 0)
         {
             currentOrbs--;

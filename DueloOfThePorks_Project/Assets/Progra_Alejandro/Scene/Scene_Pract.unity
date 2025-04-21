@@ -525,7 +525,7 @@ GameObject:
   - component: {fileID: 316052254}
   - component: {fileID: 316052253}
   m_Layer: 5
-  m_Name: OrbChargeBar_FillP1
+  m_Name: OrbChargeBar_FillP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -691,13 +691,11 @@ MonoBehaviour:
   timerText: {fileID: 1650401333}
   countdownText: {fileID: 1784915792}
   player1LifeManager: {fileID: 1353075423}
-  player2LifeManager: {fileID: 0}
-  player1HitDetector: {fileID: 1353075418}
-  player2HitDetector: {fileID: 0}
-  player1InputManager: {fileID: 0}
-  player2InputManager: {fileID: 0}
-  player1BulletManager: {fileID: 0}
-  player2BulletManager: {fileID: 0}
+  player2LifeManager: {fileID: 1879982398}
+  player1InputManager: {fileID: 1353075417}
+  player2InputManager: {fileID: 1879982392}
+  player1BulletManager: {fileID: 1353075425}
+  player2BulletManager: {fileID: 1879982400}
 --- !u!4 &456353332
 Transform:
   m_ObjectHideFlags: 0
@@ -957,7 +955,7 @@ GameObject:
   - component: {fileID: 604202354}
   - component: {fileID: 604202353}
   m_Layer: 5
-  m_Name: OrbChargeBar_FillP2
+  m_Name: OrbChargeBar_FillP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1290,7 +1288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759276596}
   m_Layer: 0
-  m_Name: ChargedBarP1
+  m_Name: ChargedBarP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1689,7 +1687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 204487575316457449, guid: 718669da86508834db93e57854a2f5b9, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8879012461004322434, guid: 718669da86508834db93e57854a2f5b9, type: 3}
       propertyPath: m_RootOrder
@@ -1762,7 +1760,7 @@ PrefabInstance:
       addedObject: {fileID: 1353075422}
     - targetCorrespondingSourceObject: {fileID: 204487575316457449, guid: 718669da86508834db93e57854a2f5b9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1353075421}
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 204487575316457449, guid: 718669da86508834db93e57854a2f5b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1353075411}
@@ -1984,9 +1982,9 @@ MonoBehaviour:
   - {fileID: 959070949}
   - {fileID: 848043772}
   - {fileID: 1329376166}
-  initialDelay: 1
-  spawnIntervalMin: 2
-  spawnIntervalMax: 3
+  initialDelay: 10
+  spawnIntervalMin: 10
+  spawnIntervalMax: 20
 --- !u!4 &1141756901
 Transform:
   m_ObjectHideFlags: 0
@@ -2007,6 +2005,51 @@ Transform:
   - {fileID: 1329376166}
   m_Father: {fileID: 0}
   m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1145937513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1145937515}
+  - component: {fileID: 1145937514}
+  m_Layer: 0
+  m_Name: BarraDeCarga
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1145937514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145937513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9a12d20dec9a143a789453a0e2e6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImage: {fileID: 1662323736}
+--- !u!4 &1145937515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145937513}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.262862, y: 5.5137153, z: -0.2132426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1353075414}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1163484037
 GameObject:
@@ -2381,7 +2424,6 @@ GameObject:
   - component: {fileID: 1353075423}
   - component: {fileID: 1353075415}
   - component: {fileID: 1353075422}
-  - component: {fileID: 1353075421}
   - component: {fileID: 1353075411}
   - component: {fileID: 1353075410}
   - component: {fileID: 1353075417}
@@ -2393,7 +2435,7 @@ GameObject:
   - component: {fileID: 1353075427}
   m_Layer: 6
   m_Name: LaserP1
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2555,6 +2597,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1145937515}
   - {fileID: 203639170}
   - {fileID: 1893542221}
   m_Father: {fileID: 0}
@@ -2694,19 +2737,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageText: {fileID: 882062238}
---- !u!114 &1353075421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353075409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9a12d20dec9a143a789453a0e2e6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillImage: {fileID: 1662323736}
 --- !u!114 &1353075422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2721,7 +2751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentOrbs: 0
   maxOrbs: 3
-  orbChargeUI: {fileID: 1353075421}
+  orbChargeUI: {fileID: 1145937514}
 --- !u!114 &1353075423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2739,13 +2769,10 @@ MonoBehaviour:
   - {fileID: 1201407107}
   - {fileID: 505923035}
   - {fileID: 1189457123}
-  hitDetector: {fileID: 1353075418}
   heartImages:
   - {fileID: 1879883413}
   - {fileID: 1415672480}
   - {fileID: 1282311309}
-  spriteRenderer: {fileID: 0}
-  playerOrbs: {fileID: 1353075422}
 --- !u!114 &1353075424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3151,7 +3178,7 @@ GameObject:
   - component: {fileID: 1508397455}
   - component: {fileID: 1508397454}
   m_Layer: 5
-  m_Name: OrbChargeBar_BGP1
+  m_Name: OrbChargeBar_BGP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4963,7 +4990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657178441}
   m_Layer: 0
-  m_Name: ChargedBarP2
+  m_Name: ChargedBarP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4997,7 +5024,7 @@ GameObject:
   - component: {fileID: 1662323737}
   - component: {fileID: 1662323736}
   m_Layer: 5
-  m_Name: OrbChargeBar_BGP2
+  m_Name: OrbChargeBar_BGP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5590,7 +5617,6 @@ GameObject:
   - component: {fileID: 1879982398}
   - component: {fileID: 1879982397}
   - component: {fileID: 1879982396}
-  - component: {fileID: 1879982395}
   - component: {fileID: 1879982394}
   - component: {fileID: 1879982393}
   - component: {fileID: 1879982392}
@@ -5601,7 +5627,7 @@ GameObject:
   - component: {fileID: 1879982387}
   - component: {fileID: 1879982386}
   m_Layer: 8
-  m_Name: LaserP1 (1)
+  m_Name: LaserP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5735,7 +5761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePercentage: 0
-  isPlayerOne: 1
+  isPlayerOne: 0
   isInvincible: 0
   damageHandler: {fileID: 1879982390}
 --- !u!114 &1879982389
@@ -5895,19 +5921,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1879982395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1879982383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9a12d20dec9a143a789453a0e2e6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillImage: {fileID: 1662323736}
 --- !u!114 &1879982396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5922,7 +5935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentOrbs: 0
   maxOrbs: 3
-  orbChargeUI: {fileID: 1879982395}
+  orbChargeUI: {fileID: 1935487184}
 --- !u!114 &1879982397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5973,13 +5986,10 @@ MonoBehaviour:
   - {fileID: 1201407107}
   - {fileID: 505923035}
   - {fileID: 1189457123}
-  hitDetector: {fileID: 1879982388}
   heartImages:
   - {fileID: 255164304}
   - {fileID: 995387506}
   - {fileID: 1138698113}
-  spriteRenderer: {fileID: 1353075413}
-  playerOrbs: {fileID: 1879982396}
 --- !u!114 &1879982399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6118,6 +6128,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1935487185}
   - {fileID: 35715445}
   - {fileID: 1912519656}
   m_Father: {fileID: 0}
@@ -6269,6 +6280,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1935487183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1935487185}
+  - component: {fileID: 1935487184}
+  m_Layer: 0
+  m_Name: BarraDeCarga (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1935487184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935487183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9a12d20dec9a143a789453a0e2e6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImage: {fileID: 1508397454}
+--- !u!4 &1935487185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935487183}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.262862, y: 5.5137153, z: -0.2132426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1879982404}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1982898669
 GameObject:
   m_ObjectHideFlags: 0

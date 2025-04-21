@@ -15,7 +15,7 @@ MonoBehaviour:
   damage: 100
   knockbackForce: 20
   cooldownTime: 0
-  boxSize: {x: 1, y: 1}
+  boxSize: {x: 9.46, y: 6.13}
   boxOffset: {x: 0, y: 0}
   targetLayer:
     serializedVersion: 2
