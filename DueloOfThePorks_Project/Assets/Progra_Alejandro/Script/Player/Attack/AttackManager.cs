@@ -1,66 +1,76 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(InputManager))]
 public class AttackManager : MonoBehaviour
 {
-    [SerializeField] public Attack[] attackSettingsArray; // Ahora público para acceso externo
-    [SerializeField] public Transform attackPoint;        // Ahora público para acceso externo
+    [SerializeField] public Attack[] attackSettingsArray; // Array de ataques
+    [SerializeField] Transform attackPoint; // Punto de ataque
 
     private InputManager inputManager;
-    private float[] attackCooldownTimers;
+    private PlayerOrbs playerOrbs;
 
-    // Evento que dispara el índice de ataque ejecutado
-    public event Action<int> onAttackPerformed;
+    private float[] attackCooldownTimers; // Temporizador por cada ataque
 
-    void Awake()
+    private void Awake()
     {
         inputManager = GetComponent<InputManager>();
+        playerOrbs = GetComponent<PlayerOrbs>();
     }
 
-    void Start()
+    private void Start()
     {
-        if (attackSettingsArray.Length > 0)
+        var playerController = GetComponent<PlayerController>();
+        if (playerController != null && attackSettingsArray.Length > 0)
         {
             attackCooldownTimers = new float[attackSettingsArray.Length];
+
             for (int i = 0; i < attackSettingsArray.Length; i++)
             {
-                attackSettingsArray[i]?.Initialize(GetComponent<PlayerController>());
-                attackCooldownTimers[i] = 0f;
+                if (attackSettingsArray[i] != null)
+                {
+                    attackSettingsArray[i].Initialize(playerController);
+                    attackCooldownTimers[i] = 0f;
+                }
             }
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (attackCooldownTimers == null) return;
         for (int i = 0; i < attackCooldownTimers.Length; i++)
-            attackCooldownTimers[i] = Mathf.Max(0f, attackCooldownTimers[i] - Time.deltaTime);
+        {
+            if (attackCooldownTimers[i] > 0f)
+                attackCooldownTimers[i] -= Time.deltaTime;
+        }
     }
 
     public bool TryPerformAttack(int index)
     {
-        if (index < 0 || index >= attackSettingsArray.Length) return false;
-        var attack = attackSettingsArray[index];
-        if (attack == null) return false;
+        if (index < 0 || index >= attackSettingsArray.Length || attackSettingsArray[index] == null)
+            return false;
 
         if (attackCooldownTimers[index] <= 0f)
         {
-            attack.PerformAttack(attackPoint, inputManager.isPlayerOne);
-            attackCooldownTimers[index] = attack.GetCooldownTime();
-            Debug.Log($"[AttackManager] Attack {index} performed, cooldown: {attackCooldownTimers[index]:0.00}s");
-            onAttackPerformed?.Invoke(index);
+            attackSettingsArray[index].PerformAttack(attackPoint, inputManager.isPlayerOne);
+            attackCooldownTimers[index] = attackSettingsArray[index].GetCooldownTime();
+            Debug.Log($"Ataque realizado con daño: {attackSettingsArray[index].damage}, cooldown: {attackCooldownTimers[index]}s.");
             return true;
         }
 
-        Debug.Log($"[AttackManager] Attack {index} on cooldown: {attackCooldownTimers[index]:0.00}s remaining");
+        Debug.Log($"Cooldown activo para el ataque {attackSettingsArray[index].name}, queda: {attackCooldownTimers[index]}s.");
         return false;
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        if (attackSettingsArray == null || attackPoint == null) return;
-        foreach (var atk in attackSettingsArray)
-            atk?.DrawGizmos(attackPoint);
+        if (attackSettingsArray != null && attackPoint != null)
+        {
+            foreach (var attack in attackSettingsArray)
+            {
+                if (attack != null)
+                    attack.DrawGizmos(attackPoint);
+            }
+        }
     }
 }
