@@ -361,39 +361,7 @@ MonoBehaviour:
   loserText: {fileID: 0}
   player1Position: {fileID: 0}
   player2Position: {fileID: 0}
-  finalCharacters:
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
-  - characterName: 
-    basePrefab: {fileID: 0}
-    victoryAnim: {fileID: 0}
-    defeatAnim: {fileID: 0}
+  finalCharacters: []
 --- !u!4 &980793335
 Transform:
   m_ObjectHideFlags: 0

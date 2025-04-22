@@ -2509,6 +2509,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508397452}
   m_CullTransparentMesh: 1
+--- !u!1 &1509511490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8541979104433921599, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+  m_PrefabInstance: {fileID: 1576658778410779916}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1509511491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509511490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33bbeab38b29dc4dbba4391b022a60e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
+  killDeathEffectPrefab: {fileID: 0}
+  zoneDeathEffectPrefab: {fileID: 0}
+  effectLifetime: 5
+  hitOffset: {x: 0, y: 0, z: 0}
+  killDeathOffset: {x: 0, y: 0, z: 0}
+  zoneDeathOffset: {x: 0, y: -1, z: 0}
+  spriteRenderer: {fileID: 1509511508}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
+  minFlashIntensity: 0.5
+  maxFlashIntensity: 2
+  followRotation: 1
+--- !u!212 &1509511508 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8173097324303040193, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+  m_PrefabInstance: {fileID: 1576658778410779916}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1509511509 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7769180794416128466, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+  m_PrefabInstance: {fileID: 1576658778410779916}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1524392614
 GameObject:
   m_ObjectHideFlags: 0
@@ -4503,6 +4543,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1723845034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1723845035}
+  m_Layer: 0
+  m_Name: SpecialPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1723845035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723845034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.39, y: 1.29, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1509511509}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1728767715
 GameObject:
   m_ObjectHideFlags: 0
@@ -4893,13 +4964,14 @@ GameObject:
   - component: {fileID: 1879982388}
   - component: {fileID: 1879982387}
   - component: {fileID: 1879982386}
+  - component: {fileID: 1879982405}
   m_Layer: 8
   m_Name: LaserP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1879982386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5276,6 +5348,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fc35cc30278c4d489af4496aa97154a, type: 2}
   - {fileID: 11400000, guid: 8b38fe24fea3a9a459d1cff1c2223922, type: 2}
   attackPoint: {fileID: 1912519656}
+  specialLaserEnabled: 1
+  specialEffectPrefab: {fileID: 0}
+  specialSpawnPoint: {fileID: 0}
+  effectDuration: 1.5
 --- !u!114 &1879982400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5401,6 +5477,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1879982405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879982383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33bbeab38b29dc4dbba4391b022a60e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
+  killDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
+  zoneDeathEffectPrefab: {fileID: 8691420599760481409, guid: 7d5c2244c3c850d4d80f25b536044f24, type: 3}
+  effectLifetime: 20
+  hitOffset: {x: 0, y: 0, z: 0}
+  killDeathOffset: {x: 0, y: 0, z: 0}
+  zoneDeathOffset: {x: 0, y: -3, z: 0}
+  spriteRenderer: {fileID: 1879982403}
+  flashColor: {r: 1, g: 0, b: 0, a: 0.5019608}
+  flashDuration: 0.2
+  minFlashIntensity: 3
+  maxFlashIntensity: 5
+  followRotation: 1
 --- !u!1 &1912519655
 GameObject:
   m_ObjectHideFlags: 0
@@ -5852,6 +5953,34 @@ PrefabInstance:
       propertyPath: puntosDeRespawn.Array.data[2]
       value: 
       objectReference: {fileID: 1189457123}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: effectDuration
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: specialSpawnPoint
+      value: 
+      objectReference: {fileID: 1723845035}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: specialEffectPrefab
+      value: 
+      objectReference: {fileID: 951779232601812081, guid: 0b53d71cef4cfe245856e92da32c13ba, type: 3}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: onLaserEnd.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: onLaserStart.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: onLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059577728492220648, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      propertyPath: onLaserStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7148951473183205101, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
       propertyPath: damageText
       value: 
@@ -5910,6 +6039,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7769180794416128466, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1723845035}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8541979104433921599, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1509511491}
   m_SourcePrefab: {fileID: 100100000, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}

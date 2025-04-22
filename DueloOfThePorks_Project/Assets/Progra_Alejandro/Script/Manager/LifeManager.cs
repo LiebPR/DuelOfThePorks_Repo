@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -6,73 +6,79 @@ using UnityEngine.SceneManagement;
 public class LifeManager : MonoBehaviour
 {
     [SerializeField] int maxVidas = 3;
-    int vidas;
-
     [SerializeField] Transform[] puntosDeRespawn;
     [SerializeField] private Image[] heartImages;
 
-    HitDetector hitDetector;
-    PlayerOrbs playerOrbs;
-    SpriteRenderer spriteRenderer;
+    private HitDetector hitDetector;
+    private PlayerOrbs playerOrbs;
+    private SpriteRenderer spriteRenderer;
+    private ParticleEffectHandler effectHandler;
+
+    int vidas;
+    bool diedByZone = false;
 
     private void Awake()
     {
-        // Asociamos siempre los componentes de este mismo GameObject
         hitDetector = GetComponent<HitDetector>();
         playerOrbs = GetComponent<PlayerOrbs>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        effectHandler = GetComponent<ParticleEffectHandler>();
     }
 
     private void Start()
     {
         vidas = maxVidas;
-        // Reiniciar estado de daño en la UI
         hitDetector.damagePercentage = 0f;
         hitDetector.damageHandler?.UpdateHealthDisplay(0f);
     }
 
     public void Die()
     {
-        string quien = hitDetector.isPlayerOne ? "Player 1" : "Player 2";
-        Debug.Log($"[{quien}] Die() en {gameObject.name} (vidas antes: {vidas + 1})");
+        // 1) Efecto segÃºn tipo de muerte
+        Vector3 pos = transform.position;
+        Quaternion rot = transform.rotation;
+        if (diedByZone)
+            effectHandler?.PlayZoneDeathEffect(pos, rot);
+        else
+            effectHandler?.PlayKillDeathEffect(pos, rot);
 
+        diedByZone = false;
+
+        // 2) Reducir vidas y actualizar UI
         vidas--;
         if (vidas >= 0 && vidas < heartImages.Length)
             heartImages[vidas].enabled = false;
 
+        // 3) Game Over o respawn
         if (vidas <= 0)
         {
+            string perdedor = hitDetector.isPlayerOne ? "Player 1" : "Player 2";
             string ganador = hitDetector.isPlayerOne ? "Player 2" : "Player 1";
-            Debug.Log($"{quien} sin vidas. GAME OVER.");
+
             PlayerPrefs.SetString("Winner", ganador);
-            PlayerPrefs.SetString("Loser", quien);
+            PlayerPrefs.SetString("Loser", perdedor);
             PlayerPrefs.Save();
 
-            SceneManager.LoadScene("Scene_Final");
+            SceneManager.LoadScene("FinalScene");
             gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log($"{quien} pierde una vida. Respawneando...");
-            Respawn();
+            StartCoroutine(RespawnRoutine());
         }
 
-        if (playerOrbs != null)
-        {
-            Debug.Log($"[{quien}] RemoveOrb() en {playerOrbs.gameObject.name}");
-            playerOrbs.RemoveOrb();
-        }
-
+        // 4) Pierde orbe
+        playerOrbs?.RemoveOrb();
         StopKnockback();
     }
 
-    void Respawn()
+    private IEnumerator RespawnRoutine()
     {
-        // Reset de daño y UI
+        // Reset de daÃ±o y UI
         hitDetector.damagePercentage = 0f;
         hitDetector.damageHandler?.UpdateHealthDisplay(0f);
 
-        // Teletransportar a un punto de respawn aleatorio
+        // Teletransporte
         int idx = Random.Range(0, puntosDeRespawn.Length);
         Vector3 off = new Vector3(
             Random.Range(-0.5f, 0.5f),
@@ -81,14 +87,13 @@ public class LifeManager : MonoBehaviour
         );
         transform.position = puntosDeRespawn[idx].position + off;
 
+        // Invulnerabilidad
         StartCoroutine(InvulnerabilityCoroutine(3f));
+        yield return null;
     }
 
-    IEnumerator InvulnerabilityCoroutine(float duration)
+    private IEnumerator InvulnerabilityCoroutine(float duration)
     {
-        string quien = hitDetector.isPlayerOne ? "Player 1" : "Player 2";
-        Debug.Log($"[{quien}] Invulnerable en {gameObject.name}");
-
         hitDetector.isInvincible = true;
         if (spriteRenderer != null)
         {
@@ -100,21 +105,17 @@ public class LifeManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         hitDetector.isInvincible = false;
-        if (spriteRenderer != null)
-        {
-            var c = spriteRenderer.color;
-            c.a = 1f;
-            spriteRenderer.color = c;
-        }
-
-        Debug.Log($"{quien} ya no es invulnerable.");
+        effectHandler?.ResetSpriteColor();
     }
+
+    public int GetLives() => vidas;
+    public Transform[] GetRespawnPoints() => puntosDeRespawn;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("DeathZone"))
         {
-            Debug.Log("DeathZone tocada");
+            diedByZone = true;
             Die();
         }
     }
@@ -129,8 +130,4 @@ public class LifeManager : MonoBehaviour
             kb.isKnockBack = false;
         }
     }
-
-    // Métodos públicos para GameTimer
-    public int GetLives() => vidas;
-    public Transform[] GetRespawnPoints() => puntosDeRespawn;
 }

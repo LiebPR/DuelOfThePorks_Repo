@@ -1,17 +1,25 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackManager : MonoBehaviour
 {
-    [SerializeField] public Attack[] attackSettingsArray; // Array de ataques
-    [SerializeField] Transform attackPoint;               // Punto de ataque
+    [Header("Ataques")]
+    [SerializeField] public Attack[] attackSettingsArray;  // 0: Up, 1: Down, 2: Base, 3: Strong, 4: Special
+    [SerializeField] private Transform attackPoint;
 
-    private InputManager inputManager;
-    private PlayerOrbs playerOrbs;
+    [Header("Cooldowns")]
     private float[] cooldownTimers;
 
-    private int currentAttackIndex = -1; // Indice del ataque actual.
+    private int currentAttackIndex = -1;
+    private InputManager inputManager;
+    private PlayerOrbs playerOrbs;
+
+    [Header("LÃ¡ser Especial")]
+    [SerializeField] private bool specialLaserEnabled = true;
+    [SerializeField] private GameObject specialEffectPrefab;
+    [SerializeField] private Transform specialSpawnPoint;  // Punto de salida del lÃ¡ser
+    [SerializeField] private float effectDuration = 1.5f;
 
     private void Awake()
     {
@@ -21,7 +29,6 @@ public class AttackManager : MonoBehaviour
 
     private void Start()
     {
-        // Inicializar cooldowns
         cooldownTimers = new float[attackSettingsArray.Length];
         for (int i = 0; i < cooldownTimers.Length; i++)
             cooldownTimers[i] = 0f;
@@ -29,62 +36,77 @@ public class AttackManager : MonoBehaviour
 
     private void Update()
     {
-        // Reducir cooldowns
+        // Disminuir cooldowns
         for (int i = 0; i < cooldownTimers.Length; i++)
             if (cooldownTimers[i] > 0f)
                 cooldownTimers[i] -= Time.deltaTime;
+
+        // Ataque especial
+        if (inputManager.specialAttackInput)
+        {
+            if (TryPerformAttack(4))
+                SpawnSpecialLaser();
+            inputManager.ResetSpecialAttackInput();
+        }
     }
 
     /// <summary>
-    /// Intenta realizar el ataque de índice ‘index’.
-    /// Devuelve true si se ejecutó correctamente.
+    /// Intenta ejecutar el ataque 'index'. Devuelve true si se dispara.
     /// </summary>
     public bool TryPerformAttack(int index)
     {
-        // Validaciones básicas
         if (index < 0 || index >= attackSettingsArray.Length) return false;
         if (attackSettingsArray[index] == null) return false;
         if (cooldownTimers[index] > 0f) return false;
+        if (index == 4 && !playerOrbs.CanUseSpecialAttack()) return false;
 
-        // Sólo permitir Special (4) si hay orbes
-        if (index == 4 && !playerOrbs.CanUseSpecialAttack())
-            return false;
-
-        // Guardar índice del ataque actual
         currentAttackIndex = index;
-
-        // Ejecutar la animación de ataque
         GetComponent<AnimatorManager>().PlayAttackAnimation(index);
 
-        // Si era Special, consumimos orbes
         if (index == 4)
             playerOrbs.ConsumeOrbs();
 
-        // Poner el cooldown
         cooldownTimers[index] = attackSettingsArray[index].GetCooldownTime();
-
-        Debug.Log($"Ataque {index} realizado. Cooldown: {cooldownTimers[index]}s.");
         return true;
     }
 
-    // Este método debe ser llamado por los eventos de animación para activar la hitbox.
+    /// <summary>
+    /// Instancia un lÃ¡ser como hijo para que siga al jugador y lo destruye tras effectDuration.
+    /// </summary>
+    private void SpawnSpecialLaser()
+    {
+        if (!specialLaserEnabled || specialEffectPrefab == null || specialSpawnPoint == null)
+            return;
+
+        var laser = Instantiate(
+            specialEffectPrefab,
+            transform   // parent
+        );
+
+        laser.transform.localPosition = specialSpawnPoint.localPosition;
+        laser.transform.localRotation = specialSpawnPoint.localRotation;
+
+        Destroy(laser, effectDuration);
+    }
+
+    /// <summary>
+    /// Llamado desde Animation Event para activar hitbox.
+    /// </summary>
     public void TriggerAttackHitbox()
     {
-        if (currentAttackIndex < 0 || currentAttackIndex >= attackSettingsArray.Length) return;
+        if (currentAttackIndex < 0 || currentAttackIndex >= attackSettingsArray.Length)
+            return;
 
-        Debug.Log("Activando HitBox");
+        attackSettingsArray[currentAttackIndex]
+            .PerformAttack(attackPoint, gameObject, inputManager.isPlayerOne);
 
-        // Ejecutar la hitbox para el ataque actual
-        attackSettingsArray[currentAttackIndex].PerformAttack(attackPoint, gameObject, inputManager.isPlayerOne);
+        currentAttackIndex = -1;
     }
 
     private void OnDrawGizmos()
     {
         if (attackSettingsArray == null || attackPoint == null) return;
-
         foreach (var atk in attackSettingsArray)
-        {
             atk?.DrawGizmos(attackPoint);
-        }
     }
 }

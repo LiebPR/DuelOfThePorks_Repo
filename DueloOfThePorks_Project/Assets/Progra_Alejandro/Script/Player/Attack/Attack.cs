@@ -13,6 +13,7 @@ public class Attack : ScriptableObject
     [SerializeField] Vector2 boxOffset = Vector2.zero;
     [SerializeField] LayerMask targetLayer;
 
+
     public float GetCooldownTime() => cooldownTime;
 
     /// <summary>
@@ -24,6 +25,8 @@ public class Attack : ScriptableObject
     public void PerformAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
     {
         OverlapAttack(attackPoint, hitter, isPlayerOneAttacker);
+
+       
     }
 
     private void OverlapAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
