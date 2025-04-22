@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
   m_Name: DownAttack
   m_EditorClassIdentifier: 
-  damage: 0
-  knockbackForce: 0
-  cooldownTime: 0
-  boxSize: {x: 1, y: 1}
-  boxOffset: {x: 0, y: 0}
+  damage: 5
+  knockbackForce: 3
+  cooldownTime: 0.8
+  boxSize: {x: 6.03, y: 1.91}
+  boxOffset: {x: 0.02, y: -0.47}
   targetLayer:
     serializedVersion: 2
     m_Bits: 256

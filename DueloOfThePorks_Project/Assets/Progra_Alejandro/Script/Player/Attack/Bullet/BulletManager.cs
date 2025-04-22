@@ -11,8 +11,11 @@ public class BulletManager : MonoBehaviour
     private PlayerOrbs playerOrbs;
 
     private float[] bulletCooldowns;
-    private float lastAttackTime = -999f; // ahora es campo de instancia
-    public bool isLocked = false;         // modificado por GameTimer
+    private float lastAttackTime = -999f;
+    public bool isLocked = false;
+
+    private int? pendingBulletIndex = null;
+    private bool isBulletPending = false;
 
     private void Awake()
     {
@@ -91,8 +94,7 @@ public class BulletManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ejecuta ataque o dispara bala según el índice.
-    /// Devuelve true si realmente se disparó/atacó.
+    /// Ejecuta ataque o lanza bala según el índice. Devuelve true si realmente se disparó o atacó.
     /// </summary>
     bool HandleAttackLogic(int index)
     {
@@ -108,13 +110,14 @@ public class BulletManager : MonoBehaviour
         }
 
         var animator = GetComponent<AnimatorManager>();
+
         if (hasBullet)
         {
-            TryShoot(index);
+            QueueBulletShoot(index);
             animator?.PlayAttackAnimation(index);
-            bulletCooldowns[index] = bulletSettingsArray[index].cooldownTime;
             return true;
         }
+
         if (hasAttack)
         {
             bool ok = attackManager.TryPerformAttack(index);
@@ -126,9 +129,24 @@ public class BulletManager : MonoBehaviour
         return false;
     }
 
-    void TryShoot(int index)
+    /// <summary>
+    /// Guarda datos de disparo para ser lanzados más tarde por la animación.
+    /// </summary>
+    void QueueBulletShoot(int index)
     {
         if (bulletCooldowns[index] > 0f || isLocked) return;
+        pendingBulletIndex = index;
+        isBulletPending = true;
+    }
+
+    /// <summary>
+    /// Llamado desde un Animation Event para lanzar la bala en el momento justo.
+    /// </summary>
+    public void TriggerShootFromAnim()
+    {
+        if (!isBulletPending || pendingBulletIndex == null) return;
+
+        int index = pendingBulletIndex.Value;
 
         GameObject bulletObj = BulletPool.Instance.GetBullet();
         if (bulletObj == null)
@@ -139,6 +157,11 @@ public class BulletManager : MonoBehaviour
 
         bulletObj.transform.position = bulletSpawnPoint.position;
         bulletObj.transform.rotation = Quaternion.identity;
+        bulletObj.transform.localScale = new Vector3(
+            transform.localScale.x > 0 ? 1 : -1,
+            bulletObj.transform.localScale.y,
+            bulletObj.transform.localScale.z
+        );
 
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         bullet.settings = bulletSettingsArray[index];
@@ -146,5 +169,10 @@ public class BulletManager : MonoBehaviour
         bullet.direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
         bulletObj.SetActive(true);
+        bulletCooldowns[index] = bulletSettingsArray[index].cooldownTime;
+
+        // Limpiar flags
+        isBulletPending = false;
+        pendingBulletIndex = null;
     }
 }

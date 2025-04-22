@@ -76,10 +76,7 @@ public class AnimatorManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Lanza la animación según el índice de ataque.
-    /// 0: UpAttack, 1: DownAttack, 2: AttackBasic, 3: AttackStrong, 4: AttackSpecial
-    /// </summary>
+    
     public void PlayAttackAnimation(int index)
     {
         switch (index)

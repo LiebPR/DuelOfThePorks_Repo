@@ -19,7 +19,7 @@ public class Attack : ScriptableObject
     /// Ejecuta el ataque. 
     /// - attackPoint: Transform del punto de origen.
     /// - hitter: GameObject que realiza el ataque.
-    /// - isPlayerOneAttacker: si es el jugador 1 o no.
+    /// - isPlayerOneAttacker: si es el jugador 1 o no.
     /// </summary>
     public void PerformAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
     {
@@ -32,9 +32,16 @@ public class Attack : ScriptableObject
         Vector2 flippedOffset = new Vector2(boxOffset.x * facing, boxOffset.y);
         Vector2 origin = (Vector2)attackPoint.position + flippedOffset;
 
+        // Detecta las colisiones
         Collider2D[] hits = Physics2D.OverlapBoxAll(origin, boxSize, 0f, targetLayer);
+        Debug.Log($"Hits detectados: {hits.Length}");  // Log de cuantos hits se han detectado
+
+        // Itera sobre los hits detectados
         foreach (var hit in hits)
-            TryDamageTarget(hit, attackPoint, hitter, isPlayerOneAttacker);
+        {
+            Debug.Log($"Golpeando: {hit.name}");  // Log de quien ha sido golpeado
+            TryDamageTarget(hit, attackPoint, hitter, isPlayerOneAttacker);  // Aplica el daño
+        }
     }
 
     private void TryDamageTarget(Collider2D target, Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)

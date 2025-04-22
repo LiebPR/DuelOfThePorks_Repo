@@ -44,7 +44,7 @@ public class KnockbackManager : MonoBehaviour
         float knockbackExtra = Mathf.Floor(damagePercentage / 10f) * 2; //PARTE IMPORTANTE (Si quieres que el knockback base se sume más cada 10% aumentar en este apartado)
         knockbackForce = force + knockbackExtra; // Sumamos el knockback extra a la fuerza del ataque
         knockbackDuration = duration;
-
+        Debug.Log($"Knockback aplicado con fuerza {force}");
         rb.gravityScale = 0; // Desactivamos gravedad momentáneamente
         StartCoroutine(KnockbackRoutine());
     }

@@ -10,4 +10,5 @@ public class BulletSettings : ScriptableObject
     public float maxTravelDistance = 20f;
     public GameObject bulletPrefab;
     public LayerMask targetLayer;
+    public int attackIndex;
 }

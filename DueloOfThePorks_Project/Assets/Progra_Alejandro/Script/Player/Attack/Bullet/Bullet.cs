@@ -70,6 +70,14 @@ public class Bullet : MonoBehaviour
             damageable.ReciveDamage(settings.damage);
         }
 
+        // Si golpea una orbe y es el ataque fuerte (índice 3), intenta recogerla
+        OrbsSpecialAtt orb = collision.GetComponent<OrbsSpecialAtt>();
+        if (orb != null && settings.attackIndex == 3)
+        {
+            orb.SetLastHitter(owner); // Registramos quién disparó
+            orb.ReciveDamage(settings.damage); // Esto intentará recogerla si es posible
+        }
+
         //Desactivar la bala despues del impacto
         DeactivateBullet();
     }

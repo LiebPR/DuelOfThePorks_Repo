@@ -4,6 +4,7 @@ using UnityEditor.Experimental.GraphView;
 
 public class BulletPool : MonoBehaviour
 {
+    Animator bulletanim;
     //Instancia única (singelton
     public static BulletPool Instance { get; private set; }
 
@@ -14,6 +15,7 @@ public class BulletPool : MonoBehaviour
 
     private void Awake()
     {
+        bulletanim = GetComponent<Animator>();
         //Verificamos que solo haya una instancia del bulletPool en la escena
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
