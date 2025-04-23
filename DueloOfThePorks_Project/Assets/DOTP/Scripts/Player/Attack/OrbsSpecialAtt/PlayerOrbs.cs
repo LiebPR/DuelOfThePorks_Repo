@@ -75,4 +75,8 @@ public class PlayerOrbs : MonoBehaviour
             orbChargeUI.UpdateFill(currentOrbs, maxOrbs);
         }
     }
+    public void SetOrbUI(OrbChargeUI ui) 
+    {
+        orbChargeUI = ui;
+    }
 }

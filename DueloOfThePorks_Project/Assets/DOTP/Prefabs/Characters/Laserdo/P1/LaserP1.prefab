@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3327954659629835891
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8461557631243976799}
-  - component: {fileID: 1772658973619279447}
-  m_Layer: 0
-  m_Name: BarraDeCarga
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8461557631243976799
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3327954659629835891}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.262862, y: 5.5137153, z: -0.2132426}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3290311021095861678}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1772658973619279447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3327954659629835891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9a12d20dec9a143a789453a0e2e6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillImage: {fileID: 0}
 --- !u!1 &5675446631214632683
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +12,6 @@ GameObject:
   - component: {fileID: 7030217192460297151}
   - component: {fileID: 3568019580734318707}
   - component: {fileID: 2302402613609007225}
-  - component: {fileID: 3774999836714081864}
   - component: {fileID: 8042221539722918057}
   - component: {fileID: 6697627259276005969}
   - component: {fileID: 4374422578314369148}
@@ -72,6 +26,8 @@ GameObject:
   - component: {fileID: 151605271709011461}
   - component: {fileID: 7475845348781711635}
   - component: {fileID: 4446598810585899257}
+  - component: {fileID: 3774999836714081864}
+  - component: {fileID: 3708382985546420342}
   m_Layer: 6
   m_Name: LaserP1
   m_TagString: Untagged
@@ -91,12 +47,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8461557631243976799}
   - {fileID: 7187639246197323524}
   - {fileID: 2704675533744100615}
   - {fileID: 5997012761541973736}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7030217192460297151
 MonoBehaviour:
@@ -175,27 +130,6 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 951779232601812081, guid: 0b53d71cef4cfe245856e92da32c13ba, type: 3}
   specialSpawnPoint: {fileID: 5997012761541973736}
   effectDuration: 2.5
---- !u!114 &3774999836714081864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5675446631214632683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxVidas: 3
-  puntosDeRespawn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  heartImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &8042221539722918057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentOrbs: 0
   maxOrbs: 3
-  orbChargeUI: {fileID: 1772658973619279447}
+  orbChargeUI: {fileID: 0}
 --- !u!114 &4885641177552494191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,6 +544,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &3774999836714081864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5675446631214632683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3708382985546420342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5675446631214632683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerOne: 1
+  respawnTag: Player1Respawn
 --- !u!1 &6363477027367269094
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,11 +87,14 @@ public class OrbsSpecialAtt : MonoBehaviour, IDamageable
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, targetAlpha);
     }
 
+    /// <summary>
+    /// DESTRUYE LA ORBE
+    /// </summary>
     IEnumerator DestroyReturn()
     {
         anim.SetTrigger("Destroy");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         Destroy(gameObject);
     }

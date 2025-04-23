@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
   m_Name: SpecialAttack
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 20
   knockbackForce: 20
   cooldownTime: 0
-  boxSize: {x: 8.84, y: 1.74}
-  boxOffset: {x: 5.83, y: 0}
+  boxSize: {x: 24.51, y: 2.12}
+  boxOffset: {x: 13.72, y: 0}
   targetLayer:
     serializedVersion: 2
     m_Bits: 256

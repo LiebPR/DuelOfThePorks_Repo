@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Ground
   - DeathZone
+  - Player2Respawn
+  - Player1Respawn
+  - Player1
+  - Player2
+  - percentagePlayer1
+  - percentagePlayer2
   layers:
   - Default
   - TransparentFX
