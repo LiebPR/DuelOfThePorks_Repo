@@ -12,24 +12,25 @@ GameObject:
   - component: {fileID: 5250631112687976696}
   - component: {fileID: 3905107430113740132}
   - component: {fileID: 6526391193644304137}
-  - component: {fileID: 8655589753613712024}
   - component: {fileID: 7018804067466559744}
   - component: {fileID: 8061068182728895559}
   - component: {fileID: 1253834435662814774}
   - component: {fileID: 827033985816162250}
-  - component: {fileID: 663573176650203631}
   - component: {fileID: 6123006313360259025}
   - component: {fileID: 2822950417424175748}
   - component: {fileID: 7601314568051002666}
   - component: {fileID: 3706886297801711190}
   - component: {fileID: 7747046431994997290}
   - component: {fileID: 434071126733262240}
+  - component: {fileID: 663573176650203631}
   - component: {fileID: 7202490942473114194}
   - component: {fileID: 5087129286253000855}
   - component: {fileID: 2026855371185623873}
+  - component: {fileID: 8655589753613712024}
+  - component: {fileID: 2305568544892061072}
   m_Layer: 6
   m_Name: KeanupigsP1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +51,7 @@ Transform:
   - {fileID: 626426540223286303}
   - {fileID: 7076467021665175502}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5250631112687976696
 MonoBehaviour:
@@ -127,29 +128,8 @@ MonoBehaviour:
   attackPoint: {fileID: 3984705766986405322}
   specialLaserEnabled: 1
   specialEffectPrefab: {fileID: 0}
-  specialSpawnPoint: {fileID: 0}
+  specialSpawnPoint: {fileID: 7076467021665175502}
   effectDuration: 0
---- !u!114 &8655589753613712024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985779905721963324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxVidas: 3
-  puntosDeRespawn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  heartImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &7018804067466559744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,25 +191,6 @@ MonoBehaviour:
   currentOrbs: 0
   maxOrbs: 3
   orbChargeUI: {fileID: 0}
---- !u!114 &663573176650203631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985779905721963324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseAttack: {fileID: 0}
-  upAttack: {fileID: 0}
-  downAttack: {fileID: 0}
-  strongAttack: {fileID: 0}
-  specialAttack: {fileID: 0}
-  jump: {fileID: 0}
-  dash: {fileID: 0}
 --- !u!114 &6123006313360259025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,10 +203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33bbeab38b29dc4dbba4391b022a60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
   killDeathEffectPrefab: {fileID: 0}
   zoneDeathEffectPrefab: {fileID: 0}
-  effectLifetime: 2
+  effectLifetime: 5
   hitOffset: {x: 0, y: 0, z: 0}
   killDeathOffset: {x: 0, y: 0, z: 0}
   zoneDeathOffset: {x: 0, y: -1, z: 0}
@@ -478,6 +439,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &663573176650203631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985779905721963324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseAttack: {fileID: 0}
+  upAttack: {fileID: 0}
+  downAttack: {fileID: 0}
+  strongAttack: {fileID: 0}
+  specialAttack: {fileID: 0}
+  jump: {fileID: 0}
+  dash: {fileID: 0}
 --- !u!212 &7202490942473114194
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -564,6 +544,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &8655589753613712024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985779905721963324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2305568544892061072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985779905721963324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerOne: 1
+  respawnTag: Player1Respawn
 --- !u!1 &3101040241425715125
 GameObject:
   m_ObjectHideFlags: 0

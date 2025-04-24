@@ -5,13 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - DeathZone
   - Player2Respawn
   - Player1Respawn
   - Player1
   - Player2
   - percentagePlayer1
   - percentagePlayer2
+  - DeathZoneInferior
+  - DeathZoneSuperior
+  - DeathZoneEste
+  - DeathZoneOeste
+  - DeathZone
   layers:
   - Default
   - TransparentFX

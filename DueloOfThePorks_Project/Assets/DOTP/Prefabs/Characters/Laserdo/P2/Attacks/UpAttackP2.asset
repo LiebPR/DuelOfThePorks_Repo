@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a0ca21cbe1a4774db2ed6ce83ca6a23, type: 3}
-  m_Name: BulletStrong
+  m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
+  m_Name: UpAttackP2
   m_EditorClassIdentifier: 
-  speed: 25
-  damage: 5
-  knockbackForce: 10
+  damage: 10
+  knockbackForce: 5
   cooldownTime: 0.8
-  maxTravelDistance: 20
-  bulletPrefab: {fileID: 629407123225738408, guid: d314b5f7524322844998107c06c11b42, type: 3}
+  boxSize: {x: 1.67, y: 3.36}
+  boxOffset: {x: 0.01, y: 2.52}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 264
-  attackIndex: 3
+    m_Bits: 64

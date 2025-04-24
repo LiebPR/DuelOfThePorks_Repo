@@ -16,13 +16,13 @@ GameObject:
   - component: {fileID: 6697627259276005969}
   - component: {fileID: 4374422578314369148}
   - component: {fileID: 3221586758276200803}
-  - component: {fileID: 4885641177552494191}
   - component: {fileID: 576360267254542247}
   - component: {fileID: 8095685422431714326}
   - component: {fileID: 388007808228352158}
   - component: {fileID: 6662732694613329995}
   - component: {fileID: 6210082078770366667}
   - component: {fileID: 1390717179637256335}
+  - component: {fileID: 9151929436982198880}
   - component: {fileID: 151605271709011461}
   - component: {fileID: 7475845348781711635}
   - component: {fileID: 4446598810585899257}
@@ -30,7 +30,7 @@ GameObject:
   - component: {fileID: 3708382985546420342}
   m_Layer: 6
   m_Name: LaserP1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,25 +191,6 @@ MonoBehaviour:
   currentOrbs: 0
   maxOrbs: 3
   orbChargeUI: {fileID: 0}
---- !u!114 &4885641177552494191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5675446631214632683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseAttack: {fileID: 0}
-  upAttack: {fileID: 0}
-  downAttack: {fileID: 0}
-  strongAttack: {fileID: 0}
-  specialAttack: {fileID: 0}
-  jump: {fileID: 0}
-  dash: {fileID: 0}
 --- !u!114 &576360267254542247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +341,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!82 &1390717179637256335
 AudioSource:
@@ -458,6 +439,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9151929436982198880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5675446631214632683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseAttack: {fileID: 0}
+  upAttack: {fileID: 0}
+  downAttack: {fileID: 0}
+  strongAttack: {fileID: 0}
+  specialAttack: {fileID: 0}
+  jump: {fileID: 0}
+  dash: {fileID: 0}
 --- !u!212 &151605271709011461
 SpriteRenderer:
   m_ObjectHideFlags: 0

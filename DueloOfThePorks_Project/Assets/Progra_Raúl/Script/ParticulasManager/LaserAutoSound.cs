@@ -1,4 +1,4 @@
-﻿// ✅ LaserAutoSound.cs
+﻿
 using UnityEngine;
 
 public class LaserAutoSound : MonoBehaviour

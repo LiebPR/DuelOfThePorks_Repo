@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
-  m_Name: SpecialAttackP2
+  m_Name: DownAttack
   m_EditorClassIdentifier: 
-  damage: 100
-  knockbackForce: 20
+  damage: 0
+  knockbackForce: 0
   cooldownTime: 0
-  boxSize: {x: 9.46, y: 6.13}
+  boxSize: {x: 1, y: 1}
   boxOffset: {x: 0, y: 0}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
