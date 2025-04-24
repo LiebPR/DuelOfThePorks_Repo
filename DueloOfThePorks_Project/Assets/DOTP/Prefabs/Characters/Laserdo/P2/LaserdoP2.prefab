@@ -16,21 +16,21 @@ GameObject:
   - component: {fileID: 6697627259276005969}
   - component: {fileID: 4374422578314369148}
   - component: {fileID: 3221586758276200803}
+  - component: {fileID: 4885641177552494191}
   - component: {fileID: 576360267254542247}
   - component: {fileID: 8095685422431714326}
   - component: {fileID: 388007808228352158}
   - component: {fileID: 6662732694613329995}
   - component: {fileID: 6210082078770366667}
   - component: {fileID: 1390717179637256335}
-  - component: {fileID: 9151929436982198880}
   - component: {fileID: 151605271709011461}
   - component: {fileID: 7475845348781711635}
   - component: {fileID: 4446598810585899257}
+  - component: {fileID: 5171938077483974234}
   - component: {fileID: 3774999836714081864}
-  - component: {fileID: 3708382985546420342}
-  m_Layer: 6
-  m_Name: LaserP1
-  m_TagString: Player1
+  m_Layer: 8
+  m_Name: LaserdoP2
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: 4c16554fd91d68c428f09c3204837cbd, type: 2}
+  - {fileID: 11400000, guid: 584b1c31b8955d74c839d44139209b6c, type: 2}
   - {fileID: 0}
   bulletSpawnPoint: {fileID: 7187639246197323524}
   globalAttackCooldown: 0.4
@@ -120,11 +120,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 11400000, guid: 0127d1f754b7103498d3993de86660dd, type: 2}
-  - {fileID: 11400000, guid: d9f080e9de8a8224b9e9cfcc8f6c0dcc, type: 2}
-  - {fileID: 11400000, guid: 67bee57ee3660514e963752d1f6f8a6c, type: 2}
+  - {fileID: 11400000, guid: 8b38fe24fea3a9a459d1cff1c2223922, type: 2}
+  - {fileID: 11400000, guid: a833378f5bca39a489cc1d04c9a5bfd0, type: 2}
+  - {fileID: 11400000, guid: 32b775469335d0e45a38892e677f2386, type: 2}
   - {fileID: 11400000, guid: 03dca6d51a3d91c4cb1e8f5830a2236c, type: 2}
-  - {fileID: 11400000, guid: ea15b28dcfeb7ac419385d8597aaacfe, type: 2}
+  - {fileID: 11400000, guid: 2d56c3f6132ad8d449e54b5e3dfed8f9, type: 2}
   attackPoint: {fileID: 2704675533744100615}
   specialLaserEnabled: 1
   specialEffectPrefab: {fileID: 951779232601812081, guid: 0b53d71cef4cfe245856e92da32c13ba, type: 3}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePercentage: 0
-  isPlayerOne: 1
+  isPlayerOne: 0
   isInvincible: 0
   damageHandler: {fileID: 6697627259276005969}
 --- !u!114 &6697627259276005969
@@ -191,6 +191,25 @@ MonoBehaviour:
   currentOrbs: 0
   maxOrbs: 3
   orbChargeUI: {fileID: 0}
+--- !u!114 &4885641177552494191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5675446631214632683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseAttack: {fileID: 0}
+  upAttack: {fileID: 0}
+  downAttack: {fileID: 0}
+  strongAttack: {fileID: 0}
+  specialAttack: {fileID: 0}
+  jump: {fileID: 0}
+  dash: {fileID: 0}
 --- !u!114 &576360267254542247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71cd81352db54cf40847409fc1f2f3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerOne: 1
+  isPlayerOne: 0
   inputLocked: 0
   moveInput: {x: 0, y: 0}
   dashInput: 0
@@ -303,7 +322,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.087439895, y: 1.1546271}
+  m_Offset: {x: 0.24304533, y: 1.1546271}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.35, y: 0}
@@ -314,7 +333,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.0906084, y: 2.1059966}
+  m_Size: {x: 3.2851152, y: 2.1059966}
   m_EdgeRadius: 0
 --- !u!50 &6210082078770366667
 Rigidbody2D:
@@ -439,25 +458,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9151929436982198880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5675446631214632683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseAttack: {fileID: 0}
-  upAttack: {fileID: 0}
-  downAttack: {fileID: 0}
-  strongAttack: {fileID: 0}
-  specialAttack: {fileID: 0}
-  jump: {fileID: 0}
-  dash: {fileID: 0}
 --- !u!212 &151605271709011461
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -544,6 +544,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &5171938077483974234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5675446631214632683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerOne: 0
+  respawnTag: Player2Respawn
 --- !u!114 &3774999836714081864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,20 +570,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3708382985546420342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5675446631214632683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isPlayerOne: 1
-  respawnTag: Player1Respawn
 --- !u!1 &6363477027367269094
 GameObject:
   m_ObjectHideFlags: 0

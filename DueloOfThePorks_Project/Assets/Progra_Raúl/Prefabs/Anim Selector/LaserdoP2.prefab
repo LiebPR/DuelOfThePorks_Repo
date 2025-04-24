@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1240265585600564153}
   - component: {fileID: 4105233820065486224}
   m_Layer: 8
-  m_Name: laserdo 2
+  m_Name: LaserdoP2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

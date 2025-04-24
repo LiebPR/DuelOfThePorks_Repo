@@ -1911,12 +1911,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatPrefabs:
   - {fileID: 7539898692024603055, guid: 986a29f049244d04d8b111120a377b73, type: 3}
-  - {fileID: 4701925635610900839, guid: 5e6978132d9c30a43bf7ba2d69b1ec71, type: 3}
   - {fileID: 401770951535406693, guid: f6b6a42aa5a728d4aac17d80de2afc55, type: 3}
-  - {fileID: 3982044304681849843, guid: d81dda839b59b994fa46fde74636596d, type: 3}
   - {fileID: 2985779905721963324, guid: 5a2170a9820fac548981de22c6402b5f, type: 3}
-  - {fileID: 1060449745091131849, guid: 6c6748fc2f509fb48bb1c567b4777531, type: 3}
   - {fileID: 5675446631214632683, guid: 907ef5f585f1e3340a714e640e85a24a, type: 3}
+  - {fileID: 4701925635610900839, guid: 5e6978132d9c30a43bf7ba2d69b1ec71, type: 3}
+  - {fileID: 3982044304681849843, guid: d81dda839b59b994fa46fde74636596d, type: 3}
+  - {fileID: 1060449745091131849, guid: 6c6748fc2f509fb48bb1c567b4777531, type: 3}
   - {fileID: 5675446631214632683, guid: a4953a269d45ae346bfa4dca4df18af1, type: 3}
 --- !u!4 &1029720457
 Transform:

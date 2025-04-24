@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro; // Importante: esto es para usar TextMeshPro normal (no UI)
+using TMPro; // Para TextMeshPro
 
 public class CharacterSelector : MonoBehaviour
 {
@@ -19,15 +19,21 @@ public class CharacterSelector : MonoBehaviour
     [Header("Texto de nombre (TextMeshPro en el mundo)")]
     public TextMeshPro nameDisplay;
 
+    [Header("Colores de texto")]
+    public Color defaultColor = Color.white;
+    public Color confirmedColor = Color.green;
+
     [Header("Teclas - solo teclado")]
     public KeyCode nextKey = KeyCode.D;
     public KeyCode prevKey = KeyCode.A;
     public KeyCode confirmKey = KeyCode.W;
+    public KeyCode deselectKey = KeyCode.S;   // <--- Tecla para deseleccionar
 
     [Header("Botones - solo gamepad")]
-    public string nextButton = "joystick button 5";    // RB
-    public string prevButton = "joystick button 4";    // LB
-    public string confirmButton = "joystick button 0"; // A (Xbox), X (PS)
+    public string nextButton = "joystick button 5"; // RB
+    public string prevButton = "joystick button 4"; // LB
+    public string confirmButton = "joystick button 0"; // A/X
+    public string deselectButton = "joystick button 1"; // B/Círculo, para deseleccionar
 
     [Header("Escala del preview")]
     public float previewScale = 2f;
@@ -41,58 +47,84 @@ public class CharacterSelector : MonoBehaviour
 
     void Start()
     {
+        // Color inicial
+        if (nameDisplay != null) nameDisplay.color = defaultColor;
         ShowCharacter(currentIndex);
     }
 
     void Update()
     {
-        if (confirmed) return;
-
-        if (controlType == ControlType.Keyboard)
+        if (!confirmed)
         {
-            if (Input.GetKeyDown(prevKey)) Navigate(-1);
-            if (Input.GetKeyDown(nextKey)) Navigate(1);
-            if (Input.GetKeyDown(confirmKey)) Confirm();
+            // Navegación y confirmación
+            if (controlType == ControlType.Keyboard)
+            {
+                if (Input.GetKeyDown(prevKey)) Navigate(-1);
+                if (Input.GetKeyDown(nextKey)) Navigate(1);
+                if (Input.GetKeyDown(confirmKey)) Confirm();
+            }
+            else // Gamepad
+            {
+                if (Input.GetKeyDown(prevButton)) Navigate(-1);
+                if (Input.GetKeyDown(nextButton)) Navigate(1);
+                if (Input.GetKeyDown(confirmButton)) Confirm();
+            }
         }
-        else if (controlType == ControlType.Gamepad)
+        else
         {
-            if (Input.GetKeyDown(prevButton)) Navigate(-1);
-            if (Input.GetKeyDown(nextButton)) Navigate(1);
-            if (Input.GetKeyDown(confirmButton)) Confirm();
+            // Deseleccionar
+            if ((controlType == ControlType.Keyboard && Input.GetKeyDown(deselectKey)) ||
+                (controlType == ControlType.Gamepad && Input.GetKeyDown(deselectButton)))
+            {
+                Deselect();
+            }
         }
     }
 
     void Navigate(int dir)
     {
-        currentIndex = (currentIndex + dir + characterPreviewPrefabs.Length) % characterPreviewPrefabs.Length;
+        currentIndex = (currentIndex + dir + characterPreviewPrefabs.Length)
+                       % characterPreviewPrefabs.Length;
         ShowCharacter(currentIndex);
     }
 
     void ShowCharacter(int index)
     {
-        if (previewInstance != null) Destroy(previewInstance);
+        if (previewInstance != null)
+            Destroy(previewInstance);
 
         previewInstance = Instantiate(characterPreviewPrefabs[index], previewArea);
         previewInstance.transform.localPosition = Vector3.zero;
         previewInstance.transform.localScale = Vector3.one * previewScale;
 
         UpdateNameDisplay();
+        if (nameDisplay != null)
+            nameDisplay.color = defaultColor;
     }
 
     void Confirm()
     {
         confirmed = true;
-        UpdateNameDisplay();
+        if (nameDisplay != null)
+            nameDisplay.color = confirmedColor;
+
         Debug.Log($"{playerType} seleccionó: {SelectedCharacterName}");
+    }
+
+    void Deselect()
+    {
+        confirmed = false;
+        // Restaurar color y texto
+        if (nameDisplay != null)
+            nameDisplay.color = defaultColor;
+
+        UpdateNameDisplay();
+        Debug.Log($"{playerType} deseleccionó su elección.");
     }
 
     void UpdateNameDisplay()
     {
         if (nameDisplay != null)
-        {
-            nameDisplay.text = confirmed
-                ? SelectedCharacterName + " [OK]"
-                : SelectedCharacterName;
-        }
+            nameDisplay.text = SelectedCharacterName;
     }
 }
