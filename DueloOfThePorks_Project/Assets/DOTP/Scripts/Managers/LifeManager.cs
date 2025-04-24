@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class LifeManager : MonoBehaviour
 {
     int maxVidas = 3;
-    Color originalColor;
-
     Transform[] puntosDeRespawn;
     Image[] heartImages;
 
@@ -18,6 +16,7 @@ public class LifeManager : MonoBehaviour
 
     int vidas;
     bool diedByZone = false;
+    Vector3 lastZoneDeathEuler = Vector3.zero;
 
     void Awake()
     {
@@ -25,11 +24,6 @@ public class LifeManager : MonoBehaviour
         playerOrbslife = GetComponent<PlayerOrbs>();
         spriteRendererlife = GetComponent<SpriteRenderer>();
         effectHandlerlife = GetComponent<ParticleEffectHandler>();
-
-        if(spriteRendererlife != null)
-        {
-            originalColor = spriteRendererlife.color;
-        }
     }
 
     void Start()
@@ -39,34 +33,64 @@ public class LifeManager : MonoBehaviour
         hitDetectorlife.damageHandler?.UpdateHealthDisplay(0f);
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("DeathZone")) return;
+
+        // Determina qué lado: arriba, abajo, derecha, izquierda
+        Vector2 center = other.bounds.center;
+        Vector2 dir = ((Vector2)transform.position - center).normalized;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            // Lateral
+            if (dir.x > 0f)
+                lastZoneDeathEuler = new Vector3(0f, 90f,-90f);  // derecha → mira izquierda
+            else
+                lastZoneDeathEuler = new Vector3(0f, -90f, 90f);  // izquierda → mira derecha
+        }
+        else
+        {
+            // Vertical
+            if (dir.y > 0f)
+                lastZoneDeathEuler = new Vector3(-90f,0f,90f);   // arriba → mira abajo
+            else
+                lastZoneDeathEuler = new Vector3(-90f, 0f, 90f);  // abajo → mira arriba
+        }
+
+        diedByZone = true;
+        Die();
+    }
+
     public void Die()
     {
-        // Efecto visual
         Vector3 pos = transform.position;
-        Quaternion rot = transform.rotation;
+        Quaternion rot;
 
         if (diedByZone)
+        {
+            rot = Quaternion.Euler(lastZoneDeathEuler);
             effectHandlerlife?.PlayZoneDeathEffect(pos, rot);
+        }
         else
+        {
+            rot = transform.rotation;
             effectHandlerlife?.PlayKillDeathEffect(pos, rot);
+        }
 
         diedByZone = false;
 
-        // Reducir vida y actualizar UI
         vidas--;
         if (vidas >= 0 && vidas < heartImages.Length)
             heartImages[vidas].enabled = false;
 
-        // Game Over o Respawn
         if (vidas <= 0)
         {
             string perdedor = hitDetectorlife.isPlayerOne ? "Player 1" : "Player 2";
             string ganador = hitDetectorlife.isPlayerOne ? "Player 2" : "Player 1";
-
             PlayerPrefs.SetString("Winner", ganador);
             PlayerPrefs.SetString("Loser", perdedor);
             PlayerPrefs.Save();
-
             SceneManager.LoadScene("FinalScene");
             gameObject.SetActive(false);
         }
@@ -75,18 +99,15 @@ public class LifeManager : MonoBehaviour
             StartCoroutine(RespawnRoutine());
         }
 
-        // Quitar orbe
         playerOrbslife?.RemoveOrb();
         StopKnockback();
     }
 
     IEnumerator RespawnRoutine()
     {
-        // Reset daño y UI
         hitDetectorlife.damagePercentage = 0f;
         hitDetectorlife.damageHandler?.UpdateHealthDisplay(0f);
 
-        // Elegir respawn aleatorio
         int idx = Random.Range(0, puntosDeRespawn.Length);
         Vector3 offset = new Vector3(
             Random.Range(-0.5f, 0.5f),
@@ -95,40 +116,25 @@ public class LifeManager : MonoBehaviour
         );
         transform.position = puntosDeRespawn[idx].position + offset;
 
-        // Invulnerabilidad temporal
-        StartCoroutine(InvulnerabilityCoroutine(3f));
-        yield return null;
+        yield return StartCoroutine(InvulnerabilityCoroutine(3f));
     }
 
     IEnumerator InvulnerabilityCoroutine(float duration)
     {
         hitDetectorlife.isInvincible = true;
-
         if (spriteRendererlife != null)
         {
-            Color newColor = spriteRendererlife.material.color;
-            newColor.a = 0.5f;
-            spriteRendererlife.material.color = newColor;
+            var c = spriteRendererlife.color;
+            c.a = 0.5f;
+            spriteRendererlife.color = c;
         }
-
         yield return new WaitForSeconds(duration);
-
         hitDetectorlife.isInvincible = false;
-
-        if(spriteRendererlife != null)
+        if (spriteRendererlife != null)
         {
-            Color newColor = spriteRendererlife.material.color;
-            newColor.a = 1f;
-            spriteRendererlife.material.color = newColor;
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("DeathZone"))
-        {
-            diedByZone = true;
-            Die();
+            var c = spriteRendererlife.color;
+            c.a = 1f;
+            spriteRendererlife.color = c;
         }
     }
 
@@ -143,18 +149,10 @@ public class LifeManager : MonoBehaviour
         }
     }
 
-    // Métodos usados por PlayerInitializer
-    public void SetHeartImages(Image[] hearts)
-    {
-        heartImages = hearts;
-    }
+    // Para inicializar desde otro componente:
+    public void SetHeartImages(Image[] hearts) => heartImages = hearts;
+    public void SetRespawnPoints(Transform[] resp) => puntosDeRespawn = resp;
 
-    public void SetRespawnPoints(Transform[] respawns)
-    {
-        puntosDeRespawn = respawns;
-    }
-
-    // Información para otros componentes si se requiere
     public int GetLives() => vidas;
     public Transform[] GetRespawnPoints() => puntosDeRespawn;
 }

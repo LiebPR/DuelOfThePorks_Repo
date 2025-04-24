@@ -5968,6 +5968,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 576360267254542247, guid: 907ef5f585f1e3340a714e640e85a24a, type: 3}
+      propertyPath: zoneDeathOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 576360267254542247, guid: 907ef5f585f1e3340a714e640e85a24a, type: 3}
       propertyPath: zoneDeathOffset.y
       value: 0
       objectReference: {fileID: 0}
@@ -5979,6 +5983,10 @@ PrefabInstance:
       propertyPath: zoneDeathEffectPrefab
       value: 
       objectReference: {fileID: 8691420599760481409, guid: 7d5c2244c3c850d4d80f25b536044f24, type: 3}
+    - target: {fileID: 576360267254542247, guid: 907ef5f585f1e3340a714e640e85a24a, type: 3}
+      propertyPath: zoneDeathRotationOffset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1772658973619279447, guid: 907ef5f585f1e3340a714e640e85a24a, type: 3}
       propertyPath: fillImage
       value: 
@@ -6088,6 +6096,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 576360267254542247, guid: a4953a269d45ae346bfa4dca4df18af1, type: 3}
+      propertyPath: zoneDeathOffset.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 576360267254542247, guid: a4953a269d45ae346bfa4dca4df18af1, type: 3}
       propertyPath: killDeathEffectPrefab
       value: 

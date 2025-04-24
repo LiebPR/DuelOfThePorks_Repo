@@ -9,7 +9,7 @@ public class ParticleEffectHandler : MonoBehaviour
     [SerializeField] private GameObject zoneDeathEffectPrefab;
     [SerializeField] private float effectLifetime = 2f;
 
-    [Header("Offsets")]
+    [Header("Offsets de Posición")]
     [SerializeField] private Vector3 hitOffset = Vector3.zero;
     [SerializeField] private Vector3 killDeathOffset = Vector3.zero;
     [SerializeField] private Vector3 zoneDeathOffset = new Vector3(0f, -1f, 0f);
@@ -21,7 +21,8 @@ public class ParticleEffectHandler : MonoBehaviour
     [SerializeField] private float minFlashIntensity = 0.5f;
     [SerializeField] private float maxFlashIntensity = 2f;
 
-    [Header("Rotación")]
+    [Header("Seguir Rotación")]
+    [Tooltip("Si es true, usa la rotación que venga; si false, ignora rotación externa y usa identidad.")]
     [SerializeField] private bool followRotation = true;
 
     private Color originalColor;
@@ -38,46 +39,44 @@ public class ParticleEffectHandler : MonoBehaviour
 
     public void PlayHitEffect(Vector3 pos, Quaternion rot, float damagePercent)
     {
-        SpawnEffect(hitEffectPrefab, pos + hitOffset, rot);
+        Quaternion finalRot = followRotation ? rot : Quaternion.identity;
+        SpawnEffect(hitEffectPrefab, pos + hitOffset, finalRot);
         FlashSprite(damagePercent);
     }
 
     public void PlayKillDeathEffect(Vector3 pos, Quaternion rot)
     {
-        SpawnEffect(killDeathEffectPrefab, pos + killDeathOffset, rot);
+        Quaternion finalRot = followRotation ? rot : Quaternion.identity;
+        SpawnEffect(killDeathEffectPrefab, pos + killDeathOffset, finalRot);
         FlashSprite(100f);
     }
 
+    /// <summary>
+    /// Aquí solo se usa el Quaternion que se pasa, sin tomar nada del prefab.
+    /// </summary>
     public void PlayZoneDeathEffect(Vector3 pos, Quaternion rot)
     {
-        SpawnEffect(zoneDeathEffectPrefab, pos + zoneDeathOffset, rot);
+        Quaternion finalRot = followRotation ? rot : Quaternion.identity;
+        SpawnEffect(zoneDeathEffectPrefab, pos + zoneDeathOffset, finalRot);
         FlashSprite(100f);
     }
 
     private void SpawnEffect(GameObject prefab, Vector3 spawnPos, Quaternion rot)
     {
         if (prefab == null) return;
-
-        // Instancia sin parent, en world-space
-        var inst = Instantiate(prefab,
-                               spawnPos,
-                               followRotation ? rot : Quaternion.identity);
-
-        // Forzar que cada ParticleSystem hijo simule en World space
+        var inst = Instantiate(prefab, spawnPos, rot);
         foreach (var ps in inst.GetComponentsInChildren<ParticleSystem>())
         {
             var main = ps.main;
             main.simulationSpace = ParticleSystemSimulationSpace.World;
         }
-
         Destroy(inst, effectLifetime);
     }
 
     private void FlashSprite(float damagePercent)
     {
         if (spriteRenderer == null) return;
-        if (flashCoroutine != null)
-            StopCoroutine(flashCoroutine);
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
 
         float t = Mathf.Clamp01(damagePercent / 100f);
         float intensity = Mathf.Lerp(minFlashIntensity, maxFlashIntensity, t);
@@ -89,9 +88,7 @@ public class ParticleEffectHandler : MonoBehaviour
         var c = flashColor * intensity;
         c.a = originalColor.a;
         spriteRenderer.color = c;
-
         yield return new WaitForSeconds(flashDuration);
-
         spriteRenderer.color = originalColor;
         flashCoroutine = null;
     }
