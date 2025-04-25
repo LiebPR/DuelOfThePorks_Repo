@@ -21,8 +21,8 @@ public class GameOverManager : MonoBehaviour
         string loser = PlayerPrefs.GetString("Loser");
 
         // Mostrar textos
-        if (winnerText != null) winnerText.text = $"🏆 {winner} WINNER";
-        if (loserText != null) loserText.text = $"❌ {loser} LOSER";
+        if (winnerText != null) winnerText.text = $" {winner} WINNER";
+        if (loserText != null) loserText.text = $" {loser} LOSER";
 
         // ¿Quién ganó?
         bool p1Won = winner == "Player 1";

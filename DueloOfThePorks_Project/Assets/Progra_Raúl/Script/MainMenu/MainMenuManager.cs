@@ -87,7 +87,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void AbrirHowToPlay()
     {
-        ReproducirSFX(0); // botón
+        ReproducirSFX(0);
         panelMainMenu?.gameObject.SetActive(false);
         if (panelHowToPlay != null)
         {
@@ -101,7 +101,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void CerrarHowToPlay()
     {
-        ReproducirSFX(0); // botón
+        ReproducirSFX(0);
         if (panelHowToPlay != null)
             StartCoroutine(FadeOutAndDisable(panelHowToPlay, duracionTransicion));
         panelMainMenu?.gameObject.SetActive(true);
@@ -123,7 +123,7 @@ public class MainMenuManager : MonoBehaviour
         foreach (var src in musicSources) src.Stop();
         foreach (var src in sfxSources) src.Stop();
 
-        ReproducirSFX(0); // sonido de click
+        ReproducirSFX(0);
 
         PlayerPrefs.SetString("EscenaDestino", escenaAJugar);
         PlayerPrefs.Save();
@@ -142,6 +142,21 @@ public class MainMenuManager : MonoBehaviour
         {
             SceneManager.LoadScene(escenaDeCarga);
         }
+    }
+
+    /// <summary>
+    /// Cierra la aplicación y detiene todo el audio.
+    /// </summary>
+    public void SalirDelJuego()
+    {
+        // Detener audio
+        foreach (var src in musicSources) src.Stop();
+        foreach (var src in sfxSources) src.Stop();
+
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float dur, System.Action onComplete = null)

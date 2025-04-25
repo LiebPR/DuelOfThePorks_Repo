@@ -11,8 +11,7 @@ public class VideoBackground : MonoBehaviour
 
     [Header("Opciones de reproducción")]
     public bool loop = true;
-    public bool playOnAwake = true;
-    public float volume = 0f;
+    [Range(0f, 1f)] public float volume = 0f;
 
     private VideoPlayer _videoPlayer;
     private RawImage _rawImage;
@@ -20,44 +19,48 @@ public class VideoBackground : MonoBehaviour
 
     void Awake()
     {
-        // Aseguramos que el RectTransform llene el área padre
+        // Ajustar RectTransform para cubrir todo el padre
         _rt = GetComponent<RectTransform>();
         _rt.anchorMin = Vector2.zero;
         _rt.anchorMax = Vector2.one;
         _rt.offsetMin = Vector2.zero;
         _rt.offsetMax = Vector2.zero;
 
-        // Creamos o buscamos el RawImage
-        _rawImage = GetComponent<RawImage>();
-        if (_rawImage == null)
-            _rawImage = gameObject.AddComponent<RawImage>();
+        // Crear o coger el RawImage y ocultarlo hasta que esté listo
+        _rawImage = GetComponent<RawImage>() ?? gameObject.AddComponent<RawImage>();
+        _rawImage.enabled = false;
 
-        // Creamos el VideoPlayer en este GameObject
+        // Configurar VideoPlayer sin playOnAwake
         _videoPlayer = gameObject.AddComponent<VideoPlayer>();
-        _videoPlayer.playOnAwake = playOnAwake;
+        _videoPlayer.playOnAwake = false;
         _videoPlayer.isLooping = loop;
+        _videoPlayer.clip = clip;
+        _videoPlayer.renderMode = VideoRenderMode.APIOnly;
         _videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
 
-        // Creamos un AudioSource para el vídeo (invisible)
+        // Audio del vídeo
         var audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.volume = volume;
         _videoPlayer.SetTargetAudioSource(0, audioSource);
 
-        // Asignamos el vídeo
-        _videoPlayer.clip = clip;
-        _videoPlayer.renderMode = VideoRenderMode.APIOnly;
+        // Cuando termine de preparar, llamamos a OnPrepared
         _videoPlayer.prepareCompleted += OnVideoPrepared;
 
-        // Preparamos (evita frame inicial en negro)
+        // Prepara inmediatamente (sin mostrar nada aún)
         _videoPlayer.Prepare();
     }
 
-    private void OnVideoPrepared(VideoPlayer source)
+    private void OnDestroy()
     {
-        // Cuando está listo, asignamos la textura al RawImage
-        _rawImage.texture = source.texture;
-        if (playOnAwake)
-            source.Play();
+        _videoPlayer.prepareCompleted -= OnVideoPrepared;
+    }
+
+    private void OnVideoPrepared(VideoPlayer vp)
+    {
+        // Asignar textura y mostrar RawImage, luego reproducir
+        _rawImage.texture = vp.texture;
+        _rawImage.enabled = true;
+        vp.Play();
     }
 }

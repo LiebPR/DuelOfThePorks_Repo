@@ -408,10 +408,12 @@ MonoBehaviour:
   musicVolParam: MusicVolume
   sfxVolParam: SFXVolume
   soundClips:
-  - name: 
-    clip: {fileID: 0}
-    volume: 0
-    loop: 0
+  - clip: {fileID: 8300000, guid: 840c6a4cfa35f6b40b0778b96e3c034d, type: 3}
+    volume: 0.1
+    loop: 1
+  - clip: {fileID: 8300000, guid: b94d6d224c09fc34b8e8978e7bc0633e, type: 3}
+    volume: 1
+    loop: 1
 --- !u!1 &974861211
 GameObject:
   m_ObjectHideFlags: 0
