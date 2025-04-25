@@ -1543,11 +1543,17 @@ MonoBehaviour:
   musicSounds:
   - clip: {fileID: 8300000, guid: 49c12d0f60c5490489c4337d01499dd3, type: 3}
     volume: 0.078
-    loop: 0
+    loop: 1
   - clip: {fileID: 8300000, guid: bf8029b0f7075d744ac2823c8b54f677, type: 3}
-    volume: 1
+    volume: 0.5
+    loop: 1
+  - clip: {fileID: 8300000, guid: 221c0ada84b57e841be78c70c810fd6f, type: 3}
+    volume: 0.7
+    loop: 1
+  sfxSounds:
+  - clip: {fileID: 0}
+    volume: 0
     loop: 0
-  sfxSounds: []
 --- !u!1 &1431462056
 GameObject:
   m_ObjectHideFlags: 0
