@@ -1540,14 +1540,14 @@ MonoBehaviour:
   duracionTransicion: 0.2
   escenaAJugar: CharacterSelector
   escenaDeCarga: EscenaCarga
-  musicSounds: []
-  sfxSounds:
+  musicSounds:
   - clip: {fileID: 8300000, guid: 49c12d0f60c5490489c4337d01499dd3, type: 3}
-    volume: 0.23
+    volume: 0.078
     loop: 0
   - clip: {fileID: 8300000, guid: bf8029b0f7075d744ac2823c8b54f677, type: 3}
     volume: 1
     loop: 0
+  sfxSounds: []
 --- !u!1 &1431462056
 GameObject:
   m_ObjectHideFlags: 0
