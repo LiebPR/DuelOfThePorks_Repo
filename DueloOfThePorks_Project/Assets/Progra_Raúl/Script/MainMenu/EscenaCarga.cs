@@ -1,86 +1,110 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
+
+[System.Serializable]
+public class LoadSound
+{
+    public AudioClip clip;
+    [Range(0f, 1f)] public float volume = 1f;
+    public bool loop = false;
+}
 
 public class EscenaCarga : MonoBehaviour
 {
     [Header("UI de carga")]
-    [Tooltip("TextMeshProUGUI que mostrará el texto animado 'Cargando...'")]
     public TextMeshProUGUI textoCarga;
 
-    [Header("Parámetros de animación de puntos")]
-    [Tooltip("Tiempo (en segundos) entre añadir un punto extra")]
+    [Header("Animación de puntos")]
     public float dotDelay = 0.5f;
 
     [Header("Duración mínima en pantalla")]
-    [Tooltip("Tiempo mínimo (en segundos) que debe mostrarse esta pantalla incluso si la escena ya está lista")]
     public float minDisplayTime = 2f;
 
-    private string escenaDestino;
-    private float dotTimer;
-    private int dotCount;
-    private float startTime;
+    [Header("Sonidos de Carga")]
+    public LoadSound[] loadSounds;
+
+    AudioSource[] loadSources;
+    string escenaDestino;
+    float dotTimer, startTime;
+    int dotCount;
+
+    void Awake()
+    {
+        // Crear AudioSource por cada LoadSound
+        loadSources = new AudioSource[loadSounds.Length];
+        for (int i = 0; i < loadSounds.Length; i++)
+        {
+            var ls = loadSounds[i];
+            var src = gameObject.AddComponent<AudioSource>();
+            src.clip = ls.clip;
+            src.volume = ls.volume;
+            src.loop = ls.loop;
+            loadSources[i] = src;
+        }
+    }
 
     void Start()
     {
-        
+        // Reproducir todos los sonidos de carga
+        foreach (var src in loadSources)
+            if (src.clip != null)
+                src.Play();
 
-        SoundManager.instance.PlaySoundEffect("Thunder");
-        SoundManager.instance.PlayMusic("Storming");
-
-        // Validación de referencias
         if (textoCarga == null)
         {
-            Debug.LogError("[EscenaCarga] Falta asignar 'textoCarga' en el Inspector.", this);
+            Debug.LogError("[EscenaCarga] Falta asignar 'textoCarga'.", this);
             enabled = false;
             return;
         }
 
-        // Recupera la escena destino
         escenaDestino = PlayerPrefs.GetString("EscenaDestino", "");
         if (string.IsNullOrEmpty(escenaDestino))
         {
-            Debug.LogError("[EscenaCarga] No se encontró 'EscenaDestino' en PlayerPrefs.", this);
+            Debug.LogError("[EscenaCarga] No se encontró 'EscenaDestino'.", this);
             enabled = false;
             return;
         }
 
-        // Guarda el momento de inicio
         startTime = Time.time;
-        // Arranca la carga asíncrona
         StartCoroutine(CargarEscenaAsync());
     }
 
     void Update()
     {
-        // Anima los puntos de "Cargando"
         dotTimer += Time.deltaTime;
         if (dotTimer >= dotDelay)
         {
             dotTimer = 0f;
-            dotCount = (dotCount + 1) % 4; // 0,1,2 o 3 puntos
+            dotCount = (dotCount + 1) % 4;
             textoCarga.text = "Cargando" + new string('.', dotCount);
         }
     }
 
-    private IEnumerator CargarEscenaAsync()
+    IEnumerator CargarEscenaAsync()
     {
-        // Inicia la carga sin activar automáticamente
-        var operacion = SceneManager.LoadSceneAsync(escenaDestino);
-        operacion.allowSceneActivation = false;
+        var op = SceneManager.LoadSceneAsync(escenaDestino);
+        op.allowSceneActivation = false;
 
-        // Espera hasta que Unity alcance el 90% de progreso
-        while (operacion.progress < 0.9f)
+        while (op.progress < 0.9f)
             yield return null;
 
-        // Calcula tiempo restante para cumplir minDisplayTime
         float elapsed = Time.time - startTime;
         if (elapsed < minDisplayTime)
             yield return new WaitForSeconds(minDisplayTime - elapsed);
 
-        // Finalmente activa la escena cargada
-        operacion.allowSceneActivation = true;
-        SoundManager.instance.StopMusic("Storming");
+        // Detener todos los sonidos de carga
+        foreach (var src in loadSources)
+            src.Stop();
+
+        op.allowSceneActivation = true;
+    }
+
+    void OnDisable()
+    {
+        // Asegura que no quede audio al desactivar
+        foreach (var src in loadSources)
+            src.Stop();
     }
 }

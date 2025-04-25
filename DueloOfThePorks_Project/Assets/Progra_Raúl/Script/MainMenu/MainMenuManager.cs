@@ -1,35 +1,77 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
+[System.Serializable]
+public class MenuSound
+{
+    public AudioClip clip;
+    [Range(0f, 1f)] public float volume = 1f;
+    public bool loop = true;           // por defecto true para mÃºsica
+}
+
+[System.Serializable]
+public class SfxSound
+{
+    public AudioClip clip;
+    [Range(0f, 1f)] public float volume = 1f;
+    public bool loop = false;          // por defecto false para SFX
+}
+
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Paneles del Menú")]
+    [Header("Paneles del MenÃº")]
     public CanvasGroup panelMainMenu;
     public CanvasGroup panelHowToPlay;
 
-    [Header("Transición Visual (Opcional)")]
+    [Header("TransiciÃ³n Visual")]
     public CanvasGroup canvasTransicion;
     public float duracionTransicion = 1f;
 
     [Header("Escena a Cargar")]
-    public string escenaAJugar; // Ej: "Scene_Pract"
-    public string escenaDeCarga = "EscenaCarga"; // Asegúrate que esta escena esté en Build Settings
+    public string escenaAJugar;
+    public string escenaDeCarga = "EscenaCarga";
 
-    [Header("Fondo de Vídeo (Opcional)")]
-    public GameObject videoBackground; // Arrastra aquí el GameObject con VideoBackground
+    [Header("MÃºsica de Fondo")]
+    public MenuSound[] musicSounds;
 
-    private void Start()
+    [Header("Efectos de Sonido")]
+    public SfxSound[] sfxSounds;
+
+    AudioSource[] musicSources;
+    AudioSource[] sfxSources;
+
+    void Awake()
     {
-        SoundManager.instance.PlayMusic("FarmMusic");
+        // Crear AudioSources para cada pista de mÃºsica
+        musicSources = new AudioSource[musicSounds.Length];
+        for (int i = 0; i < musicSounds.Length; i++)
+        {
+            var m = musicSounds[i];
+            var src = gameObject.AddComponent<AudioSource>();
+            src.clip = m.clip;
+            src.volume = m.volume;
+            src.loop = m.loop;
+            musicSources[i] = src;
+        }
+        // Crear AudioSources para cada SFX
+        sfxSources = new AudioSource[sfxSounds.Length];
+        for (int i = 0; i < sfxSounds.Length; i++)
+        {
+            var fx = sfxSounds[i];
+            var src = gameObject.AddComponent<AudioSource>();
+            src.clip = fx.clip;
+            src.volume = fx.volume;
+            src.loop = fx.loop;
+            sfxSources[i] = src;
+        }
+    }
 
-        SoundManager.instance.PlaySoundEffect("MolinoViento");
-        SoundManager.instance.PlaySoundEffect("Brisa");
-        if (panelMainMenu != null)
-            panelMainMenu.gameObject.SetActive(true);
-        if (panelHowToPlay != null)
-            panelHowToPlay.gameObject.SetActive(false);
-
+    void Start()
+    {
+        // Mostrar UI inicial
+        panelMainMenu?.gameObject.SetActive(true);
+        panelHowToPlay?.gameObject.SetActive(false);
         if (canvasTransicion != null)
         {
             canvasTransicion.alpha = 0f;
@@ -37,54 +79,51 @@ public class MainMenuManager : MonoBehaviour
             canvasTransicion.blocksRaycasts = false;
         }
 
-        // Activar fondo de vídeo si existe
-        if (videoBackground != null)
-            videoBackground.SetActive(true);
+        // Reproducir todas las pistas de mÃºsica
+        foreach (var src in musicSources)
+            if (src.clip != null)
+                src.Play();
     }
 
-    public void ReproducirSonidoBotton()
-    {
-        SoundManager.instance.PlaySoundEffect("ButtonClick");
-    }
-
-    #region Gestión de Paneles
     public void AbrirHowToPlay()
     {
-        ReproducirSonidoBotton();
-
-        if (panelMainMenu != null)
-            panelMainMenu.gameObject.SetActive(false);
-
+        ReproducirSFX(0); // botÃ³n
+        panelMainMenu?.gameObject.SetActive(false);
         if (panelHowToPlay != null)
         {
             panelHowToPlay.gameObject.SetActive(true);
             panelHowToPlay.alpha = 0f;
             panelHowToPlay.interactable = true;
             panelHowToPlay.blocksRaycasts = true;
-            StartCoroutine(FadeCanvasGroup(panelHowToPlay, 0f, 1f, 0.5f));
+            StartCoroutine(FadeCanvasGroup(panelHowToPlay, 0f, 1f, duracionTransicion));
         }
     }
 
     public void CerrarHowToPlay()
     {
-        ReproducirSonidoBotton();
+        ReproducirSFX(0); // botÃ³n
         if (panelHowToPlay != null)
-            StartCoroutine(FadeOutAndDisable(panelHowToPlay, 0.5f));
-
-        if (panelMainMenu != null)
-            panelMainMenu.gameObject.SetActive(true);
+            StartCoroutine(FadeOutAndDisable(panelHowToPlay, duracionTransicion));
+        panelMainMenu?.gameObject.SetActive(true);
     }
-    #endregion
 
-    #region Cambio de Escena (Jugar)
+    public void ReproducirSFX(int index = 0)
+    {
+        if (index >= 0 && index < sfxSources.Length)
+        {
+            var src = sfxSources[index];
+            if (src.clip != null)
+                src.Play();
+        }
+    }
+
     public void Jugar()
     {
-        ReproducirSonidoBotton();
+        // Detener todo el audio antes de cambiar de escena
+        foreach (var src in musicSources) src.Stop();
+        foreach (var src in sfxSources) src.Stop();
 
-        SoundManager.instance.StopMusic("FramMusic");
-        SoundManager.instance.StopSoundEffect("MolinoViento");
-        SoundManager.instance.StopSoundEffect("Brisa");
-
+        ReproducirSFX(0); // sonido de click
 
         PlayerPrefs.SetString("EscenaDestino", escenaAJugar);
         PlayerPrefs.Save();
@@ -94,45 +133,38 @@ public class MainMenuManager : MonoBehaviour
             canvasTransicion.gameObject.SetActive(true);
             canvasTransicion.interactable = true;
             canvasTransicion.blocksRaycasts = true;
-            StartCoroutine(FadeCanvasGroup(canvasTransicion, 0f, 1f, 0.5f, () =>
+            StartCoroutine(FadeCanvasGroup(canvasTransicion, 0f, 1f, duracionTransicion, () =>
             {
                 SceneManager.LoadScene(escenaDeCarga);
             }));
         }
         else
         {
-            SoundManager.instance.StopMusic("FramMusic");
-            SoundManager.instance.StopSoundEffect("MolinoViento");
-            SoundManager.instance.StopSoundEffect("Brisa");
-
             SceneManager.LoadScene(escenaDeCarga);
         }
     }
-    #endregion
 
-    #region Corrutinas de Fade
-    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float startAlpha, float targetAlpha, float duration, System.Action onComplete = null)
+    IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float dur, System.Action onComplete = null)
     {
-        float elapsed = 0f;
-        cg.alpha = startAlpha;
-        while (elapsed < duration)
+        float t = 0f;
+        cg.alpha = from;
+        while (t < dur)
         {
-            elapsed += Time.deltaTime;
-            cg.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+            t += Time.deltaTime;
+            cg.alpha = Mathf.Lerp(from, to, t / dur);
             yield return null;
         }
-        cg.alpha = targetAlpha;
+        cg.alpha = to;
         onComplete?.Invoke();
     }
 
-    private IEnumerator FadeOutAndDisable(CanvasGroup cg, float duration)
+    IEnumerator FadeOutAndDisable(CanvasGroup cg, float dur)
     {
-        float startAlpha = cg.alpha;
-        float elapsed = 0f;
-        while (elapsed < duration)
+        float start = cg.alpha, t = 0f;
+        while (t < dur)
         {
-            elapsed += Time.deltaTime;
-            cg.alpha = Mathf.Lerp(startAlpha, 0f, elapsed / duration);
+            t += Time.deltaTime;
+            cg.alpha = Mathf.Lerp(start, 0f, t / dur);
             yield return null;
         }
         cg.alpha = 0f;
@@ -140,15 +172,10 @@ public class MainMenuManager : MonoBehaviour
         cg.blocksRaycasts = false;
         cg.gameObject.SetActive(false);
     }
-    #endregion
 
-    #region Salir del Juego
-    public void SalirDelJuego()
+    void OnDisable()
     {
-        Application.Quit();
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        foreach (var src in musicSources) src.Stop();
+        foreach (var src in sfxSources) src.Stop();
     }
-    #endregion
 }
