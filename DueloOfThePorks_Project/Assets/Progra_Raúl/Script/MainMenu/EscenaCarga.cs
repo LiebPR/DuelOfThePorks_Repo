@@ -17,15 +17,6 @@ public class EscenaCarga : MonoBehaviour
     [Tooltip("Tiempo mínimo (en segundos) que debe mostrarse esta pantalla incluso si la escena ya está lista")]
     public float minDisplayTime = 2f;
 
-    [Header("Audio de carga")]
-    [Tooltip("Clip de audio profesional para reproducir durante la carga")]
-    public AudioClip loadingAudioClip;
-
-    [Tooltip("Volumen del sonido de carga (0 a 1)")]
-    [Range(0f, 1f)]
-    public float loadingAudioVolume = 1f;
-
-    private AudioSource audioSource;
     private string escenaDestino;
     private float dotTimer;
     private int dotCount;
@@ -33,27 +24,17 @@ public class EscenaCarga : MonoBehaviour
 
     void Start()
     {
+        
+
+        SoundManager.instance.PlaySoundEffect("Thunder");
+        SoundManager.instance.PlayMusic("Storming");
+
         // Validación de referencias
         if (textoCarga == null)
         {
             Debug.LogError("[EscenaCarga] Falta asignar 'textoCarga' en el Inspector.", this);
             enabled = false;
             return;
-        }
-
-        // Configuración y reproducción del audio
-        if (loadingAudioClip != null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = loadingAudioClip;
-            audioSource.volume = loadingAudioVolume;
-            audioSource.loop = true;
-            audioSource.playOnAwake = false;
-            audioSource.Play();
-        }
-        else
-        {
-            Debug.LogWarning("[EscenaCarga] No se ha asignado 'loadingAudioClip'. No se reproducirá sonido de carga.", this);
         }
 
         // Recupera la escena destino
@@ -98,13 +79,8 @@ public class EscenaCarga : MonoBehaviour
         if (elapsed < minDisplayTime)
             yield return new WaitForSeconds(minDisplayTime - elapsed);
 
-        // Detener el audio justo antes de cambiar de escena
-        if (audioSource != null && audioSource.isPlaying)
-        {
-            audioSource.Stop();
-        }
-
         // Finalmente activa la escena cargada
         operacion.allowSceneActivation = true;
+        SoundManager.instance.StopMusic("Storming");
     }
 }

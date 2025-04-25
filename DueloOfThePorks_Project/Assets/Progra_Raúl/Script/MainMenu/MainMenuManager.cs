@@ -21,6 +21,10 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.instance.PlayMusic("FarmMusic");
+
+        SoundManager.instance.PlaySoundEffect("MolinoViento");
+        SoundManager.instance.PlaySoundEffect("Brisa");
         if (panelMainMenu != null)
             panelMainMenu.gameObject.SetActive(true);
         if (panelHowToPlay != null)
@@ -38,9 +42,16 @@ public class MainMenuManager : MonoBehaviour
             videoBackground.SetActive(true);
     }
 
+    public void ReproducirSonidoBotton()
+    {
+        SoundManager.instance.PlaySoundEffect("ButtonClick");
+    }
+
     #region Gestión de Paneles
     public void AbrirHowToPlay()
     {
+        ReproducirSonidoBotton();
+
         if (panelMainMenu != null)
             panelMainMenu.gameObject.SetActive(false);
 
@@ -56,6 +67,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void CerrarHowToPlay()
     {
+        ReproducirSonidoBotton();
         if (panelHowToPlay != null)
             StartCoroutine(FadeOutAndDisable(panelHowToPlay, 0.5f));
 
@@ -67,6 +79,13 @@ public class MainMenuManager : MonoBehaviour
     #region Cambio de Escena (Jugar)
     public void Jugar()
     {
+        ReproducirSonidoBotton();
+
+        SoundManager.instance.StopMusic("FramMusic");
+        SoundManager.instance.StopSoundEffect("MolinoViento");
+        SoundManager.instance.StopSoundEffect("Brisa");
+
+
         PlayerPrefs.SetString("EscenaDestino", escenaAJugar);
         PlayerPrefs.Save();
 
@@ -82,6 +101,10 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
+            SoundManager.instance.StopMusic("FramMusic");
+            SoundManager.instance.StopSoundEffect("MolinoViento");
+            SoundManager.instance.StopSoundEffect("Brisa");
+
             SceneManager.LoadScene(escenaDeCarga);
         }
     }

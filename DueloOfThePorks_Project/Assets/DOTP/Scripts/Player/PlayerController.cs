@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
                 inputManager.jumpInput = false; //Restableze el input para poder realizar un segundo salto.
                 rb.velocity = new Vector2(rb.velocity.x, 0); //Restableze la velocidad del RB en 0 y mantiene el eje en x intacto.
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); //Se aplica una fuerza 2D al RB en el eje vertical y se multiplica por JumpForce. Tipo de fuerza aplicada Impulse.
-                AudioManager.instance.Play("Jump"); //Para el audio de salto.
+                
                 jumpCount = 1; // Indica a la consola si has saltado y si has saltado 1 vez se suma 1.
             }
             // Segundo salto:
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
                      * esta se multiplica * 0.5 por lo tanto se reduce a la mitad.Y por ultimo se le aplica una fuerza en y con el SecondJumpforce para que tenga una fuerza inferior.*/
                     Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce); 
                     rb.AddForce(jumpDirection, ForceMode2D.Impulse); //Aplica el tipo de fuerza que se aplico en el salto 1 y se lo aplica con la variable creada en este if.
-                    AudioManager.instance.Play("Jump"); 
+                    
                     jumpCount = 2; // Se le suma a 2 el contador porque a realizado el segundo salto. Por lo tanto se restableze a 0 en el GroundCheck.
                 }
                     
