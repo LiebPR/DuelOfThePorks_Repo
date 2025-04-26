@@ -24,52 +24,46 @@ public class GameTimer : MonoBehaviour
 
     private void Start()
     {
-        // Asignar los scripts automáticamente si no están asignados
+        StartCoroutine(DelayedStart());
+    }
+
+    private IEnumerator DelayedStart()
+    {
+        yield return null; // Espera 1 frame para asegurarte que los objetos existen
+
         AssignPlayerScripts();
 
         currentTime = countdownTime;
         StartCoroutine(PreMatchCountdown());
 
-        // Asignar respawn y corazones automáticamente al iniciar
         AssignInitialSpawn(player1LifeManager, "Player1Respawn");
         AssignInitialSpawn(player2LifeManager, "Player2Respawn");
     }
 
-    // Asigna automáticamente los componentes de los jugadores si no están asignados en el Inspector
     void AssignPlayerScripts()
     {
-        // Asignar LifeManager
-        if (player1LifeManager == null)
-        {
-            player1LifeManager = GameObject.FindWithTag("Player1").GetComponent<LifeManager>();
-        }
-        if (player2LifeManager == null)
-        {
-            player2LifeManager = GameObject.FindWithTag("Player2").GetComponent<LifeManager>();
-        }
+        int player1Layer = LayerMask.NameToLayer("Player1");
+        int player2Layer = LayerMask.NameToLayer("Player2");
 
-        // Asignar InputManager
-        if (player1InputManager == null)
-        {
-            player1InputManager = GameObject.FindWithTag("Player1").GetComponent<InputManager>();
-        }
-        if (player2InputManager == null)
-        {
-            player2InputManager = GameObject.FindWithTag("Player2").GetComponent<InputManager>();
-        }
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
 
-        // Asignar BulletManager
-        if (player1BulletManager == null)
+        foreach (GameObject obj in allObjects)
         {
-            player1BulletManager = GameObject.FindWithTag("Player1").GetComponent<BulletManager>();
-        }
-        if (player2BulletManager == null)
-        {
-            player2BulletManager = GameObject.FindWithTag("Player2").GetComponent<BulletManager>();
+            if (obj.layer == player1Layer)
+            {
+                if (player1LifeManager == null) player1LifeManager = obj.GetComponent<LifeManager>();
+                if (player1InputManager == null) player1InputManager = obj.GetComponent<InputManager>();
+                if (player1BulletManager == null) player1BulletManager = obj.GetComponent<BulletManager>();
+            }
+            else if (obj.layer == player2Layer)
+            {
+                if (player2LifeManager == null) player2LifeManager = obj.GetComponent<LifeManager>();
+                if (player2InputManager == null) player2InputManager = obj.GetComponent<InputManager>();
+                if (player2BulletManager == null) player2BulletManager = obj.GetComponent<BulletManager>();
+            }
         }
     }
 
-    // Congela o reanuda las animaciones de los jugadores
     void SetPlayersAnimatorSpeed(float speed)
     {
         if (player1LifeManager != null)
@@ -86,7 +80,6 @@ public class GameTimer : MonoBehaviour
 
     IEnumerator PreMatchCountdown()
     {
-        // Bloquear inputs
         if (player1InputManager != null)
         {
             player1InputManager.inputLocked = true;
@@ -98,11 +91,9 @@ public class GameTimer : MonoBehaviour
             player2InputManager.ResetAllInputs();
         }
 
-        // Bloquear disparos
         if (player1BulletManager != null) player1BulletManager.isLocked = true;
         if (player2BulletManager != null) player2BulletManager.isLocked = true;
 
-        // Congelar animaciones de los jugadores
         SetPlayersAnimatorSpeed(0f);
 
         int count = 3;
@@ -118,10 +109,8 @@ public class GameTimer : MonoBehaviour
 
         countdownText.text = string.Empty;
 
-        // Reanudar animaciones de los jugadores
         SetPlayersAnimatorSpeed(1f);
 
-        // Desbloquear inputs
         if (player1InputManager != null)
         {
             player1InputManager.ResetAllInputs();
@@ -133,7 +122,6 @@ public class GameTimer : MonoBehaviour
             player2InputManager.inputLocked = false;
         }
 
-        // Desbloquear disparos
         if (player1BulletManager != null) player1BulletManager.isLocked = false;
         if (player2BulletManager != null) player2BulletManager.isLocked = false;
 
@@ -173,7 +161,6 @@ public class GameTimer : MonoBehaviour
         int player1Lives = player1LifeManager.GetLives();
         int player2Lives = player2LifeManager.GetLives();
 
-        // Lógica de ganadores...
         if (player1Lives > player2Lives)
         {
             Debug.Log("Player 1 wins!");
@@ -194,7 +181,6 @@ public class GameTimer : MonoBehaviour
     {
         if (lifeManager == null) return;
 
-        // Asignar puntos de respawn usando el tag
         GameObject[] respawnObjects = GameObject.FindGameObjectsWithTag(respawnTag);
         if (respawnObjects.Length == 0)
         {
@@ -208,12 +194,10 @@ public class GameTimer : MonoBehaviour
             respawnPoints[i] = respawnObjects[i].transform;
         }
 
-        // Asignar el punto de respawn de manera aleatoria
         int randomIndex = Random.Range(0, respawnPoints.Length);
         Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0, 0);
         lifeManager.transform.position = respawnPoints[randomIndex].position + randomOffset;
 
-        // Asignar corazones automáticamente (similar a PlayerInitializer)
         string panelName = lifeManager.GetComponent<HitDetector>().isPlayerOne ? "UI_Player1" : "UI_Player2";
         GameObject panel = GameObject.Find(panelName);
 

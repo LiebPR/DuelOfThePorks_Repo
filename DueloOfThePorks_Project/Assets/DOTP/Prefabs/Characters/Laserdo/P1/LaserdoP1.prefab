@@ -130,6 +130,7 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 951779232601812081, guid: 0b53d71cef4cfe245856e92da32c13ba, type: 3}
   specialSpawnPoint: {fileID: 5997012761541973736}
   effectDuration: 2.5
+  particleEffectHandler: {fileID: 576360267254542247}
 --- !u!114 &8042221539722918057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
-  killDeathEffectPrefab: {fileID: 0}
-  zoneDeathEffectPrefab: {fileID: 0}
+  killDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
+  zoneDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
   effectLifetime: 5
   hitOffset: {x: 0, y: 0, z: 0}
   killDeathOffset: {x: 0, y: 0, z: 0}

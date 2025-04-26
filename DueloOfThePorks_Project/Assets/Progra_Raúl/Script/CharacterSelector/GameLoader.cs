@@ -1,4 +1,3 @@
-// GameLoader.cs - corregido con validación de layers "Player1" y "Player2"
 using UnityEngine;
 
 public class GameLoader : MonoBehaviour

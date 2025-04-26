@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3788561310114744095}
   - component: {fileID: 1026405641222664704}
-  - component: {fileID: 5354635477641411456}
   - component: {fileID: 2424001868880038720}
+  - component: {fileID: 5354635477641411456}
   - component: {fileID: 4098524480202612344}
   - component: {fileID: 5700255555358304010}
   - component: {fileID: 3688940002717663141}
@@ -27,9 +27,10 @@ GameObject:
   - component: {fileID: 6644968316239915232}
   - component: {fileID: 6121634290243266701}
   - component: {fileID: 6011821818123868360}
+  - component: {fileID: 1072227468017480521}
   m_Layer: 6
   m_Name: JamonatorP1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +51,7 @@ Transform:
   - {fileID: 8801599111930148935}
   - {fileID: 2669737743945189041}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1026405641222664704
 MonoBehaviour:
@@ -85,29 +86,6 @@ MonoBehaviour:
   wallCheckSize: {x: 0.67, y: 1.65}
   wallCheckOffset: {x: 1.94, y: 0.96}
   lateralCheckDistance: 0.5
---- !u!114 &5354635477641411456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401770951535406693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b1189b14dd5e30488d06a3e88846142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackSettingsArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  attackPoint: {fileID: 8801599111930148935}
-  specialLaserEnabled: 1
-  specialEffectPrefab: {fileID: 0}
-  specialSpawnPoint: {fileID: 0}
-  effectDuration: 1.5
 --- !u!114 &2424001868880038720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +107,30 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 0}
   globalAttackCooldown: 0.4
   isLocked: 0
+--- !u!114 &5354635477641411456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401770951535406693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1189b14dd5e30488d06a3e88846142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSettingsArray:
+  - {fileID: 11400000, guid: a1fdcea825f8cd545936b0189303e6db, type: 2}
+  - {fileID: 11400000, guid: fc6e81ec14b42d54f80e76fd56ea32df, type: 2}
+  - {fileID: 11400000, guid: ed8efebfd874bb94b9378cf71fef8a30, type: 2}
+  - {fileID: 11400000, guid: 5bbc024a7672def45904e3bb063af944, type: 2}
+  - {fileID: 11400000, guid: deec7a28a90f44943944e9b271561d5f, type: 2}
+  attackPoint: {fileID: 8801599111930148935}
+  specialLaserEnabled: 1
+  specialEffectPrefab: {fileID: 1085550744308248100, guid: 1f96f3b4ef562b2478899f7ac0b03bf7, type: 3}
+  specialSpawnPoint: {fileID: 2669737743945189041}
+  effectDuration: 1.5
+  particleEffectHandler: {fileID: 5938694884627938067}
 --- !u!114 &4098524480202612344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,15 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVidas: 3
-  puntosDeRespawn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  heartImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &5700255555358304010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,10 +235,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33bbeab38b29dc4dbba4391b022a60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffectPrefab: {fileID: 0}
-  killDeathEffectPrefab: {fileID: 0}
-  zoneDeathEffectPrefab: {fileID: 0}
-  effectLifetime: 2
+  hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
+  killDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
+  zoneDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
+  effectLifetime: 5
   hitOffset: {x: 0, y: 0, z: 0}
   killDeathOffset: {x: 0, y: 0, z: 0}
   zoneDeathOffset: {x: 0, y: -1, z: 0}
@@ -380,7 +373,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!82 &464911570282398207
 AudioSource:
@@ -564,6 +557,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &1072227468017480521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401770951535406693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerOne: 1
+  respawnTag: Player1Respawn
 --- !u!1 &3074643608351056659
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +583,7 @@ GameObject:
   m_Layer: 0
   m_Name: SpecialP1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -587,8 +594,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3074643608351056659}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3457075, y: 2.0166082, z: -0.0117017515}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -607,7 +614,7 @@ GameObject:
   m_Layer: 0
   m_Name: AttackPointP1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -618,8 +625,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8210954760911052507}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3457075, y: 2.0166082, z: -0.0117017515}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -638,7 +645,7 @@ GameObject:
   m_Layer: 0
   m_Name: BulletPointP1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -649,8 +656,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8799850503017121703}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3457075, y: 2.0166082, z: -0.0117017515}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

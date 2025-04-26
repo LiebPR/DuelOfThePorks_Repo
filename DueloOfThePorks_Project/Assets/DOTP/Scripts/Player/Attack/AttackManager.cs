@@ -21,10 +21,18 @@ public class AttackManager : MonoBehaviour
     [SerializeField] private Transform specialSpawnPoint;  // Punto de salida del láser
     [SerializeField] private float effectDuration = 1.5f;
 
+    [Header("Efectos Particulas")]
+    [SerializeField] private ParticleEffectHandler particleEffectHandler;
+
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
         playerOrbs = GetComponent<PlayerOrbs>();
+
+        if(particleEffectHandler == null)
+        {
+            particleEffectHandler = GetComponent<ParticleEffectHandler>();
+        }
     }
 
     private void Start()
@@ -78,15 +86,17 @@ public class AttackManager : MonoBehaviour
         if (!specialLaserEnabled || specialEffectPrefab == null || specialSpawnPoint == null)
             return;
 
-        var laser = Instantiate(
-            specialEffectPrefab,
-            transform   // parent
-        );
+        var laser = Instantiate( specialEffectPrefab, transform);
 
         laser.transform.localPosition = specialSpawnPoint.localPosition;
         laser.transform.localRotation = specialSpawnPoint.localRotation;
 
         Destroy(laser, effectDuration);
+
+        if(particleEffectHandler != null)
+        {
+            particleEffectHandler.PlayKillDeathEffect(specialSpawnPoint.position, specialSpawnPoint.rotation);
+        }
     }
 
     /// <summary>

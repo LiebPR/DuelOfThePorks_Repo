@@ -89,9 +89,10 @@ GameObject:
   - component: {fileID: 8418433863282562869}
   - component: {fileID: 9177055751177197734}
   - component: {fileID: 5393537651516365474}
+  - component: {fileID: 6863986229941942819}
   m_Layer: 8
   m_Name: KeanupigsP2
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,7 +113,7 @@ Transform:
   - {fileID: 8811796575384610763}
   - {fileID: 126287931119386150}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5761963012466476139
 MonoBehaviour:
@@ -163,8 +164,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: a4aa638874f4c7c4189f441a928e7d88, type: 2}
+  - {fileID: 11400000, guid: 0f11f868a1c5dad4eb18bf3c9760a9b5, type: 2}
   bulletSpawnPoint: {fileID: 8811796575384610763}
   globalAttackCooldown: 0.4
   isLocked: 0
@@ -181,9 +182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 0c98bdb2a54cbb548a29cec9aae6e4b9, type: 2}
+  - {fileID: 11400000, guid: a7f92dec833c87e4ea6ca41cd0ee248d, type: 2}
+  - {fileID: 11400000, guid: 7fa0d3be00b80504b9d9b1d2abd843c3, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   attackPoint: {fileID: 6056421606453595607}
@@ -191,6 +192,7 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 0}
   specialSpawnPoint: {fileID: 0}
   effectDuration: 0
+  particleEffectHandler: {fileID: 0}
 --- !u!114 &6827220433359786418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,15 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVidas: 3
-  puntosDeRespawn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  heartImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &4329806459285369206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,10 +297,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33bbeab38b29dc4dbba4391b022a60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffectPrefab: {fileID: 0}
-  killDeathEffectPrefab: {fileID: 0}
-  zoneDeathEffectPrefab: {fileID: 0}
-  effectLifetime: 2
+  hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
+  killDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
+  zoneDeathEffectPrefab: {fileID: 6174811465456288474, guid: 81d84859ceb6be441853838f935fd829, type: 3}
+  effectLifetime: 5
   hitOffset: {x: 0, y: 0, z: 0}
   killDeathOffset: {x: 0, y: 0, z: 0}
   zoneDeathOffset: {x: 0, y: -1, z: 0}
@@ -404,7 +397,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.081454396, y: 0.9957025}
+  m_Offset: {x: 0.26618642, y: 0.9957025}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.35, y: 0}
@@ -415,7 +408,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.3212316, y: 1.991405}
+  m_Size: {x: 2.6906958, y: 1.991405}
   m_EdgeRadius: 0
 --- !u!50 &7599384220524833857
 Rigidbody2D:
@@ -442,7 +435,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!82 &3729090915041443930
 AudioSource:
@@ -626,6 +619,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &6863986229941942819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060449745091131849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerOne: 0
+  respawnTag: Player2Respawn
 --- !u!1 &9023036546548072389
 GameObject:
   m_ObjectHideFlags: 0

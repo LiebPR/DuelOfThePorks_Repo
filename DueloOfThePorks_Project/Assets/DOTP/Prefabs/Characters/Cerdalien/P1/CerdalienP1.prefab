@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: BulletPointP1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -23,8 +23,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3468947676620734903}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3821239, y: 0.9618967, z: -0.021491203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43,7 +43,7 @@ GameObject:
   m_Layer: 0
   m_Name: SpecialPointP1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -54,8 +54,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4798525260237815033}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3821239, y: 0.9618967, z: -0.021491203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +74,7 @@ GameObject:
   m_Layer: 0
   m_Name: AttackPointP1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -85,8 +85,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7447183085189953409}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3821239, y: 0.9618967, z: -0.021491203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -120,9 +120,10 @@ GameObject:
   - component: {fileID: 7115448701116413228}
   - component: {fileID: 7879971785551406371}
   - component: {fileID: 7719954980763834904}
+  - component: {fileID: -5351828037641393105}
   m_Layer: 6
   m_Name: CerdalienP1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +144,7 @@ Transform:
   - {fileID: 566010675335233109}
   - {fileID: 3633264679799317009}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5263347379220694765
 MonoBehaviour:
@@ -212,16 +213,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: abba48c6c991cf340bad3a565066f1d6, type: 2}
+  - {fileID: 11400000, guid: 01d9f510c1b03e949a2c56b12702ca8c, type: 2}
+  - {fileID: 11400000, guid: 4d56f767068133747ac4b4c22e1b2b86, type: 2}
+  - {fileID: 11400000, guid: 17f4f8016205a484a9cf8178b745e05d, type: 2}
+  - {fileID: 11400000, guid: f146a8178a009ce4aa4288799cf70837, type: 2}
   attackPoint: {fileID: 566010675335233109}
   specialLaserEnabled: 1
   specialEffectPrefab: {fileID: 0}
   specialSpawnPoint: {fileID: 3633264679799317009}
   effectDuration: 1.5
+  particleEffectHandler: {fileID: 0}
 --- !u!114 &808907988002723979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,9 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158d1157ca122664892c899dd21f75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVidas: 3
-  puntosDeRespawn: []
-  heartImages: []
 --- !u!114 &7062435403264025848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,3 +650,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCrouching: 0
+--- !u!114 &-5351828037641393105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539898692024603055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb1eb0c83f617094e8e547594705dbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerOne: 1
+  respawnTag: Player1Respawn

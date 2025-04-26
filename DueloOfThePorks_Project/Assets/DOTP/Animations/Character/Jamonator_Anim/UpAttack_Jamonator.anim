@@ -22,18 +22,16 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -714722696, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
-    - time: 0.083333336
-      value: {fileID: -1384366595, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
-    - time: 0.16666667
+    - time: 0.1
       value: {fileID: 1264503747, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
-    - time: 0.25
+    - time: 0.3
       value: {fileID: 922482759, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 12
+  m_SampleRate: 10
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -51,7 +49,6 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -714722696, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
-    - {fileID: -1384366595, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
     - {fileID: 1264503747, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
     - {fileID: 922482759, guid: 89ffb8e73c84f3f4e943f1443e2d1e1e, type: 3}
   m_AnimationClipSettings:
@@ -59,7 +56,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.33333334
+    m_StopTime: 0.4
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -78,4 +75,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.1
+    functionName: TriggerAttackHitbox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
