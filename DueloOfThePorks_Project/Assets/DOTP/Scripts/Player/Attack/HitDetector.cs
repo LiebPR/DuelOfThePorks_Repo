@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HitDetector : MonoBehaviour, IDamageable
@@ -19,20 +18,20 @@ public class HitDetector : MonoBehaviour, IDamageable
         lifeManager = GetComponent<LifeManager>();
         effectHandler = GetComponent<ParticleEffectHandler>();
         if (effectHandler == null)
-            Debug.LogWarning($"{name}: falta ParticleEffectHandler para el flash visual.");
+            Debug.LogWarning($"{name}: falta ParticleEffectHandler para el efecto de impacto.");
     }
 
     public void ReciveDamage(float damage)
     {
-        // 1) Solo daño positivo
+        // 1) Sólo daño positivo y si no es invencible
         if (isInvincible || damage <= 0f)
             return;
 
-        // 2) Actualizar % de daño
+        // 2) Actualizar porcentaje de daño
         damagePercentage += damage;
         damageHandler?.UpdateHealthDisplay(damagePercentage);
 
-        // 3) Disparar flash
+        // 3) Disparar efecto de hit
         effectHandler?.PlayHitEffect(
             transform.position,
             transform.rotation,

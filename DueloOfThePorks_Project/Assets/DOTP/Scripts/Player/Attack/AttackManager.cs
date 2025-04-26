@@ -21,18 +21,13 @@ public class AttackManager : MonoBehaviour
     [SerializeField] private Transform specialSpawnPoint;  // Punto de salida del láser
     [SerializeField] private float effectDuration = 1.5f;
 
-    [Header("Efectos Particulas")]
-    [SerializeField] private ParticleEffectHandler particleEffectHandler;
+    // Instancia actual del láser especial
+    private GameObject currentSpecialLaser;
 
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
         playerOrbs = GetComponent<PlayerOrbs>();
-
-        if(particleEffectHandler == null)
-        {
-            particleEffectHandler = GetComponent<ParticleEffectHandler>();
-        }
     }
 
     private void Start()
@@ -49,11 +44,13 @@ public class AttackManager : MonoBehaviour
             if (cooldownTimers[i] > 0f)
                 cooldownTimers[i] -= Time.deltaTime;
 
-        // Ataque especial
+        // Ataque especial: dispara animación; spawn y stop via Animation Events
         if (inputManager.specialAttackInput)
         {
             if (TryPerformAttack(4))
-                SpawnSpecialLaser();
+            {
+                // SpawnSpecialLaser() llamado desde Animation Event
+            }
             inputManager.ResetSpecialAttackInput();
         }
     }
@@ -79,23 +76,32 @@ public class AttackManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Instancia un láser como hijo para que siga al jugador y lo destruye tras effectDuration.
+    /// Instancia el láser especial. Llamado desde Animation Event.
     /// </summary>
-    private void SpawnSpecialLaser()
+    public void SpawnSpecialLaser()
     {
         if (!specialLaserEnabled || specialEffectPrefab == null || specialSpawnPoint == null)
             return;
 
-        var laser = Instantiate( specialEffectPrefab, transform);
+        // Destruye instancia previa
+        if (currentSpecialLaser != null)
+            Destroy(currentSpecialLaser);
 
-        laser.transform.localPosition = specialSpawnPoint.localPosition;
-        laser.transform.localRotation = specialSpawnPoint.localRotation;
+        currentSpecialLaser = Instantiate(specialEffectPrefab, transform);
+        currentSpecialLaser.transform.localPosition = specialSpawnPoint.localPosition;
+        currentSpecialLaser.transform.localRotation = specialSpawnPoint.localRotation;
+        Destroy(currentSpecialLaser, effectDuration);
+    }
 
-        Destroy(laser, effectDuration);
-
-        if(particleEffectHandler != null)
+    /// <summary>
+    /// Detiene el láser especial. Llamado desde Animation Event.
+    /// </summary>
+    public void StopSpecialLaser()
+    {
+        if (currentSpecialLaser != null)
         {
-            particleEffectHandler.PlayKillDeathEffect(specialSpawnPoint.position, specialSpawnPoint.rotation);
+            Destroy(currentSpecialLaser);
+            currentSpecialLaser = null;
         }
     }
 

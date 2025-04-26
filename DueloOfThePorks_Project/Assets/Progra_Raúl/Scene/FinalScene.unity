@@ -908,10 +908,10 @@ MonoBehaviour:
   player1Position: {fileID: 248789285}
   player2Position: {fileID: 595624332}
   finalCharacters:
-  - characterName: 
+  - characterName: CerdalienP1
     victoryPrefab: {fileID: 67799732820622709, guid: 156f927f55456514cbce34619301b3b9, type: 3}
     defeatPrefab: {fileID: 67799732820622709, guid: 156f927f55456514cbce34619301b3b9, type: 3}
-  - characterName: 
+  - characterName: CerdalienP2
     victoryPrefab: {fileID: 918460057109603683, guid: 72b597b5d2338b440ad7a522c73e49b9, type: 3}
     defeatPrefab: {fileID: 918460057109603683, guid: 72b597b5d2338b440ad7a522c73e49b9, type: 3}
   - characterName: JamonatorP1

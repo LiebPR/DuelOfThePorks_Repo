@@ -13,7 +13,6 @@ public class Attack : ScriptableObject
     [SerializeField] Vector2 boxOffset = Vector2.zero;
     [SerializeField] LayerMask targetLayer;
 
-
     public float GetCooldownTime() => cooldownTime;
 
     /// <summary>
@@ -25,8 +24,6 @@ public class Attack : ScriptableObject
     public void PerformAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
     {
         OverlapAttack(attackPoint, hitter, isPlayerOneAttacker);
-
-       
     }
 
     private void OverlapAttack(Transform attackPoint, GameObject hitter, bool isPlayerOneAttacker)
@@ -37,13 +34,12 @@ public class Attack : ScriptableObject
 
         // Detecta las colisiones
         Collider2D[] hits = Physics2D.OverlapBoxAll(origin, boxSize, 0f, targetLayer);
-        Debug.Log($"Hits detectados: {hits.Length}");  // Log de cuantos hits se han detectado
+        Debug.Log($"Hits detectados: {hits.Length}");
 
-        // Itera sobre los hits detectados
         foreach (var hit in hits)
         {
-            Debug.Log($"Golpeando: {hit.name}");  // Log de quien ha sido golpeado
-            TryDamageTarget(hit, attackPoint, hitter, isPlayerOneAttacker);  // Aplica el daño
+            Debug.Log($"Golpeando: {hit.name}");
+            TryDamageTarget(hit, attackPoint, hitter, isPlayerOneAttacker);
         }
     }
 
@@ -53,6 +49,18 @@ public class Attack : ScriptableObject
         var inp = target.GetComponent<InputManager>();
         if (inp != null && inp.isPlayerOne == isPlayerOneAttacker)
             return;
+
+        // Partículas de impacto
+        var effectHandler = target.GetComponent<ParticleEffectHandler>();
+        if (effectHandler != null)
+        {
+            // Intensidad basada en porcentaje de daño actual o en daño infligido
+            effectHandler.PlayHitEffect(
+                target.transform.position,
+                target.transform.rotation,
+                damage
+            );
+        }
 
         // Knockback
         var hd = target.GetComponent<HitDetector>();
@@ -64,7 +72,7 @@ public class Attack : ScriptableObject
             kb.StartKnockback(dir, knockbackForce + extra, 0.5f, hd.damagePercentage);
         }
 
-        // Orbes especiales: asignar hitter
+        // Especial orbes: asignar hitter
         var orb = target.GetComponent<OrbsSpecialAtt>();
         if (orb != null)
             orb.SetLastHitter(hitter);

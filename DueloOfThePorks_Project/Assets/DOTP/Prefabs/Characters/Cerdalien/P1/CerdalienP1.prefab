@@ -219,11 +219,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17f4f8016205a484a9cf8178b745e05d, type: 2}
   - {fileID: 11400000, guid: f146a8178a009ce4aa4288799cf70837, type: 2}
   attackPoint: {fileID: 566010675335233109}
-  specialLaserEnabled: 1
+  specialLaserEnabled: 0
   specialEffectPrefab: {fileID: 0}
   specialSpawnPoint: {fileID: 3633264679799317009}
   effectDuration: 1.5
-  particleEffectHandler: {fileID: 0}
 --- !u!114 &808907988002723979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,8 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33bbeab38b29dc4dbba4391b022a60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffectPrefab: {fileID: 0}
-  killDeathEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 2049913547581798053, guid: 91b8fe9212bfd44449bac0a5c7ff8966, type: 3}
+  killDeathEffectPrefab: {fileID: 8691420599760481409, guid: 7d5c2244c3c850d4d80f25b536044f24, type: 3}
   zoneDeathEffectPrefab: {fileID: 0}
   effectLifetime: 2
   hitOffset: {x: 0, y: 0, z: 0}
