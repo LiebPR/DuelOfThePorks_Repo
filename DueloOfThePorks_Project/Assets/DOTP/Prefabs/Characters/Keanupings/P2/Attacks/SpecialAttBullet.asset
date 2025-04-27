@@ -17,7 +17,7 @@ MonoBehaviour:
   knockbackForce: 25
   cooldownTime: 0.7
   maxTravelDistance: 20
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 210037064702780757, guid: 3aeca854f9730c445b502fdbd398b7b9, type: 3}
   targetLayer:
     serializedVersion: 2
     m_Bits: 64

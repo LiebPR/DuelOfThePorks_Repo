@@ -22,6 +22,12 @@ public class GameTimer : MonoBehaviour
     public BulletManager player1BulletManager;
     public BulletManager player2BulletManager;
 
+    [Header("AudioManager")]
+    public SceneAudioManager sceneAudioManTimer;
+    public int countdownClipIndex = 0;
+    public int fightClipIndex = 1;
+    bool isCountdownPlaying = false;
+    
     private void Start()
     {
         StartCoroutine(DelayedStart());
@@ -96,15 +102,37 @@ public class GameTimer : MonoBehaviour
 
         SetPlayersAnimatorSpeed(0f);
 
+        //Canción del GamePlay
+        if(sceneAudioManTimer != null && !isCountdownPlaying)
+        {
+            sceneAudioManTimer.PlaySFX(countdownClipIndex, true);
+            isCountdownPlaying = true;
+        }
+
         int count = 3;
         while (count > 0)
         {
             countdownText.text = count.ToString();
+
+            //Aquí reproducimos el sonido del contador
+            if(sceneAudioManTimer != null && !isCountdownPlaying)
+            {
+                sceneAudioManTimer.PlaySFX(countdownClipIndex);
+                isCountdownPlaying = true;
+            }
+
             yield return StartCoroutine(WaitForRealSeconds(1f));
             count--;
         }
 
-        countdownText.text = "GO!";
+        countdownText.text = "FIGHT!";
+
+        //Sonido para el FIGHT
+        if (sceneAudioManTimer != null)
+        {
+            sceneAudioManTimer.PlaySFX(fightClipIndex);
+        }
+
         yield return StartCoroutine(WaitForRealSeconds(1f));
 
         countdownText.text = string.Empty;

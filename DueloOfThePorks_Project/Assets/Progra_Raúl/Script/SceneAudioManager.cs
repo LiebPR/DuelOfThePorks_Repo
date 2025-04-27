@@ -74,7 +74,7 @@ public class SceneAudioManager : MonoBehaviour
     }
 
     /// <summary>Reproduce el clip en el índice dado (no‐loop).</summary>
-    public void PlaySFX(int index)
+    public void PlaySFX(int index, bool loop = false)
     {
         if (index < 0 || index >= sources.Length) return;
         var src = sources[index];

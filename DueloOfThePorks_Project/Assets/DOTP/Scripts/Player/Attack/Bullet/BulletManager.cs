@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class BulletManager : MonoBehaviour
         // Cooldown global
         if (Time.time - lastAttackTime < globalAttackCooldown) return;
 
-        // Special Attack (índice 4)
+        // Special Attack (Ã­ndice 4)
         if (inputManager.specialAttackInput && playerOrbs.CanUseSpecialAttack())
         {
             bool didFire = HandleAttackLogic(4);
@@ -56,7 +56,7 @@ public class BulletManager : MonoBehaviour
             return;
         }
 
-        // Strong Attack (índice 3)
+        // Strong Attack (Ã­ndice 3)
         if (inputManager.strongAttackInput)
         {
             bool didFire = HandleAttackLogic(3);
@@ -65,7 +65,7 @@ public class BulletManager : MonoBehaviour
             return;
         }
 
-        // Base Attack (índices 0–2 según dirección)
+        // Base Attack (Ã­ndices 0â€“2 segÃºn direcciÃ³n)
         if (inputManager.baseAttackInput)
         {
             int idx = GetInputDirectionIndex();
@@ -94,7 +94,7 @@ public class BulletManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ejecuta ataque o lanza bala según el índice. Devuelve true si realmente se disparó o atacó.
+    /// Ejecuta ataque o lanza bala segÃºn el Ã­ndice. Devuelve true si realmente se disparÃ³ o atacÃ³.
     /// </summary>
     bool HandleAttackLogic(int index)
     {
@@ -105,7 +105,7 @@ public class BulletManager : MonoBehaviour
 
         if (hasBullet && hasAttack)
         {
-            Debug.LogError($"¡Conflicto! Ambos sistemas en índice {index}");
+            Debug.LogError($"Â¡Conflicto! Ambos sistemas en Ã­ndice {index}");
             return false;
         }
 
@@ -125,12 +125,12 @@ public class BulletManager : MonoBehaviour
             return ok;
         }
 
-        Debug.LogWarning($"No hay ataque ni bala asignado en índice {index}.");
+        Debug.LogWarning($"No hay ataque ni bala asignado en Ã­ndice {index}.");
         return false;
     }
 
     /// <summary>
-    /// Guarda datos de disparo para ser lanzados más tarde por la animación.
+    /// Guarda datos de disparo para ser lanzados mÃ¡s tarde por la animaciÃ³n.
     /// </summary>
     void QueueBulletShoot(int index)
     {
