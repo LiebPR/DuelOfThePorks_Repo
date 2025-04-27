@@ -1111,7 +1111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: {fileID: 32900000, guid: b8896dad2e2434e4ea2775f2912ccda2, type: 3}
   loop: 1
-  playOnAwake: 1
   volume: 0
 --- !u!224 &1104882480
 RectTransform:
