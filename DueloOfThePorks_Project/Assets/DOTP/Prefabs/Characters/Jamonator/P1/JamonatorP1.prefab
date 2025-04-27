@@ -130,7 +130,6 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 1085550744308248100, guid: 1f96f3b4ef562b2478899f7ac0b03bf7, type: 3}
   specialSpawnPoint: {fileID: 2669737743945189041}
   effectDuration: 1.5
-  particleEffectHandler: {fileID: 5938694884627938067}
 --- !u!114 &4098524480202612344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +171,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageText: {fileID: 0}
+  followPlayer: 1
+  followPadding: -24.9
+  anchoredPosFollow: {x: -55, y: 0}
+  sizeDeltaFollow: {x: 100, y: 30}
+  fontSizeFollow: 53
+  anchoredPosStatic: {x: 472, y: -328}
+  sizeDeltaStatic: {x: 100, y: 30}
+  fontSizeStatic: 150
 --- !u!114 &8666520221418700423
 MonoBehaviour:
   m_ObjectHideFlags: 0
