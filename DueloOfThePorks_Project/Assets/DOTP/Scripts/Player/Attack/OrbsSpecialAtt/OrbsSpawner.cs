@@ -5,8 +5,13 @@ using UnityEngine;
 
 public class OrbsSpawner : MonoBehaviour
 {
+    [Header("Orbs and Spawnpoint")]
     [SerializeField] GameObject orbPrefab;
     [SerializeField] Transform[] spawnPoints;
+
+    [Header("AudioSpawnOrb")]
+    [SerializeField] SceneAudioManager audioManagerOrbSpawn;
+    [SerializeField] int orbSpawnSFXIndex; 
 
     [SerializeField] float initialDelay = 20f;
     [SerializeField] float spawnIntervalMin = 20f;
@@ -36,5 +41,11 @@ public class OrbsSpawner : MonoBehaviour
     {
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(orbPrefab, spawnPoint.position, Quaternion.identity);
+
+        //Reproducir sonido
+        if(audioManagerOrbSpawn != null)
+        {
+            audioManagerOrbSpawn.PlaySFX(orbSpawnSFXIndex);
+        }
     }
 }

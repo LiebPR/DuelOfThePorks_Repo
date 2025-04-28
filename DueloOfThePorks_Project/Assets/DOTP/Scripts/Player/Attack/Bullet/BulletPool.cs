@@ -1,66 +1,82 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 
 public class BulletPool : MonoBehaviour
 {
-    Animator bulletanim;
-    //Instancia única (singelton
     public static BulletPool Instance { get; private set; }
 
-    [SerializeField] private GameObject bulletPrefab;//Prefab para la bala
-    [SerializeField] private int poolSize = 20;//Tamaño inicial de pool
+    [System.Serializable]
+    public class BulletType
+    {
+        public string name; // Nombre identificador
+        public GameObject bulletPrefab; // Prefab de la bala
+        public int initialPoolSize = 10; // Cantidad inicial
+    }
 
-    private Queue<GameObject> bulletPool = new Queue<GameObject>();//Cola para gestionar las bullet
+    [SerializeField] private BulletType[] bulletTypes;
+
+    private Dictionary<string, Queue<GameObject>> bulletPools = new Dictionary<string, Queue<GameObject>>();
 
     private void Awake()
     {
-        bulletanim = GetComponent<Animator>();
-        //Verificamos que solo haya una instancia del bulletPool en la escena
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        //Inicializamos el pool de balas
-        InitializePool();
+        InitializePools();
     }
 
-    //Metodo que inicializa el pool creando una cantidad definida de balas inactivas.
-    private void InitializePool()
+    private void InitializePools()
     {
-        for (int i = 0; i < poolSize; i++)
+        foreach (var bulletType in bulletTypes)
         {
-            GameObject bullet = Instantiate(bulletPrefab);
-            bullet.SetActive(false); //Desactivamos la bala para que no esté en uso inicialmente
-            bulletPool.Enqueue(bullet); //Añadiremos la bala al pool
+            Queue<GameObject> pool = new Queue<GameObject>();
+            for (int i = 0; i < bulletType.initialPoolSize; i++)
+            {
+                GameObject bullet = Instantiate(bulletType.bulletPrefab);
+                bullet.SetActive(false);
+                pool.Enqueue(bullet);
+            }
+            bulletPools.Add(bulletType.name, pool);
         }
     }
 
-    //Metodo para obtener una bala del pool
-    public GameObject GetBullet()
+    public GameObject GetBullet(string bulletTypeName)
     {
-        if (bulletPool.Count > 0)
+        if (!bulletPools.ContainsKey(bulletTypeName))
         {
-            //Si hay balas disponibles, las sacamos del pool
-            return bulletPool.Dequeue();
+            Debug.LogError($"No bullet pool found for type {bulletTypeName}!");
+            return null;
         }
-        //Si el pool está vacío, opcionalmente podemos expandirlo
-        //Crea una nueva bala y devuelve una referencia de ella
-        Debug.LogWarning("Bullet pool empty!");
-        return CreateNewBullet();
+
+        var pool = bulletPools[bulletTypeName];
+        if (pool.Count > 0)
+        {
+            return pool.Dequeue();
+        }
+        else
+        {
+            var bulletType = System.Array.Find(bulletTypes, b => b.name == bulletTypeName);
+            if (bulletType != null)
+            {
+                GameObject newBullet = Instantiate(bulletType.bulletPrefab);
+                newBullet.SetActive(false);
+                return newBullet;
+            }
+            else
+            {
+                Debug.LogError($"BulletType not found for name: {bulletTypeName}");
+                return null;
+            }
+        }
     }
 
-    //Metodo para crear una bala en caso de que el pool esté vacío (expansion dinámica)
-    private GameObject CreateNewBullet()
+    public void ReturnBullet(string bulletTypeName, GameObject bullet)
     {
-        GameObject newBullet = Instantiate(bulletPrefab);
-        newBullet.SetActive(false);
-        return newBullet;
-    }
-
-    //Metodo para devolver una bala al pool después de ser ultilizada
-    public void ReturnBullet(GameObject bullet)
-    {
-        bullet.SetActive(false); //Desactivamos la bala
-        bulletPool.Enqueue(bullet); //La devolvemos al pool para su reutilización
+        bullet.SetActive(false);
+        if (!bulletPools.ContainsKey(bulletTypeName))
+        {
+            bulletPools[bulletTypeName] = new Queue<GameObject>();
+        }
+        bulletPools[bulletTypeName].Enqueue(bullet);
     }
 }

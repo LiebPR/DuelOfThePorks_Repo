@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
     [Header("Wall Check")]
     [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f); //Tamaño del detector
     [SerializeField] Vector2 wallCheckOffset = new Vector2(0.5f, 0f); //Posición del detector
-    [SerializeField] float lateralCheckDistance = 0.5f; //Posición del detector
     bool isTouchingWall; //Esta tocando la pared?
     
     

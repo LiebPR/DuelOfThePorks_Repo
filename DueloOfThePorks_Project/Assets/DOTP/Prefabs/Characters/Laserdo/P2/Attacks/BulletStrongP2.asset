@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ca21cbe1a4774db2ed6ce83ca6a23, type: 3}
   m_Name: BulletStrongP2
   m_EditorClassIdentifier: 
+  BulletTypeName: 
   speed: 25
   damage: 3
   knockbackForce: 8
   cooldownTime: 0.8
   maxTravelDistance: 7
-  bulletPrefab: {fileID: 629407123225738408, guid: 38df01290e7aa64449fa157939d6a46e, type: 3}
+  bulletPrefab: {fileID: 629407123225738408, guid: d314b5f7524322844998107c06c11b42, type: 3}
   targetLayer:
     serializedVersion: 2
     m_Bits: 72

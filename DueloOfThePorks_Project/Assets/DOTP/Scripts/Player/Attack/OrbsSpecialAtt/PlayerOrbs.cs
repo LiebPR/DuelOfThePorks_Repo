@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class PlayerOrbs : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] int currentOrbs = 0;
     [SerializeField] int maxOrbs = 3;
+
+    [Header("Audio")]
+    CharacterAudioController audioControllerOrb;
 
     [SerializeField] OrbChargeUI orbChargeUI;
 
@@ -33,6 +37,12 @@ public class PlayerOrbs : MonoBehaviour
             }
 
             UpdateUI();
+
+            //Reproducir audio
+            if(audioControllerOrb != null)
+            {
+                audioControllerOrb.PlayOrbPickup();
+            }
         }
     }
 
@@ -64,6 +74,12 @@ public class PlayerOrbs : MonoBehaviour
             if(orbChargeUI != null)
             {
                 orbChargeUI.FlashRed(); //La orbe de orbes parpadea al perder 1
+            }
+
+            //Reproducir sonido de cuando se pierde una orbe
+            if(audioControllerOrb != null)
+            {
+                audioControllerOrb.PlayOrbLost();
             }
         }
     }

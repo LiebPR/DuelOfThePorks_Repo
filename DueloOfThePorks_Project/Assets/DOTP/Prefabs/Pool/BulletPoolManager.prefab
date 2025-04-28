@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7617251845884759703
+--- !u!1 &811855168857304696
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4244129610701553528}
-  - component: {fileID: 7803824604943553637}
+  - component: {fileID: 1879000965061093405}
+  - component: {fileID: 8531013726575631558}
   m_Layer: 0
-  m_Name: BulletPoolP2_Laserdo
+  m_Name: BulletPoolManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4244129610701553528
+--- !u!4 &1879000965061093405
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7617251845884759703}
+  m_GameObject: {fileID: 811855168857304696}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,17 +32,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7803824604943553637
+--- !u!114 &8531013726575631558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7617251845884759703}
+  m_GameObject: {fileID: 811855168857304696}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c43456376fadbff4f8b745177ba03e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 629407123225738408, guid: 38df01290e7aa64449fa157939d6a46e, type: 3}
-  poolSize: 10
+  bulletTypes:
+  - name: Keanupigs
+    bulletPrefab: {fileID: 210037064702780757, guid: 3aeca854f9730c445b502fdbd398b7b9, type: 3}
+    initialPoolSize: 10
+  - name: Laserdo
+    bulletPrefab: {fileID: 629407123225738408, guid: d314b5f7524322844998107c06c11b42, type: 3}
+    initialPoolSize: 10

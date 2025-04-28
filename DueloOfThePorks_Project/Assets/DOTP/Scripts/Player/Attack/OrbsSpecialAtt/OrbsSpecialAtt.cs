@@ -5,7 +5,6 @@ using UnityEngine;
 public class OrbsSpecialAtt : MonoBehaviour, IDamageable
 {
     [SerializeField] enum OrbOwner { None, Player1, Player2}
-    [SerializeField] OrbOwner currentOwner = OrbOwner.None;
     
     GameObject lastHitter;
     Animator anim;

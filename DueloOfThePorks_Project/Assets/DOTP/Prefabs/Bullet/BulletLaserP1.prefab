@@ -123,7 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: 4c16554fd91d68c428f09c3204837cbd, type: 2}
   direction: {x: 0, y: 0}
-  owner: {fileID: 8541979104433921599, guid: 1fadca2dd2cb6844fb95cd3f9e244f6f, type: 3}
+  owner: {fileID: 5675446631214632683, guid: 907ef5f585f1e3340a714e640e85a24a, type: 3}
+  bulletTypeName: Laserdo
 --- !u!61 &4994956161954458858
 BoxCollider2D:
   m_ObjectHideFlags: 0

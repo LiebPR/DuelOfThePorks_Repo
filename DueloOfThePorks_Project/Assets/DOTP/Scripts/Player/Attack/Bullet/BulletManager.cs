@@ -5,6 +5,7 @@ public class BulletManager : MonoBehaviour
     [SerializeField] BulletSettings[] bulletSettingsArray;
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float globalAttackCooldown = 0.4f;
+    [SerializeField] private string bulletTypeName; // Nuevo: tipo de bala que dispara este personaje
 
     private InputManager inputManager;
     private AttackManager attackManager;
@@ -35,15 +36,12 @@ public class BulletManager : MonoBehaviour
     {
         if (isLocked) return;
 
-        // Reducir cooldowns individuales
         for (int i = 0; i < bulletCooldowns.Length; i++)
             if (bulletCooldowns[i] > 0f)
                 bulletCooldowns[i] -= Time.deltaTime;
 
-        // Cooldown global
         if (Time.time - lastAttackTime < globalAttackCooldown) return;
 
-        // Special Attack (índice 4)
         if (inputManager.specialAttackInput && playerOrbs.CanUseSpecialAttack())
         {
             bool didFire = HandleAttackLogic(4);
@@ -56,7 +54,6 @@ public class BulletManager : MonoBehaviour
             return;
         }
 
-        // Strong Attack (índice 3)
         if (inputManager.strongAttackInput)
         {
             bool didFire = HandleAttackLogic(3);
@@ -65,7 +62,6 @@ public class BulletManager : MonoBehaviour
             return;
         }
 
-        // Base Attack (índices 0–2 según dirección)
         if (inputManager.baseAttackInput)
         {
             int idx = GetInputDirectionIndex();
@@ -93,15 +89,10 @@ public class BulletManager : MonoBehaviour
         return -1;
     }
 
-    /// <summary>
-    /// Ejecuta ataque o lanza bala según el índice. Devuelve true si realmente se disparó o atacó.
-    /// </summary>
     bool HandleAttackLogic(int index)
     {
         bool hasBullet = index < bulletSettingsArray.Length && bulletSettingsArray[index] != null;
-        bool hasAttack = attackManager != null &&
-                         index < attackManager.attackSettingsArray.Length &&
-                         attackManager.attackSettingsArray[index] != null;
+        bool hasAttack = attackManager != null && index < attackManager.attackSettingsArray.Length && attackManager.attackSettingsArray[index] != null;
 
         if (hasBullet && hasAttack)
         {
@@ -113,6 +104,8 @@ public class BulletManager : MonoBehaviour
 
         if (hasBullet)
         {
+            if (bulletCooldowns[index] > 0f || isLocked) return false; //No deja seguir si hay cooldown o Lock.
+
             QueueBulletShoot(index);
             animator?.PlayAttackAnimation(index);
             return true;
@@ -129,9 +122,6 @@ public class BulletManager : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Guarda datos de disparo para ser lanzados más tarde por la animación.
-    /// </summary>
     void QueueBulletShoot(int index)
     {
         if (bulletCooldowns[index] > 0f || isLocked) return;
@@ -139,16 +129,13 @@ public class BulletManager : MonoBehaviour
         isBulletPending = true;
     }
 
-    /// <summary>
-    /// Llamado desde un Animation Event para lanzar la bala en el momento justo.
-    /// </summary>
     public void TriggerShootFromAnim()
     {
         if (!isBulletPending || pendingBulletIndex == null) return;
 
         int index = pendingBulletIndex.Value;
 
-        GameObject bulletObj = BulletPool.Instance.GetBullet();
+        GameObject bulletObj = BulletPool.Instance.GetBullet(bulletTypeName);
         if (bulletObj == null)
         {
             Debug.LogWarning("No bullets available in pool!");
@@ -167,11 +154,11 @@ public class BulletManager : MonoBehaviour
         bullet.settings = bulletSettingsArray[index];
         bullet.owner = gameObject;
         bullet.direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        bullet.bulletTypeName = bulletTypeName; // NUEVO: guarda el tipo para devolverlo correctamente
 
         bulletObj.SetActive(true);
         bulletCooldowns[index] = bulletSettingsArray[index].cooldownTime;
 
-        // Limpiar flags
         isBulletPending = false;
         pendingBulletIndex = null;
     }
