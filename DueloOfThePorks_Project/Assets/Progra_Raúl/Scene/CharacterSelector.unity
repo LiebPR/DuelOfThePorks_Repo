@@ -1341,7 +1341,8 @@ MonoBehaviour:
   player1Selector: {fileID: 1168748790}
   player2Selector: {fileID: 1546022729}
   scenesToLoad:
-  - Scene_Pract
+  - Juego1
+  - Juego2
 --- !u!4 &2102555853
 Transform:
   m_ObjectHideFlags: 0
