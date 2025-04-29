@@ -182,11 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSettingsArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 46e492edc86441d4d8b9699b22a41be5, type: 2}
+  - {fileID: 11400000, guid: 2b4b6bfd401c75b4ea1be253c5efc630, type: 2}
+  - {fileID: 11400000, guid: abc08594b7763664380dc4fb6bde5c10, type: 2}
+  - {fileID: 11400000, guid: faf69d9c3abc0b54a935ecb8a86b73c1, type: 2}
+  - {fileID: 11400000, guid: 41401a0b01fa82446b466b466be8d5cc, type: 2}
   attackPoint: {fileID: 9017604095913022432}
   specialLaserEnabled: 1
   specialEffectPrefab: {fileID: 0}
@@ -360,6 +360,8 @@ MonoBehaviour:
   minFlashIntensity: 0.5
   maxFlashIntensity: 2
   followRotation: 1
+  shockwaveEffectPrefab: {fileID: 0}
+  shockwaveScale: 1
 --- !u!114 &9132477159295281658
 MonoBehaviour:
   m_ObjectHideFlags: 0
