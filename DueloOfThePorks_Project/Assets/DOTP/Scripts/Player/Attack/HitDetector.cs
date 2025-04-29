@@ -31,6 +31,13 @@ public class HitDetector : MonoBehaviour, IDamageable
         damagePercentage += damage;
         damageHandler?.UpdateHealthDisplay(damagePercentage);
 
+        //Reproducir sonido de golpe
+        var audio = GetComponent<CharacterAudioController>();
+        if(audio != null)
+        {
+            audio.PlayRandomHitSound();
+        }
+
         // 3) Disparar efecto de hit
         effectHandler?.PlayHitEffect(
             transform.position,

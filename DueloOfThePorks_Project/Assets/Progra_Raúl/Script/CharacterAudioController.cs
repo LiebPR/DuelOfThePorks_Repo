@@ -29,6 +29,9 @@ public class CharacterAudioController : MonoBehaviour
     public Sound orbPickup; //SFX recoger orbe.
     public Sound orbLost; //SFX perder orbe.
 
+    [Header("Sonidos Hit")]
+    public Sound[] hitSounds;
+
     void Awake()
     {
         src = GetComponent<AudioSource>();
@@ -50,6 +53,20 @@ public class CharacterAudioController : MonoBehaviour
         if(sound.clip != null)
         {
             src.PlayOneShot(sound.clip, sound.volume);
+        }
+    }
+
+    public void PlayRandomHitSound()
+    {
+        if (hitSounds.Length == 0) return;
+
+        int index = Random.Range(0, hitSounds.Length);
+        Sound selected = hitSounds[index];
+
+        if (selected.clip != null)
+        {
+            src.PlayOneShot(selected.clip, selected.volume);
+            Debug.Log($"Reproduciendo golpe {index}: {selected.clip.name}");
         }
     }
 }

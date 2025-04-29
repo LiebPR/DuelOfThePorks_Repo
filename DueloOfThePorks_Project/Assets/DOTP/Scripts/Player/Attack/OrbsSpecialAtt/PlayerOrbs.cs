@@ -13,6 +13,11 @@ public class PlayerOrbs : MonoBehaviour
 
     [SerializeField] OrbChargeUI orbChargeUI;
 
+    private void Awake()
+    {
+        audioControllerOrb = GetComponent<CharacterAudioController>();
+    }
+
     private void Start()
     {
         if(orbChargeUI != null)

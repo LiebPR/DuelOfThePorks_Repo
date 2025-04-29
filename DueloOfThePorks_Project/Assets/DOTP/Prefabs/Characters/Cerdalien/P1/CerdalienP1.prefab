@@ -110,12 +110,12 @@ GameObject:
   - component: {fileID: 8387204074056829653}
   - component: {fileID: 1490294172094857549}
   - component: {fileID: 2992653292084120093}
-  - component: {fileID: 3673031604114028305}
   - component: {fileID: 6675206030974188199}
   - component: {fileID: 5100457111171163035}
   - component: {fileID: 4855555630983475931}
   - component: {fileID: 7533972384491135397}
   - component: {fileID: 4182794597730607057}
+  - component: {fileID: 3673031604114028305}
   - component: {fileID: 2059455692711251316}
   - component: {fileID: 7115448701116413228}
   - component: {fileID: 7879971785551406371}
@@ -178,7 +178,6 @@ MonoBehaviour:
   isGrounded: 0
   wallCheckSize: {x: 0.67, y: 1.65}
   wallCheckOffset: {x: 1.94, y: 0.96}
-  lateralCheckDistance: 0.5
 --- !u!114 &1994285717362421211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +198,7 @@ MonoBehaviour:
   - {fileID: 0}
   bulletSpawnPoint: {fileID: 7989643811892717958}
   globalAttackCooldown: 0.4
+  bulletTypeName: 
   isLocked: 0
 --- !u!114 &6613130263256207504
 MonoBehaviour:
@@ -304,25 +304,6 @@ MonoBehaviour:
   currentOrbs: 0
   maxOrbs: 3
   orbChargeUI: {fileID: 0}
---- !u!114 &3673031604114028305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7539898692024603055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseAttack: {fileID: 0}
-  upAttack: {fileID: 0}
-  downAttack: {fileID: 0}
-  strongAttack: {fileID: 0}
-  specialAttack: {fileID: 0}
-  jump: {fileID: 0}
-  dash: {fileID: 0}
 --- !u!114 &6675206030974188199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +456,68 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3673031604114028305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539898692024603055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00870e2f5949d146af660fb6078c03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseAttack:
+    clip: {fileID: 0}
+    volume: 0
+  upAttack:
+    clip: {fileID: 0}
+    volume: 0
+  downAttack:
+    clip: {fileID: 0}
+    volume: 0
+  strongAttack:
+    clip: {fileID: 0}
+    volume: 0
+  specialAttack:
+    clip: {fileID: 0}
+    volume: 0
+  jump:
+    clip: {fileID: 0}
+    volume: 0
+  dash:
+    clip: {fileID: 0}
+    volume: 0
+  orbPickup:
+    clip: {fileID: 8300000, guid: 4386bada0b3ecad4c90531a8489f033e, type: 3}
+    volume: 0.5
+  orbLost:
+    clip: {fileID: 8300000, guid: f78f1b1e93b34924199dcc0ce1e1b16f, type: 3}
+    volume: 0.5
+  hitSounds:
+  - clip: {fileID: 8300000, guid: feb86b70e23376242861c1bb10f47a95, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 4e719b3cd5604fc4e9c9d8c349af2792, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: d5dea1834c248ba4a879dc22970e26ff, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 82336049a780cb3438e56a7c98e0a2cd, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 8c68770f79df9b44aa00dc73b08b4102, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 1c3d48c40d37d4c4f8f3b2356a0e2667, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: bf088fae689da68409bffc33b8a780f6, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: cf9cd49c31da028468053bc107ecb946, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 6b41043842e8bcd418cc6296fe030260, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: b6a1c16fee8adc64983bc0a216a74363, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: a2af4c93b30e8f64bbf6b862de9c373f, type: 3}
+    volume: 0.4
 --- !u!82 &2059455692711251316
 AudioSource:
   m_ObjectHideFlags: 0

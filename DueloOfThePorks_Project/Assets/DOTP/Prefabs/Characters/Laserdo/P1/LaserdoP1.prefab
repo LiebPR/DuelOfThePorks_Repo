@@ -460,32 +460,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: ec6b6c77b118403438fd02470420b727, type: 3}
+    volume: 0.5
   upAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 45666be955f01834681f73eeedd57e2c, type: 3}
+    volume: 0.5
   downAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 7e80bce4ace36c64b888463ebce68328, type: 3}
+    volume: 0.5
   strongAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 7200801cbd28d074382d1be9642a1657, type: 3}
+    volume: 0.5
   specialAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: df7373ec919018546854e6328309c1ce, type: 3}
+    volume: 0.5
   jump:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: baf970a1537ea174c8777198eed9656f, type: 3}
+    volume: 0.5
   dash:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 421a7c9a900c62640ad16af316d6aedb, type: 3}
+    volume: 0.5
   orbPickup:
     clip: {fileID: 8300000, guid: 4386bada0b3ecad4c90531a8489f033e, type: 3}
     volume: 0.5
   orbLost:
     clip: {fileID: 8300000, guid: f78f1b1e93b34924199dcc0ce1e1b16f, type: 3}
     volume: 0.5
+  hitSounds:
+  - clip: {fileID: 8300000, guid: feb86b70e23376242861c1bb10f47a95, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 4e719b3cd5604fc4e9c9d8c349af2792, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: d5dea1834c248ba4a879dc22970e26ff, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 82336049a780cb3438e56a7c98e0a2cd, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 8c68770f79df9b44aa00dc73b08b4102, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 1c3d48c40d37d4c4f8f3b2356a0e2667, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: bf088fae689da68409bffc33b8a780f6, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: cf9cd49c31da028468053bc107ecb946, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: 6b41043842e8bcd418cc6296fe030260, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: b6a1c16fee8adc64983bc0a216a74363, type: 3}
+    volume: 0.4
+  - clip: {fileID: 8300000, guid: a2af4c93b30e8f64bbf6b862de9c373f, type: 3}
+    volume: 0.4
 --- !u!212 &151605271709011461
 SpriteRenderer:
   m_ObjectHideFlags: 0
