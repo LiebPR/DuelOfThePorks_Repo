@@ -793,6 +793,9 @@ MonoBehaviour:
   confirmButton: joystick button 0
   deselectButton: joystick button 1
   previewScale: 1
+  includeRandomOption: 1
+  randomPreviewPrefab: {fileID: 7573465243961896256, guid: 45c6d808d4f109b44af74f23ba32d5a0, type: 3}
+  randomPreviewOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1168748791
 Transform:
   m_ObjectHideFlags: 0
@@ -1204,6 +1207,9 @@ MonoBehaviour:
   confirmButton: joystick button 0
   deselectButton: joystick button 1
   previewScale: 1
+  includeRandomOption: 1
+  randomPreviewPrefab: {fileID: 7573465243961896256, guid: 45c6d808d4f109b44af74f23ba32d5a0, type: 3}
+  randomPreviewOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1546022730
 Transform:
   m_ObjectHideFlags: 0
