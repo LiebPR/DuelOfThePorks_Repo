@@ -1,0 +1,1869 @@
+fileFormatVersion: 2
+guid: 5433a93d33dfb764a8cee2b0d56235fe
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TileSetAinhoaX_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20c81164f39feca449c4ba089f41df82
+      internalID: -955728376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d330414b1d165ce49a3d4855e831abb4
+      internalID: 1768489475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1b954c92c3023845a57210af8ca37a8
+      internalID: 841923741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e97e07c9ce86124e805796602f7fea1
+      internalID: 1353276651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3f9b4a938bc1bc409ca639b57ef043c
+      internalID: 706020885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0424afd67f713a540850239266d224db
+      internalID: -267591383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ede2673f49d0d4b4d99407124ac65c76
+      internalID: -1417594129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcd3f0df5b2614e4aa3e93d51d87560d
+      internalID: -1633821025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50a2d268368ce1e4d9dba96625ccd9d0
+      internalID: 1147019177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4049a1bcb600ee548a49d2f99463d630
+      internalID: -1418976138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a56b46d0e98a0b41bbd4675067c5422
+      internalID: 1085910621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0a67cdb4db2ca84fb323ebc8578e62e
+      internalID: 1482459061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_12
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1256
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df1ad93d6bcb05d41a60f740c51f7b2e
+      internalID: -1517485754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3c6b17eb164bee4692e22222031854d
+      internalID: 1359991361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 531c290a46587224596f5cea48d3be31
+      internalID: 296390128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_15
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7442e1ed1b115344e8b500e26fa0f4d9
+      internalID: -713265206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_16
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0114924cabf92634e8e598cf59c8fbab
+      internalID: -1705322135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_17
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddbb7a70ab7b8f34ba027cb7171edbb4
+      internalID: -1680000531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_18
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57a9f04edb0f9a841ae857dd68487572
+      internalID: 103561695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_19
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbee357e4f3635645b0976133aa02226
+      internalID: 1556538031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_20
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e406484c0cca8b45bf8c349f2dec6fb
+      internalID: 487067223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_21
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2faf249cce4a6844db9f5a742a2920eb
+      internalID: -763335531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_22
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 718c480f3938cb74db611d24d4f63bd2
+      internalID: -267285524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_23
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 632a4563e25d2b34d89ac600c3def42e
+      internalID: 1713295749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_24
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0589fdf98ce9f134c8ad73934e608a0c
+      internalID: 1862062848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_25
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2392fdf4d1e32c4ab1218600a8a4f2d
+      internalID: -1189224876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_26
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b15052b8f922c4647b8cd3872dedfb00
+      internalID: 768217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_27
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c74615dca011cc845807429274c103d3
+      internalID: -1556048312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_28
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 737bb6836193ed14d9e2ed3547d94389
+      internalID: -786882528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_29
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 339decfe29e0e9948a91b8b98bb9fae0
+      internalID: 1493112301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_30
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2510bc56015c9aa48a7176aa1e2e75b3
+      internalID: -467291533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_31
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d900819aac0e930498924241aedee5b0
+      internalID: 1386078828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_32
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a422122cc53a4642a033be4a15bba93
+      internalID: 1892315673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_33
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f697271dc8b0939419b487dd04d54795
+      internalID: -1519188982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_34
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df4af78b0de4b5a4b83da7f1e8b04b83
+      internalID: -641787544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_35
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89286cd9b02666a4ea258f2c86a9f050
+      internalID: 2063329293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_36
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 227e8355906375a48a4dc8a353f8c459
+      internalID: -1435019130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_37
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82c1b37e28d2e4b478bad147a91ed919
+      internalID: 1932739035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_38
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9636a74d230976840922febae93c5dce
+      internalID: 269884849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_39
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51991e14a6c2f384b84380751cac104e
+      internalID: -1757575195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_40
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 257c92a65502c1d49af4102db33f1a68
+      internalID: 1950761897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_41
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ce8d2a025175544ba35193b47b499df
+      internalID: -466762507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_42
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89bf380d558ef4a42b57209580bfb27f
+      internalID: 752131191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_43
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd46c105bac082b41b9f833a69799dea
+      internalID: 1049029257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_44
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49ec49449d9ce1747b972466542eb9af
+      internalID: 512876915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_45
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c8e5c03b4c04e44a86d703088561dbb
+      internalID: 14968736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_46
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70952f9b36237644eb03f3e3b0b69321
+      internalID: -1648404059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_47
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db160b641925f0847aa22f34ebda23f7
+      internalID: -682655939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_48
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adb62703d0345ce42af47684bdcd3d31
+      internalID: 1050349478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_49
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 773616aa5e311b64881204883f955aa4
+      internalID: 632000629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_50
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ab5779b253c31f42b964edcddc73d13
+      internalID: -2103491046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_51
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1064
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4492bcc705664f34684278049f3f8933
+      internalID: 840285651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_52
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c4132091d0a3e94aa894f378f396bdb
+      internalID: -100947397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_53
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18082292ad4a96746b63088337ca702b
+      internalID: -1936267830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_54
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7485064d291ac94ca9537d554e57cf2
+      internalID: -1472640702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_55
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b4ed1dbef971774cbcf4b40d11079ba
+      internalID: 1255684020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_56
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7ba90dd2126b984ba491360ef33d673
+      internalID: -1860547337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_57
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 696889deb62ed2148ab29b0e3fd3756f
+      internalID: 1036530678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_58
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05a34dddd313b7c49bff6070bbef821f
+      internalID: 587372043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_59
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a07e70bc4a89f94888a439505b9b092
+      internalID: -1657752524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_60
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc1ef36cd8b7a704e85105d60d1102b2
+      internalID: -23038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_61
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc20e9f25f8df2c47bff3c10e98b11de
+      internalID: 1236659755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_62
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91d1c7f587d24b64ab065024e4d5f51c
+      internalID: 1989452425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_63
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abf13d9959b193247b7f7abbfbe03e1a
+      internalID: -967962461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_64
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1000
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ba55a2e603acea488a8d2c7aabc5faa
+      internalID: 1780085325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50d790dfdf29e3b4faea07146c583b34
+      internalID: 597292033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_66
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 104a525ed1f5b6d4ea3b4214687f68c5
+      internalID: -1626225568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_67
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be236e1f53e4163418ef5f10daef870f
+      internalID: -858986278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_68
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bac4d533fe85de146a00a32155996e8f
+      internalID: 54419835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_69
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b1a3b5c1f64ed42abc273905514026
+      internalID: -822742535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_70
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ed1a3af778f6cc4198ccae10afa6f50
+      internalID: -85118557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_71
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df34a0d9ca7e2604abe454fcf8f259f6
+      internalID: -210300224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_72
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe698bac7a315354383c2ccc0dd29757
+      internalID: -1133667301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_73
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fc262b40a7caed43b78870d0ddb0e44
+      internalID: -977906554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_74
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ceee61b67269e144981afafc23cfb78e
+      internalID: -1703354580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_75
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d750628fc6113ea40b8b8a0d68851238
+      internalID: -851405813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_76
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82f430882d09e80449122b8c55949e09
+      internalID: 1092488347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileSetAinhoaX_77
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 936
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b96137e67fe5d1429e367f46fce0f15
+      internalID: 2133059333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      TileSetAinhoaX_0: -955728376
+      TileSetAinhoaX_1: 1768489475
+      TileSetAinhoaX_10: 1085910621
+      TileSetAinhoaX_11: 1482459061
+      TileSetAinhoaX_12: -1517485754
+      TileSetAinhoaX_13: 1359991361
+      TileSetAinhoaX_14: 296390128
+      TileSetAinhoaX_15: -713265206
+      TileSetAinhoaX_16: -1705322135
+      TileSetAinhoaX_17: -1680000531
+      TileSetAinhoaX_18: 103561695
+      TileSetAinhoaX_19: 1556538031
+      TileSetAinhoaX_2: 841923741
+      TileSetAinhoaX_20: 487067223
+      TileSetAinhoaX_21: -763335531
+      TileSetAinhoaX_22: -267285524
+      TileSetAinhoaX_23: 1713295749
+      TileSetAinhoaX_24: 1862062848
+      TileSetAinhoaX_25: -1189224876
+      TileSetAinhoaX_26: 768217
+      TileSetAinhoaX_27: -1556048312
+      TileSetAinhoaX_28: -786882528
+      TileSetAinhoaX_29: 1493112301
+      TileSetAinhoaX_3: 1353276651
+      TileSetAinhoaX_30: -467291533
+      TileSetAinhoaX_31: 1386078828
+      TileSetAinhoaX_32: 1892315673
+      TileSetAinhoaX_33: -1519188982
+      TileSetAinhoaX_34: -641787544
+      TileSetAinhoaX_35: 2063329293
+      TileSetAinhoaX_36: -1435019130
+      TileSetAinhoaX_37: 1932739035
+      TileSetAinhoaX_38: 269884849
+      TileSetAinhoaX_39: -1757575195
+      TileSetAinhoaX_4: 706020885
+      TileSetAinhoaX_40: 1950761897
+      TileSetAinhoaX_41: -466762507
+      TileSetAinhoaX_42: 752131191
+      TileSetAinhoaX_43: 1049029257
+      TileSetAinhoaX_44: 512876915
+      TileSetAinhoaX_45: 14968736
+      TileSetAinhoaX_46: -1648404059
+      TileSetAinhoaX_47: -682655939
+      TileSetAinhoaX_48: 1050349478
+      TileSetAinhoaX_49: 632000629
+      TileSetAinhoaX_5: -267591383
+      TileSetAinhoaX_50: -2103491046
+      TileSetAinhoaX_51: 840285651
+      TileSetAinhoaX_52: -100947397
+      TileSetAinhoaX_53: -1936267830
+      TileSetAinhoaX_54: -1472640702
+      TileSetAinhoaX_55: 1255684020
+      TileSetAinhoaX_56: -1860547337
+      TileSetAinhoaX_57: 1036530678
+      TileSetAinhoaX_58: 587372043
+      TileSetAinhoaX_59: -1657752524
+      TileSetAinhoaX_6: -1417594129
+      TileSetAinhoaX_60: -23038
+      TileSetAinhoaX_61: 1236659755
+      TileSetAinhoaX_62: 1989452425
+      TileSetAinhoaX_63: -967962461
+      TileSetAinhoaX_64: 1780085325
+      TileSetAinhoaX_65: 597292033
+      TileSetAinhoaX_66: -1626225568
+      TileSetAinhoaX_67: -858986278
+      TileSetAinhoaX_68: 54419835
+      TileSetAinhoaX_69: -822742535
+      TileSetAinhoaX_7: -1633821025
+      TileSetAinhoaX_70: -85118557
+      TileSetAinhoaX_71: -210300224
+      TileSetAinhoaX_72: -1133667301
+      TileSetAinhoaX_73: -977906554
+      TileSetAinhoaX_74: -1703354580
+      TileSetAinhoaX_75: -851405813
+      TileSetAinhoaX_76: 1092488347
+      TileSetAinhoaX_77: 2133059333
+      TileSetAinhoaX_8: 1147019177
+      TileSetAinhoaX_9: -1418976138
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

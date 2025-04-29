@@ -4,107 +4,117 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class FloorSpikeTrap : MonoBehaviour
 {
-    [Header("Animación de las púas")]
-    [Tooltip("Animator con los clips Warning, Activate y Retract")]
-    [SerializeField] private Animator animator;
-    [Tooltip("Permite activar o desactivar la animación de las púas")]
-    [SerializeField] private bool enableVFX = true;
+    [Header("Inicio automático")]
+    [Tooltip("Segundos que tarda la trampa en activarse por primera vez")]
+    [SerializeField] private float initialActivationDelay = 2f;
+
+    [Header("Collider Ajustable")]
+    [Tooltip("Tamaño del área de la trampa")]
+    [SerializeField] private Vector2 colliderSize = new Vector2(1f, 1f);
+    [Tooltip("Offset del área respecto al pivote")]
+    [SerializeField] private Vector2 colliderOffset = Vector2.zero;
+
+    [Header("Visual")]
+    [Tooltip("Arrastra aquí el SpriteRenderer de las púas")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [Tooltip("Sprite con púas retraídas (idle)")]
+    [SerializeField] private Sprite idleSprite;
+    [Tooltip("Sprite con púas en warning (intermedio)")]
+    [SerializeField] private Sprite warningSprite;
+    [Tooltip("Sprite con púas extendidas (active)")]
+    [SerializeField] private Sprite activeSprite;
+    [Tooltip("Sprite con púas retrocediendo (retract)")]
+    [SerializeField] private Sprite retractSprite;
 
     [Header("Temporización")]
-    [Tooltip("Tiempo de aviso antes de que salgan las púas")]
-    [SerializeField] private float warningTime = 1f;
-    [Tooltip("Duración en que las púas hacen daño")]
-    [SerializeField] private float activeTime = 1f;
-    [Tooltip("Tiempo antes de que la trampa pueda activarse de nuevo")]
+    [Tooltip("Segundos que dura el warning")]
+    [SerializeField] private float warningDuration = 0.5f;
+    [Tooltip("Segundos que la trampa está activa (daño)")]
+    [SerializeField] private float activeDuration = 1f;
+    [Tooltip("Segundos que dura la retracción")]
+    [SerializeField] private float retractDuration = 0.5f;
+    [Tooltip("Segundos antes de volver a activar")]
     [SerializeField] private float cooldownTime = 4f;
 
-    [Header("Daño (%)")]
+    [Header("Daño")]
     [Tooltip("Porcentaje de daño que aplica la trampa")]
-    [SerializeField] private float damagePercent = 10f;
+    [SerializeField] private float damageAmount = 10f;
+    [Tooltip("Capas a las que hace daño (marca Player1 y Player2)")]
+    [SerializeField] private LayerMask damageLayers;
 
-    [Header("Audio")]
-    [Tooltip("Permite activar o desactivar el sonido")]
-    [SerializeField] private bool enableSFX = true;
-    [Tooltip("Sonido que suena al activarse las púas (opcional)")]
-    [SerializeField] private AudioClip spikeSound;
-
-    private enum State { Idle, Warning, Active, Cooldown }
-    private State currentState = State.Idle;
     private BoxCollider2D col;
 
-    private void Awake()
+    private void OnValidate()
+    {
+        col = GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            col.isTrigger = true;
+            col.size = colliderSize;
+            col.offset = colliderOffset;
+        }
+    }
+
+    private void Start()
     {
         col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
+        col.size = colliderSize;
+        col.offset = colliderOffset;
+
+        if (spriteRenderer != null && idleSprite != null)
+            spriteRenderer.sprite = idleSprite;
+
+        StartCoroutine(AutomaticTrap());
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private IEnumerator AutomaticTrap()
     {
-        if (currentState != State.Idle) return;
-        if (!other.CompareTag("Player")) return;
+        // Espera inicial antes de la primera activación
+        yield return new WaitForSeconds(initialActivationDelay);
 
-        StartCoroutine(TrapSequence());
-    }
-
-    private IEnumerator TrapSequence()
-    {
-        // 1) Aviso (telegráfico)
-        currentState = State.Warning;
-        if (enableVFX && animator != null)
-            animator.SetTrigger("Warning");
-        yield return new WaitForSeconds(warningTime);
-
-        // 2) Activación: animación, sonido y daño
-        currentState = State.Active;
-        if (enableVFX && animator != null)
-            animator.SetTrigger("Activate");
-        if (enableSFX && spikeSound != null)
-            AudioSource.PlayClipAtPoint(spikeSound, transform.position);
-
-        // Desactivamos el trigger para controlar manualmente el daño
-        col.enabled = false;
-
-        float timer = 0f;
-        while (timer < activeTime)
+        while (true)
         {
-            var hits = Physics2D.OverlapBoxAll(col.bounds.center, col.bounds.size, 0f);
+            // 1) Warning
+            if (spriteRenderer != null && warningSprite != null)
+                spriteRenderer.sprite = warningSprite;
+            yield return new WaitForSeconds(warningDuration);
+
+            // 2) Active + Daño
+            if (spriteRenderer != null && activeSprite != null)
+                spriteRenderer.sprite = activeSprite;
+            var hits = Physics2D.OverlapBoxAll(
+                (Vector2)transform.position + colliderOffset,
+                colliderSize,
+                0f,
+                damageLayers
+            );
             foreach (var hit in hits)
             {
-                if (!hit.CompareTag("Player")) continue;
-                var damageable = hit.GetComponent<IDamageable>();
-                if (damageable != null)
-                    damageable.ReciveDamage(damagePercent);
+                var d = hit.GetComponent<IDamageable>();
+                if (d != null)
+                    d.ReciveDamage(damageAmount);
             }
-            timer += 0.2f;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(activeDuration);
+
+            // 3) Retract (retroceso)
+            if (spriteRenderer != null && retractSprite != null)
+                spriteRenderer.sprite = retractSprite;
+            yield return new WaitForSeconds(retractDuration);
+
+            // 4) Idle
+            if (spriteRenderer != null && idleSprite != null)
+                spriteRenderer.sprite = idleSprite;
+
+            // 5) Cooldown
+            yield return new WaitForSeconds(cooldownTime);
         }
-
-        // 3) Retracción de las púas
-        if (enableVFX && animator != null)
-            animator.SetTrigger("Retract");
-
-        // Restauramos el collider y pasamos a cooldown
-        col.enabled = true;
-        currentState = State.Cooldown;
-        yield return new WaitForSeconds(cooldownTime);
-        currentState = State.Idle;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        if (col == null) col = GetComponent<BoxCollider2D>();
+        Vector2 pos = (Vector2)transform.position + colliderOffset;
         Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-        Gizmos.DrawCube(col.bounds.center, col.bounds.size);
+        Gizmos.DrawCube(pos, colliderSize);
     }
-
-    /// <summary>
-    /// Habilita o deshabilita la animación de las púas en tiempo de ejecución.
-    /// </summary>
-    public void SetVFXEnabled(bool enabled) => enableVFX = enabled;
-    /// <summary>
-    /// Habilita o deshabilita el sonido de la trampa en tiempo de ejecución.
-    /// </summary>
-    public void SetSFXEnabled(bool enabled) => enableSFX = enabled;
 }
