@@ -167,7 +167,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f11f868a1c5dad4eb18bf3c9760a9b5, type: 2}
   bulletSpawnPoint: {fileID: 8811796575384610763}
   globalAttackCooldown: 0.4
-  bulletTypeName: Keanupig
+  bulletTypeName: Keanupigs
   isLocked: 0
 --- !u!114 &7426921837518178066
 MonoBehaviour:
@@ -360,6 +360,8 @@ MonoBehaviour:
   minFlashIntensity: 0.5
   maxFlashIntensity: 2
   followRotation: 1
+  shockwaveEffectPrefab: {fileID: 0}
+  shockwaveScale: 1
 --- !u!114 &4319621892890094747
 MonoBehaviour:
   m_ObjectHideFlags: 0

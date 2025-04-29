@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -28,12 +28,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Falling")]
     [SerializeField] float fallMultipler = 2.5f; //Que tan rapido cae el jugador comparado con la gravedad normal.
-    [SerializeField] float lowJumpMultiplier = 2f; //Para hacer el salto más corto si se suelta el boton antes.
+    [SerializeField] float lowJumpMultiplier = 2f; //Para hacer el salto mÃ¡s corto si se suelta el boton antes.
 
     [Header("Dash")]
     [SerializeField] float dashForce = 12f; //Fuerza aplicada en el dash
-    [SerializeField] float dashDuration = 0.2f; //Duración del dash
-    [SerializeField] float dashCooldown = 1f; //Tiempo de reutilización del dash
+    [SerializeField] float dashDuration = 0.2f; //DuraciÃ³n del dash
+    [SerializeField] float dashCooldown = 1f; //Tiempo de reutilizaciÃ³n del dash
     bool isDashing = false; //Esta haciendo un dash?
     bool canDash = true; //No esta haciendo un dash?
     float lastDashTime = -Mathf.Infinity; //Infinito negativo.
@@ -46,14 +46,14 @@ public class PlayerController : MonoBehaviour
 
     //Detectores:
     [Header("Ground Check")]
-    [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f); //Tamaño del detector
-    [SerializeField] Vector2 groundCheckOffset = new Vector2(0f, -0.5f); //Posición del detector
+    [SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.2f); //TamaÃ±o del detector
+    [SerializeField] Vector2 groundCheckOffset = new Vector2(0f, -0.5f); //PosiciÃ³n del detector
     [SerializeField] LayerMask groundLayer; //Layer del Ground
     [SerializeField] bool isGrounded; //Esta tocando el suelo?
 
     [Header("Wall Check")]
-    [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f); //Tamaño del detector
-    [SerializeField] Vector2 wallCheckOffset = new Vector2(0.5f, 0f); //Posición del detector
+    [SerializeField] Vector2 wallCheckSize = new Vector2(0.3f, 0.5f); //TamaÃ±o del detector
+    [SerializeField] Vector2 wallCheckOffset = new Vector2(0.5f, 0f); //PosiciÃ³n del detector
     bool isTouchingWall; //Esta tocando la pared?
     
     
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         //Estas diciendo que quieres que la velocidad del rb sea igual a la velocidad en el eje x multiplicada por el moveSpeed y que mantenga la velocidad en y para que no se vea alterada.
         rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y); 
 
-        if (horizontalInput != 0 && !isTouchingWall) //Cuando la posición es lo contrario a 0 el player Flip. "!isTouchingWall" te dice que si no estas tocando la pared tambien se flipea.
+        if (horizontalInput != 0 && !isTouchingWall) //Cuando la posiciÃ³n es lo contrario a 0 el player Flip. "!isTouchingWall" te dice que si no estas tocando la pared tambien se flipea.
         {
             Flip();
         }
@@ -105,15 +105,15 @@ public class PlayerController : MonoBehaviour
 
     void Flip() 
     {
-        /*La dirección a la que me quiero mover es diferente a la que estoy mirando? (Mathf.Sign(horizontaInput es la brujula de la direccion hor y
+        /*La direcciÃ³n a la que me quiero mover es diferente a la que estoy mirando? (Mathf.Sign(horizontaInput es la brujula de la direccion hor y
          * Mathf.Sign(transform.localScale.x) es la escala definida en los 3 valores de Sign (-1, 1, 0) por lo que si el move es 1 y la escala es -1 ejecuta el "if"*/ 
         if (Mathf.Sign(horizontalInput) != Mathf.Sign(transform.localScale.x)) 
         {
             //Te flipea el personaje al usar Mathf.Sign ya sabe cual es la izquierda y cual la derecha por lo que te coje la direccion del movimiento y se lo aplica a la escala para que mire al lado correcto.
             transform.localScale = new Vector3(Mathf.Sign(horizontalInput), 1f, 1f);
            
-            /*Creamos una nueva variable Vector2 llamada newOffset. Referenciamos el capsulleCollider mas exactamente su posición respecto al pivote del player.
-             *Si el pivote del player a rotado el resto de componentes rotaran junto al player en la dirección en la que este orientado y mantenemos igual la direccion 
+            /*Creamos una nueva variable Vector2 llamada newOffset. Referenciamos el capsulleCollider mas exactamente su posiciÃ³n respecto al pivote del player.
+             *Si el pivote del player a rotado el resto de componentes rotaran junto al player en la direcciÃ³n en la que este orientado y mantenemos igual la direccion 
              *en y para que los componentes no flipeen.*/
             Vector2 newOffset = new Vector2(boxCollider.offset.x * Mathf.Sign(horizontalInput), boxCollider.offset.y); 
             boxCollider.offset = newOffset;
@@ -129,23 +129,23 @@ public class PlayerController : MonoBehaviour
         }
         else if(rb.velocity.y > 0 && !inputManager.jumpInput)
         {
-            //Si esta subiendo pero ya soltó el botón de salto
+            //Si esta subiendo pero ya soltÃ³ el botÃ³n de salto
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
     }
 
     void Jump()
     {
-        if (inputManager.jumpInput) //Condición; Si presiono el boton asignado en el jumpInput hace: 
+        if (inputManager.jumpInput) //CondiciÃ³n; Si presiono el boton asignado en el jumpInput hace: 
         {
-            if (isCrouching) //Condición si esta agachado:
+            if (isCrouching) //CondiciÃ³n si esta agachado:
             {
                 
                 inputManager.ResetJumpInput(); //Reset del jumpInput. (Para evitar saltos fantasma)
                 return; //Vuelve a leerlo, por lo que si no esta agachado pasa al siguiente if.
             }
            
-            if (_knockbackManager.IsInKnockback()) //Condición si esta con knockback aplicado hace:
+            if (_knockbackManager.IsInKnockback()) //CondiciÃ³n si esta con knockback aplicado hace:
                 return; //vuelve a leer el void desde el principio. 
 
             if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f)) //Condiciones para hacer:
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
             // Segundo salto:
             else 
             {
-                if (jumpCount == 1) //Condición si el jumpCount es igual a 1 hace:
+                if (jumpCount == 1) //CondiciÃ³n si el jumpCount es igual a 1 hace:
                 {
                     rb.velocity = new Vector2(rb.velocity.x, 0); //Mantiene la velocidad en el eje x y la restablece en el eje y a 0 (Para evitar problemas).
 
@@ -183,12 +183,12 @@ public class PlayerController : MonoBehaviour
 
     void HandleCrouch()
     {
-        if (inputManager.crouchInput && isGrounded) //Condición; Sí aprietas el boton de agacharse y estas isgrounded hace:
+        if (inputManager.crouchInput && isGrounded) //CondiciÃ³n; SÃ­ aprietas el boton de agacharse y estas isgrounded hace:
         {
             isCrouching = true; //Esta agachado.
             rb.velocity = new Vector2(rb.velocity.x * crouchSpeedMultiplier, rb.velocity.y); //Te multiplica la velocidad por el valor asignado en el crouchSpeedMultipler en x y te mantiene el eje y.
 
-            if (standingCollider != null && crouchingCollider != null) //Condición: ¿Estan asignados los collider? No. Pues seguimos con el resto del codigo || Si, hacemos:
+            if (standingCollider != null && crouchingCollider != null) //CondiciÃ³n: Â¿Estan asignados los collider? No. Pues seguimos con el resto del codigo || Si, hacemos:
             {
                 standingCollider.enabled = false; //Desactiva el collider de estar de pie.
                 crouchingCollider.enabled = true; //Activa el collider de estar agachado.
@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * boxCollider.bounds.extents.y; //Cojemos la posición del transform y la sumamos en el eje y, para multiplicarlo por 
+            Vector2 checkPosition = (Vector2)transform.position + Vector2.up * boxCollider.bounds.extents.y; //Cojemos la posiciÃ³n del transform y la sumamos en el eje y, para multiplicarlo por 
             bool headBlocked = Physics2D.Raycast(checkPosition, Vector2.up, 0.1f, groundLayer);
 
             if (!headBlocked)
@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D groundHit = Physics2D.BoxCast(groundOrigin, groundCheckSize, 0f, Vector2.down, 0f, groundLayer);
         bool groundBelow = groundHit.collider != null;
 
-        // Wall (usa dirección del personaje)
+        // Wall (usa direcciÃ³n del personaje)
         float direction = Mathf.Sign(transform.localScale.x);
         Vector2 wallOrigin = (Vector2)transform.position + new Vector2(wallCheckOffset.x * direction, wallCheckOffset.y);
         RaycastHit2D wallHit = Physics2D.BoxCast(wallOrigin, wallCheckSize, 0f, Vector2.right * direction, 0f, groundLayer);

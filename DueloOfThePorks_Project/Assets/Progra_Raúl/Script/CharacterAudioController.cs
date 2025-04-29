@@ -8,6 +8,14 @@ public struct Sound
     public float volume;
 }
 
+public enum AttackType
+{
+    Up = 0,
+    Down = 1,
+    Base = 2,
+    Strong = 3,
+    Special = 4
+}
 
 [RequireComponent(typeof(AudioSource))]
 public class CharacterAudioController : MonoBehaviour
@@ -19,15 +27,15 @@ public class CharacterAudioController : MonoBehaviour
     public Sound upAttack;
     public Sound downAttack;
     public Sound strongAttack;
-    public Sound specialAttack;    // ← agregado
+    public Sound specialAttack;
 
     [Header("Otros Sonidos")]
     public Sound jump;
     public Sound dash;
 
     [Header("Sonidos de Orbes")]
-    public Sound orbPickup; //SFX recoger orbe.
-    public Sound orbLost; //SFX perder orbe.
+    public Sound orbPickup;
+    public Sound orbLost;
 
     [Header("Sonidos Hit")]
     public Sound[] hitSounds;
@@ -37,24 +45,23 @@ public class CharacterAudioController : MonoBehaviour
         src = GetComponent<AudioSource>();
     }
 
-    public void PlayBaseAttack() { Play(baseAttack); }
-    public void PlayUpAttack() { Play(upAttack); }
-    public void PlayDownAttack() { Play(downAttack); }
-    public void PlayStrongAttack() { Play(strongAttack); }
-    public void PlaySpecialAttack() { Play(specialAttack); }
-
-    public void PlayJump() { Play(jump); }
-    public void PlayDash() { Play(dash); }
-    public void PlayOrbPickup() { Play(orbPickup); }
-    public void PlayOrbLost() { Play(orbLost); }
-
     private void Play(Sound sound)
     {
-        if(sound.clip != null)
+        if (sound.clip != null)
         {
             src.PlayOneShot(sound.clip, sound.volume);
         }
     }
+
+    public void PlayBaseAttack() => Play(baseAttack);
+    public void PlayUpAttack() => Play(upAttack);
+    public void PlayDownAttack() => Play(downAttack);
+    public void PlayStrongAttack() => Play(strongAttack);
+    public void PlaySpecialAttack() => Play(specialAttack);
+    public void PlayJump() => Play(jump);
+    public void PlayDash() => Play(dash);
+    public void PlayOrbPickup() => Play(orbPickup);
+    public void PlayOrbLost() => Play(orbLost);
 
     public void PlayRandomHitSound()
     {
@@ -67,6 +74,28 @@ public class CharacterAudioController : MonoBehaviour
         {
             src.PlayOneShot(selected.clip, selected.volume);
             Debug.Log($"Reproduciendo golpe {index}: {selected.clip.name}");
+        }
+    }
+
+    public void PlayAttackSound(AttackType type)
+    {
+        switch (type)
+        {
+            case AttackType.Up:
+                Play(upAttack);
+                break;
+            case AttackType.Down:
+                Play(downAttack);
+                break;
+            case AttackType.Base:
+                Play(baseAttack);
+                break;
+            case AttackType.Strong:
+                Play(strongAttack);
+                break;
+            case AttackType.Special:
+                Play(specialAttack);
+                break;
         }
     }
 }

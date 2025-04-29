@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ca21cbe1a4774db2ed6ce83ca6a23, type: 3}
   m_Name: AttackStrong
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 20
   damage: 8
   knockbackForce: 5
   cooldownTime: 0.7

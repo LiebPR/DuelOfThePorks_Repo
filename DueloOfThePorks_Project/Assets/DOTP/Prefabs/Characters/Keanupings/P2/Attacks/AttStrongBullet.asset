@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ca21cbe1a4774db2ed6ce83ca6a23, type: 3}
   m_Name: AttStrongBullet
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 20
   damage: 8
   knockbackForce: 5
   cooldownTime: 1
@@ -20,5 +20,5 @@ MonoBehaviour:
   bulletPrefab: {fileID: 210037064702780757, guid: 3aeca854f9730c445b502fdbd398b7b9, type: 3}
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   attackIndex: 3

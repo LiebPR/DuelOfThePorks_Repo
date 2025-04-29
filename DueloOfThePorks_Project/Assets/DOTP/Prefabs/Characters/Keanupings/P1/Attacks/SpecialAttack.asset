@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ca21cbe1a4774db2ed6ce83ca6a23, type: 3}
   m_Name: SpecialAttack
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 30
   damage: 100
   knockbackForce: 25
   cooldownTime: 1

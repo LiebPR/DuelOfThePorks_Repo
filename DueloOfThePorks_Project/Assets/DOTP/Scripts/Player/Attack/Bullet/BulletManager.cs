@@ -5,11 +5,12 @@ public class BulletManager : MonoBehaviour
     [SerializeField] BulletSettings[] bulletSettingsArray;
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float globalAttackCooldown = 0.4f;
-    [SerializeField] private string bulletTypeName; // Nuevo: tipo de bala que dispara este personaje
+    [SerializeField] private string bulletTypeName;
 
     private InputManager inputManager;
     private AttackManager attackManager;
     private PlayerOrbs playerOrbs;
+    private CharacterAudioController audioController;
 
     private float[] bulletCooldowns;
     private float lastAttackTime = -999f;
@@ -23,6 +24,7 @@ public class BulletManager : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         attackManager = GetComponent<AttackManager>();
         playerOrbs = GetComponent<PlayerOrbs>();
+        audioController = GetComponent<CharacterAudioController>();
         bulletCooldowns = new float[bulletSettingsArray.Length];
     }
 
@@ -104,10 +106,14 @@ public class BulletManager : MonoBehaviour
 
         if (hasBullet)
         {
-            if (bulletCooldowns[index] > 0f || isLocked) return false; //No deja seguir si hay cooldown o Lock.
+            if (bulletCooldowns[index] > 0f || isLocked) return false;
 
             QueueBulletShoot(index);
             animator?.PlayAttackAnimation(index);
+
+            // 🔊 Reproducir sonido del ataque de proyectil
+            audioController?.PlayAttackSound((AttackType)index);
+
             return true;
         }
 
@@ -154,7 +160,7 @@ public class BulletManager : MonoBehaviour
         bullet.settings = bulletSettingsArray[index];
         bullet.owner = gameObject;
         bullet.direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-        bullet.bulletTypeName = bulletTypeName; // NUEVO: guarda el tipo para devolverlo correctamente
+        bullet.bulletTypeName = bulletTypeName;
 
         bulletObj.SetActive(true);
         bulletCooldowns[index] = bulletSettingsArray[index].cooldownTime;

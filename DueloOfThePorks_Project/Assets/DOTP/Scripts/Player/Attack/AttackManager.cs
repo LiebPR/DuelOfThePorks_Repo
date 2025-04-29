@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackManager : MonoBehaviour
@@ -14,20 +13,21 @@ public class AttackManager : MonoBehaviour
     private int currentAttackIndex = -1;
     private InputManager inputManager;
     private PlayerOrbs playerOrbs;
+    private CharacterAudioController audioController;
 
     [Header("Láser Especial")]
     [SerializeField] private bool specialLaserEnabled = true;
     [SerializeField] private GameObject specialEffectPrefab;
-    [SerializeField] private Transform specialSpawnPoint;  // Punto de salida del láser
+    [SerializeField] private Transform specialSpawnPoint;
     [SerializeField] private float effectDuration = 1.5f;
 
-    // Instancia actual del láser especial
     private GameObject currentSpecialLaser;
 
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
         playerOrbs = GetComponent<PlayerOrbs>();
+        audioController = GetComponent<CharacterAudioController>();
     }
 
     private void Start()
@@ -39,25 +39,20 @@ public class AttackManager : MonoBehaviour
 
     private void Update()
     {
-        // Disminuir cooldowns
         for (int i = 0; i < cooldownTimers.Length; i++)
             if (cooldownTimers[i] > 0f)
                 cooldownTimers[i] -= Time.deltaTime;
 
-        // Ataque especial: dispara animación; spawn y stop via Animation Events
         if (inputManager.specialAttackInput)
         {
             if (TryPerformAttack(4))
             {
-                // SpawnSpecialLaser() llamado desde Animation Event
+                // Se lanza el ataque especial
             }
             inputManager.ResetSpecialAttackInput();
         }
     }
 
-    /// <summary>
-    /// Intenta ejecutar el ataque 'index'. Devuelve true si se dispara.
-    /// </summary>
     public bool TryPerformAttack(int index)
     {
         if (index < 0 || index >= attackSettingsArray.Length) return false;
@@ -72,18 +67,18 @@ public class AttackManager : MonoBehaviour
             playerOrbs.ConsumeOrbs();
 
         cooldownTimers[index] = attackSettingsArray[index].GetCooldownTime();
+
+        // 🔊 Reproducir sonido de ataque
+        audioController?.PlayAttackSound((AttackType)index);
+
         return true;
     }
 
-    /// <summary>
-    /// Instancia el láser especial. Llamado desde Animation Event.
-    /// </summary>
     public void SpawnSpecialLaser()
     {
         if (!specialLaserEnabled || specialEffectPrefab == null || specialSpawnPoint == null)
             return;
 
-        // Destruye instancia previa
         if (currentSpecialLaser != null)
             Destroy(currentSpecialLaser);
 
@@ -93,9 +88,6 @@ public class AttackManager : MonoBehaviour
         Destroy(currentSpecialLaser, effectDuration);
     }
 
-    /// <summary>
-    /// Detiene el láser especial. Llamado desde Animation Event.
-    /// </summary>
     public void StopSpecialLaser()
     {
         if (currentSpecialLaser != null)
@@ -105,9 +97,6 @@ public class AttackManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Llamado desde Animation Event para activar hitbox.
-    /// </summary>
     public void TriggerAttackHitbox()
     {
         if (currentAttackIndex < 0 || currentAttackIndex >= attackSettingsArray.Length)

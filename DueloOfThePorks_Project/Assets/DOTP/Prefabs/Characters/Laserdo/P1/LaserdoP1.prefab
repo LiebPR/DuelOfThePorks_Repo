@@ -224,6 +224,8 @@ MonoBehaviour:
   minFlashIntensity: 0.5
   maxFlashIntensity: 2
   followRotation: 1
+  shockwaveEffectPrefab: {fileID: 0}
+  shockwaveScale: 1
 --- !u!114 &8095685422431714326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +469,7 @@ MonoBehaviour:
     volume: 0.5
   downAttack:
     clip: {fileID: 8300000, guid: 7e80bce4ace36c64b888463ebce68328, type: 3}
-    volume: 0.5
+    volume: 0.7
   strongAttack:
     clip: {fileID: 8300000, guid: 7200801cbd28d074382d1be9642a1657, type: 3}
     volume: 0.5
@@ -476,10 +478,10 @@ MonoBehaviour:
     volume: 0.5
   jump:
     clip: {fileID: 8300000, guid: baf970a1537ea174c8777198eed9656f, type: 3}
-    volume: 0.5
+    volume: 0.4
   dash:
     clip: {fileID: 8300000, guid: 421a7c9a900c62640ad16af316d6aedb, type: 3}
-    volume: 0.5
+    volume: 0.4
   orbPickup:
     clip: {fileID: 8300000, guid: 4386bada0b3ecad4c90531a8489f033e, type: 3}
     volume: 0.5

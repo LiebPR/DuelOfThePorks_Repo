@@ -212,20 +212,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: ec6b6c77b118403438fd02470420b727, type: 3}
+    volume: 0.5
   upAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 45666be955f01834681f73eeedd57e2c, type: 3}
+    volume: 0.7
   downAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 7e80bce4ace36c64b888463ebce68328, type: 3}
+    volume: 0.5
   strongAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 7200801cbd28d074382d1be9642a1657, type: 3}
+    volume: 0.5
   specialAttack:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: df7373ec919018546854e6328309c1ce, type: 3}
+    volume: 0.5
   jump:
     clip: {fileID: 0}
     volume: 0
@@ -286,6 +286,8 @@ MonoBehaviour:
   minFlashIntensity: 0.5
   maxFlashIntensity: 2
   followRotation: 1
+  shockwaveEffectPrefab: {fileID: 0}
+  shockwaveScale: 1
 --- !u!114 &8095685422431714326
 MonoBehaviour:
   m_ObjectHideFlags: 0
