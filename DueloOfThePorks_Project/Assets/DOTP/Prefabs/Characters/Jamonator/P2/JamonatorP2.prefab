@@ -358,6 +358,8 @@ MonoBehaviour:
   minFlashIntensity: 0.5
   maxFlashIntensity: 2
   followRotation: 1
+  shockwaveEffectPrefab: {fileID: 1085550744308248100, guid: 1f96f3b4ef562b2478899f7ac0b03bf7, type: 3}
+  shockwaveScale: 0.4
 --- !u!114 &2472973042535469117
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,14 +25,18 @@ public class ParticleEffectHandler : MonoBehaviour
     [Tooltip("Si es true, usa la rotación que venga; si false, ignora rotación externa y usa identidad.")]
     [SerializeField] private bool followRotation = true;
 
+    [Header("Onda Expansiva")]
+    [SerializeField] private GameObject shockwaveEffectPrefab;
+    [SerializeField] private float shockwaveScale = 1f;
+
     private Color originalColor;
     private Coroutine flashCoroutine;
 
     private void Awake()
     {
         if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>()
-                          ?? GetComponentInChildren<SpriteRenderer>();
+            spriteRenderer = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>();
+
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
     }
@@ -51,9 +55,6 @@ public class ParticleEffectHandler : MonoBehaviour
         FlashSprite(100f);
     }
 
-    /// <summary>
-    /// Aquí solo se usa el Quaternion que se pasa, sin tomar nada del prefab.
-    /// </summary>
     public void PlayZoneDeathEffect(Vector3 pos, Quaternion rot)
     {
         Quaternion finalRot = followRotation ? rot : Quaternion.identity;
@@ -64,12 +65,15 @@ public class ParticleEffectHandler : MonoBehaviour
     private void SpawnEffect(GameObject prefab, Vector3 spawnPos, Quaternion rot)
     {
         if (prefab == null) return;
+
         var inst = Instantiate(prefab, spawnPos, rot);
+
         foreach (var ps in inst.GetComponentsInChildren<ParticleSystem>())
         {
             var main = ps.main;
             main.simulationSpace = ParticleSystemSimulationSpace.World;
         }
+
         Destroy(inst, effectLifetime);
     }
 
@@ -100,7 +104,35 @@ public class ParticleEffectHandler : MonoBehaviour
             StopCoroutine(flashCoroutine);
             flashCoroutine = null;
         }
+
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
+    }
+
+    // --- NUEVO: Función para animación de Onda Expansiva ---
+
+    /// <summary>
+    /// Llama desde un evento de Animator para instanciar una onda expansiva en la posición del personaje.
+    /// </summary>
+    public void PlayShockwaveEffect()
+    {
+        PlayShockwaveEffect(transform.position);
+    }
+
+    private void PlayShockwaveEffect(Vector3 position)
+    {
+        if (shockwaveEffectPrefab == null) return;
+
+        var shockwave = Instantiate(shockwaveEffectPrefab, position, Quaternion.identity);
+
+        shockwave.transform.localScale = Vector3.one * shockwaveScale;
+
+        foreach (var ps in shockwave.GetComponentsInChildren<ParticleSystem>())
+        {
+            var main = ps.main;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+        }
+
+        Destroy(shockwave, effectLifetime);
     }
 }
