@@ -335,6 +335,16 @@ public class PlayerController : MonoBehaviour
     {
         return isGrounded;
     }
+
+    public bool IsCrouching()
+    {
+        return isCrouching;
+    }
+
+    public float GetHorizontalInput()
+    {
+        return horizontalInput;
+    }
 }
 
 

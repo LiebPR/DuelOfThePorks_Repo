@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a3032d09661944fa3cb2589d7b2f05, type: 3}
   m_Name: UpAtt
   m_EditorClassIdentifier: 
-  damage: 15
+  damage: 13
   knockbackForce: 15
   cooldownTime: 1
   boxSize: {x: 1.6, y: 3.05}

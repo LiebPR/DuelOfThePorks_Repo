@@ -213,23 +213,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseAttack:
     clip: {fileID: 8300000, guid: ec6b6c77b118403438fd02470420b727, type: 3}
-    volume: 0.5
+    volume: 0.1
   upAttack:
     clip: {fileID: 8300000, guid: 45666be955f01834681f73eeedd57e2c, type: 3}
-    volume: 0.7
+    volume: 0.5
   downAttack:
     clip: {fileID: 8300000, guid: 7e80bce4ace36c64b888463ebce68328, type: 3}
-    volume: 0.5
+    volume: 0.3
   strongAttack:
     clip: {fileID: 8300000, guid: 7200801cbd28d074382d1be9642a1657, type: 3}
-    volume: 0.5
+    volume: 0.3
   specialAttack:
     clip: {fileID: 8300000, guid: df7373ec919018546854e6328309c1ce, type: 3}
     volume: 0.5
   jump:
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: baf970a1537ea174c8777198eed9656f, type: 3}
+    volume: 0.2
   dash:
+    clip: {fileID: 8300000, guid: 421a7c9a900c62640ad16af316d6aedb, type: 3}
+    volume: 0.4
+  crouch:
+    clip: {fileID: 8300000, guid: 76056d9d7f0880447b31eef6955216d0, type: 3}
+    volume: 0.4
+  crouchWalk:
+    clip: {fileID: 8300000, guid: 9fa9b871865542349bde98dbdd56c346, type: 3}
+    volume: 0.4
+  standUp:
     clip: {fileID: 0}
     volume: 0
   orbPickup:

@@ -36,12 +36,20 @@ public class CharacterAudioController : MonoBehaviour
     public Sound jump;
     public Sound dash;
 
+    [Header("Sonidos de Movimiento")]
+    public Sound crouch;
+    public Sound crouchWalk;
+    public Sound standUp; 
+
     [Header("Sonidos de Orbes")]
     public Sound orbPickup;
     public Sound orbLost;
 
     [Header("Sonidos Hit")]
     public Sound[] hitSounds;
+
+    private bool wasCrouching = false;
+    private bool wasCrouchWalking = false;
 
     void Awake()
     {
@@ -78,13 +86,32 @@ public class CharacterAudioController : MonoBehaviour
             loopSource.Stop();
         }
 
-        // Detección de dash: reproducir sonido al inicio
+        // Dash
         bool isDashing = playerController.IsDashing();
         if (isDashing && !wasDashing)
         {
             PlayOneShot(dash);
         }
         wasDashing = isDashing;
+
+        // Crouch 
+        bool isCrouching = playerController.IsCrouching();
+        if (isCrouching && !wasCrouching)
+            PlayOneShot(crouch);
+        wasCrouching = isCrouching;
+
+        // Crouch Walk 
+        bool isCrouchWalking = isCrouching && Mathf.Abs(playerController.GetHorizontalInput()) > 0.1f && grounded;
+        if (isCrouchWalking && !wasCrouchWalking)
+            PlayOneShot(crouchWalk);
+        wasCrouchWalking = isCrouchWalking;
+
+        //Levantarse 
+        if(!isCrouching && wasCrouching)
+        {
+            PlayOneShot(standUp);
+        }
+
     }
 
     private void PlayOneShot(Sound sound)
