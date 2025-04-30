@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
+using System.Collections;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -14,8 +16,13 @@ public class GameOverManager : MonoBehaviour
     [Header("Prefabs finales por personaje")]
     public CharacterFinalAnimation[] finalCharacters;
 
+    [Header("Audio")]
+    public SceneAudioManager sceneAudioManagerOver;
+    public int victorySoundIndex = 0;
+
     void Start()
     {
+        StartCoroutine(PlayVictorySoundWithDelay());
         // Recuperar datos de PlayerPrefs
         string winner = PlayerPrefs.GetString("Winner");
         string loser = PlayerPrefs.GetString("Loser");
@@ -53,6 +60,15 @@ public class GameOverManager : MonoBehaviour
             }
         }
         Debug.LogError($"No se encontró CharacterFinalAnimation para '{characterName}'");
+    }
+    IEnumerator PlayVictorySoundWithDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        if(sceneAudioManagerOver != null)
+        {
+            sceneAudioManagerOver.PlaySFX(victorySoundIndex);
+        }
     }
 }
 

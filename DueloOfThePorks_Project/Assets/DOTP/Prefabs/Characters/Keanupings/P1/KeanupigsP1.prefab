@@ -476,9 +476,15 @@ MonoBehaviour:
   specialAttack:
     clip: {fileID: 8300000, guid: 153c36c19aa2d054085ebc72a70399e0, type: 3}
     volume: 0.4
-  jump:
+  falling:
     clip: {fileID: 0}
+    volume: 0
+  jump:
+    clip: {fileID: 8300000, guid: da2a3491540788143851a0ae2db3b548, type: 3}
     volume: 0.3
+  secondJump:
+    clip: {fileID: 0}
+    volume: 0
   dash:
     clip: {fileID: 8300000, guid: 3bad7192b6fdda941af755fa5761c255, type: 3}
     volume: 0.3

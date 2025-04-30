@@ -136,39 +136,44 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (inputManager.jumpInput) //Condición; Si presiono el boton asignado en el jumpInput hace: 
+        if (inputManager.jumpInput) 
         {
-            if (isCrouching) //Condición si esta agachado:
+            if (isCrouching) 
             {
                 
-                inputManager.ResetJumpInput(); //Reset del jumpInput. (Para evitar saltos fantasma)
-                return; //Vuelve a leerlo, por lo que si no esta agachado pasa al siguiente if.
+                inputManager.ResetJumpInput(); 
+                return; 
             }
            
-            if (_knockbackManager.IsInKnockback()) //Condición si esta con knockback aplicado hace:
-                return; //vuelve a leer el void desde el principio. 
+            if (_knockbackManager.IsInKnockback()) 
+                return; 
 
-            if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f)) //Condiciones para hacer:
+            //Primer salto:
+            if (jumpCount == 0 && (isGrounded || coyoteTimeCounter > 0f)) 
             {
-                inputManager.jumpInput = false; //Restableze el input para poder realizar un segundo salto.
-                rb.velocity = new Vector2(rb.velocity.x, 0); //Restableze la velocidad del RB en 0 y mantiene el eje en x intacto.
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); //Se aplica una fuerza 2D al RB en el eje vertical y se multiplica por JumpForce. Tipo de fuerza aplicada Impulse.
+                inputManager.jumpInput = false; 
+                rb.velocity = new Vector2(rb.velocity.x, 0); 
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+                //Sonido
+                GetComponent<CharacterAudioController>()?.PlayJump();
                 
-                jumpCount = 1; // Indica a la consola si has saltado y si has saltado 1 vez se suma 1.
+                jumpCount = 1; 
             }
             // Segundo salto:
             else 
             {
                 if (jumpCount == 1) //Condición si el jumpCount es igual a 1 hace:
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, 0); //Mantiene la velocidad en el eje x y la restablece en el eje y a 0 (Para evitar problemas).
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
 
-                    /*Se genera una nueva variable que solo afecta al SecondJump, esta aplica una fuerza horizontal que es la propia del moveSpeed,
-                     * esta se multiplica * 0.5 por lo tanto se reduce a la mitad.Y por ultimo se le aplica una fuerza en y con el SecondJumpforce para que tenga una fuerza inferior.*/
+                 
                     Vector2 jumpDirection = new Vector2(horizontalInput * moveSpeed * 0.5f, secondJumpForce); 
-                    rb.AddForce(jumpDirection, ForceMode2D.Impulse); //Aplica el tipo de fuerza que se aplico en el salto 1 y se lo aplica con la variable creada en este if.
+                    rb.AddForce(jumpDirection, ForceMode2D.Impulse);
+
+                    GetComponent<CharacterAudioController>()?.PlaySecondJump();
                     
-                    jumpCount = 2; // Se le suma a 2 el contador porque a realizado el segundo salto. Por lo tanto se restableze a 0 en el GroundCheck.
+                    jumpCount = 2; 
                 }
                     
             }

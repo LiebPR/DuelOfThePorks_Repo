@@ -33,7 +33,9 @@ public class CharacterAudioController : MonoBehaviour
     public Sound specialAttack;
 
     [Header("Otros Sonidos")]
+    public Sound falling;
     public Sound jump;
+    public Sound secondJump;
     public Sound dash;
 
     [Header("Sonidos de Movimiento")]
@@ -63,11 +65,11 @@ public class CharacterAudioController : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         wasDashing = false;
 
-        // Configurar clip de loop con sonido de salto
-        if (jump.clip != null)
+        // Falling
+        if (falling.clip != null)
         {
-            loopSource.clip = jump.clip;
-            loopSource.volume = jump.volume;
+            loopSource.clip = falling.clip;
+            loopSource.volume = falling.volume;
         }
     }
 
@@ -75,7 +77,7 @@ public class CharacterAudioController : MonoBehaviour
     {
         if (playerController == null) return;
 
-        // Manejo de sonido de salto en bucle
+        // Falling
         bool grounded = playerController.IsGrounded();
         if (!grounded && !loopSource.isPlaying)
         {
@@ -127,6 +129,8 @@ public class CharacterAudioController : MonoBehaviour
     public void PlaySpecialAttack() => PlayOneShot(specialAttack);
     public void PlayOrbPickup() => PlayOneShot(orbPickup);
     public void PlayOrbLost() => PlayOneShot(orbLost);
+    public void PlayJump() => PlayOneShot(jump);
+    public void PlaySecondJump() => PlayOneShot(secondJump);
 
     public void PlayRandomHitSound()
     {
