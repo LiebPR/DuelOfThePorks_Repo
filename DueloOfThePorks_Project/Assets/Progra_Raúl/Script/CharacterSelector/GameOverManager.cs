@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -16,27 +15,30 @@ public class GameOverManager : MonoBehaviour
     [Header("Prefabs finales por personaje")]
     public CharacterFinalAnimation[] finalCharacters;
 
-    [Header("Audio")]
-    public SceneAudioManager sceneAudioManagerOver;
-    public int victorySoundIndex = 0;
-    public int musicVictory = 1;
-
     void Start()
     {
-        StartCoroutine(PlayVictorySoundWithDelay());
-        // Recuperar datos de PlayerPrefs
+        DisplayResults();
+    }
+
+    void DisplayResults()
+    {
         string winner = PlayerPrefs.GetString("Winner");
         string loser = PlayerPrefs.GetString("Loser");
 
-        // Mostrar textos
-        if (winnerText != null) winnerText.text = $" {winner} WINNER";
-        if (loserText != null) loserText.text = $" {loser} LOSER";
+        if (winner == "Draw")
+        {
+            if (winnerText != null) winnerText.text = "Draw Player 1";
+            if (loserText != null) loserText.text = "Draw Player 2";
+        }
+        else
+        {
+            if (winnerText != null) winnerText.text = $"{winner} WINNER";
+            if (loserText != null) loserText.text = $"{loser} LOSER";
+        }
 
-        // ¿Quién ganó?
         bool p1Won = winner == "Player 1";
         bool p2Won = winner == "Player 2";
 
-        // Instanciar cada personaje usando el prefab adecuado
         SpawnCharacter(PlayerPrefs.GetString("Player1Character"), player1Position.position, p1Won);
         SpawnCharacter(PlayerPrefs.GetString("Player2Character"), player2Position.position, p2Won);
     }
@@ -47,7 +49,6 @@ public class GameOverManager : MonoBehaviour
         {
             if (entry.characterName == characterName)
             {
-                // Seleccionar el prefab de victoria o derrota
                 GameObject prefabToSpawn = isWinner ? entry.victoryPrefab : entry.defeatPrefab;
                 if (prefabToSpawn != null)
                 {
@@ -62,22 +63,12 @@ public class GameOverManager : MonoBehaviour
         }
         Debug.LogError($"No se encontró CharacterFinalAnimation para '{characterName}'");
     }
-    IEnumerator PlayVictorySoundWithDelay()
-    {
-        yield return new WaitForSeconds(0.2f);
-
-        if (sceneAudioManagerOver != null)
-        {
-            // Reproduce el sonido de victoria
-            sceneAudioManagerOver.PlaySFX(victorySoundIndex);
-        }
-    }
 }
 
 [System.Serializable]
 public class CharacterFinalAnimation
 {
-    public string characterName;     // Nombre exacto del prefab (debe coincidir con PlayerPrefs)
-    public GameObject victoryPrefab; // Prefab con animación de victoria (Play On Awake activo)
-    public GameObject defeatPrefab;  // Prefab con animación de derrota
+    public string characterName;
+    public GameObject victoryPrefab;
+    public GameObject defeatPrefab;
 }
