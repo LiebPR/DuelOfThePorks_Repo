@@ -1,175 +1,136 @@
+Ôªø// GameTimer.cs
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine.UI;
-using System.Linq;
 
 public class GameTimer : MonoBehaviour
 {
-    [SerializeField] float countdownTime = 300f;
-    bool isTimerRunning = true;
-    float currentTime;
+    [Header("Match Settings")]
+    [SerializeField] private float countdownTime = 300f;
 
-    [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] TextMeshProUGUI countdownText;
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI countdownText;
 
+    [Header("Player Components (auto-assign if null)")]
     public LifeManager player1LifeManager;
     public LifeManager player2LifeManager;
-
     public InputManager player1InputManager;
     public InputManager player2InputManager;
-
     public BulletManager player1BulletManager;
     public BulletManager player2BulletManager;
 
-    [Header("AudioManager")]
+    [Header("Audio")]
     public SceneAudioManager sceneAudioManTimer;
-    public int countdownClipIndex = 0;
-    public int fightClipIndex = 1;
-    bool isCountdownPlaying = false;
-    
+    public int countdownClipIndex = 0; // tick sound
+    public int fightClipIndex = 1; // ‚ÄúFIGHT!‚Äù sound
+
+    private AudioSource _sfxSource;
+    private float currentTime;
+    private bool isTimerRunning;
+
     private void Start()
     {
+        // Cache the AudioSource and ensure looping is off
+        _sfxSource = sceneAudioManTimer.GetComponent<AudioSource>();
+        if (_sfxSource != null) _sfxSource.loop = false;
+
         StartCoroutine(DelayedStart());
     }
 
     private IEnumerator DelayedStart()
     {
-        yield return null; // Espera 1 frame para asegurarte que los objetos existen
+        yield return null; // wait one frame
 
         AssignPlayerScripts();
 
+        // Pre-match 3-2-1 countdown
+        yield return StartCoroutine(PreMatchCountdown());
+
+        // Start main timer
         currentTime = countdownTime;
-        StartCoroutine(PreMatchCountdown());
-
-        AssignInitialSpawn(player1LifeManager, "Player1Respawn");
-        AssignInitialSpawn(player2LifeManager, "Player2Respawn");
-    }
-
-    void AssignPlayerScripts()
-    {
-        int player1Layer = LayerMask.NameToLayer("Player1");
-        int player2Layer = LayerMask.NameToLayer("Player2");
-
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-
-        foreach (GameObject obj in allObjects)
-        {
-            if (obj.layer == player1Layer)
-            {
-                if (player1LifeManager == null) player1LifeManager = obj.GetComponent<LifeManager>();
-                if (player1InputManager == null) player1InputManager = obj.GetComponent<InputManager>();
-                if (player1BulletManager == null) player1BulletManager = obj.GetComponent<BulletManager>();
-            }
-            else if (obj.layer == player2Layer)
-            {
-                if (player2LifeManager == null) player2LifeManager = obj.GetComponent<LifeManager>();
-                if (player2InputManager == null) player2InputManager = obj.GetComponent<InputManager>();
-                if (player2BulletManager == null) player2BulletManager = obj.GetComponent<BulletManager>();
-            }
-        }
-    }
-
-    void SetPlayersAnimatorSpeed(float speed)
-    {
-        if (player1LifeManager != null)
-        {
-            var anim = player1LifeManager.GetComponent<Animator>();
-            if (anim) anim.speed = speed;
-        }
-        if (player2LifeManager != null)
-        {
-            var anim = player2LifeManager.GetComponent<Animator>();
-            if (anim) anim.speed = speed;
-        }
-    }
-
-    IEnumerator PreMatchCountdown()
-    {
-        if (player1InputManager != null)
-        {
-            player1InputManager.inputLocked = true;
-            player1InputManager.ResetAllInputs();
-        }
-        if (player2InputManager != null)
-        {
-            player2InputManager.inputLocked = true;
-            player2InputManager.ResetAllInputs();
-        }
-
-        if (player1BulletManager != null) player1BulletManager.isLocked = true;
-        if (player2BulletManager != null) player2BulletManager.isLocked = true;
-
-        SetPlayersAnimatorSpeed(0f);
-
-        //CanciÛn del GamePlay
-        if(sceneAudioManTimer != null && !isCountdownPlaying)
-        {
-            sceneAudioManTimer.PlaySFX(countdownClipIndex, true);
-            isCountdownPlaying = true;
-        }
-
-        int count = 3;
-        while (count > 0)
-        {
-            countdownText.text = count.ToString();
-
-            //AquÌ reproducimos el sonido del contador
-            if(sceneAudioManTimer != null && !isCountdownPlaying)
-            {
-                sceneAudioManTimer.PlaySFX(countdownClipIndex);
-                isCountdownPlaying = true;
-            }
-
-            yield return StartCoroutine(WaitForRealSeconds(1f));
-            count--;
-        }
-
-        countdownText.text = "FIGHT!";
-
-        //Sonido para el FIGHT
-        if (sceneAudioManTimer != null)
-        {
-            sceneAudioManTimer.PlaySFX(fightClipIndex);
-        }
-
-        yield return StartCoroutine(WaitForRealSeconds(1f));
-
-        countdownText.text = string.Empty;
-
-        SetPlayersAnimatorSpeed(1f);
-
-        if (player1InputManager != null)
-        {
-            player1InputManager.ResetAllInputs();
-            player1InputManager.inputLocked = false;
-        }
-        if (player2InputManager != null)
-        {
-            player2InputManager.ResetAllInputs();
-            player2InputManager.inputLocked = false;
-        }
-
-        if (player1BulletManager != null) player1BulletManager.isLocked = false;
-        if (player2BulletManager != null) player2BulletManager.isLocked = false;
-
         isTimerRunning = true;
         StartCoroutine(UpdateTimer());
     }
 
-    private IEnumerator WaitForRealSeconds(float seconds)
+    private void AssignPlayerScripts()
     {
-        float start = Time.realtimeSinceStartup;
-        while (Time.realtimeSinceStartup < start + seconds)
-            yield return null;
+        int p1Layer = LayerMask.NameToLayer("Player1");
+        int p2Layer = LayerMask.NameToLayer("Player2");
+
+        foreach (var go in FindObjectsOfType<GameObject>())
+        {
+            if (go.layer == p1Layer)
+            {
+                player1LifeManager ??= go.GetComponent<LifeManager>();
+                player1InputManager ??= go.GetComponent<InputManager>();
+                player1BulletManager ??= go.GetComponent<BulletManager>();
+            }
+            else if (go.layer == p2Layer)
+            {
+                player2LifeManager ??= go.GetComponent<LifeManager>();
+                player2InputManager ??= go.GetComponent<InputManager>();
+                player2BulletManager ??= go.GetComponent<BulletManager>();
+            }
+        }
+    }
+
+    private IEnumerator PreMatchCountdown()
+    {
+        // Lock inputs & bullets, freeze animations
+        if (player1InputManager != null) { player1InputManager.inputLocked = true; player1InputManager.ResetAllInputs(); }
+        if (player2InputManager != null) { player2InputManager.inputLocked = true; player2InputManager.ResetAllInputs(); }
+        if (player1BulletManager != null) player1BulletManager.isLocked = true;
+        if (player2BulletManager != null) player2BulletManager.isLocked = true;
+        SetPlayersAnimatorSpeed(0f);
+
+        // 3-2-1 ticks (stop previous clip before each tick)
+        for (int tick = 3; tick > 0; tick--)
+        {
+            countdownText.text = tick.ToString();
+            if (_sfxSource != null)
+            {
+                _sfxSource.Stop();
+                sceneAudioManTimer.PlaySFX(countdownClipIndex);
+            }
+            yield return new WaitForSecondsRealtime(1f);
+        }
+
+        // FIGHT! (also stop any lingering tick)
+        countdownText.text = "FIGHT!";
+        if (_sfxSource != null)
+        {
+            _sfxSource.Stop();
+            sceneAudioManTimer.PlaySFX(fightClipIndex);
+        }
+        yield return new WaitForSecondsRealtime(1f);
+        countdownText.text = "";
+
+        // Unlock inputs & bullets, resume animations
+        SetPlayersAnimatorSpeed(1f);
+        if (player1InputManager != null) { player1InputManager.ResetAllInputs(); player1InputManager.inputLocked = false; }
+        if (player2InputManager != null) { player2InputManager.ResetAllInputs(); player2InputManager.inputLocked = false; }
+        if (player1BulletManager != null) player1BulletManager.isLocked = false;
+        if (player2BulletManager != null) player2BulletManager.isLocked = false;
+    }
+
+    private void SetPlayersAnimatorSpeed(float speed)
+    {
+        if (player1LifeManager != null)
+            player1LifeManager.GetComponent<Animator>().speed = speed;
+        if (player2LifeManager != null)
+            player2LifeManager.GetComponent<Animator>().speed = speed;
     }
 
     private IEnumerator UpdateTimer()
     {
-        while (currentTime > 0 && isTimerRunning)
+        while (isTimerRunning && currentTime > 0f)
         {
             currentTime -= Time.deltaTime;
-            UpdateTimerDisplay();
+            int m = Mathf.FloorToInt(currentTime / 60f);
+            int s = Mathf.FloorToInt(currentTime % 60f);
+            timerText.text = $"{m:00}:{s:00}";
             yield return null;
         }
 
@@ -177,68 +138,16 @@ public class GameTimer : MonoBehaviour
         DetermineWinner();
     }
 
-    private void UpdateTimerDisplay()
-    {
-        int minutes = Mathf.FloorToInt(currentTime / 60);
-        int seconds = Mathf.FloorToInt(currentTime % 60);
-        timerText.text = $"{minutes:00}:{seconds:00}";
-    }
-
     private void DetermineWinner()
     {
-        int player1Lives = player1LifeManager.GetLives();
-        int player2Lives = player2LifeManager.GetLives();
+        int p1 = player1LifeManager != null ? player1LifeManager.GetLives() : 0;
+        int p2 = player2LifeManager != null ? player2LifeManager.GetLives() : 0;
+        string winner = p1 > p2 ? "Player 1" : (p2 > p1 ? "Player 2" : "Draw");
 
-        if (player1Lives > player2Lives)
-        {
-            Debug.Log("Player 1 wins!");
-        }
-        else if (player2Lives > player1Lives)
-        {
-            Debug.Log("Player 2 wins!");
-        }
-        else
-        {
-            Debug.Log("It's a draw!");
-        }
+        PlayerPrefs.SetString("Winner", winner);
+        PlayerPrefs.Save();
 
         Time.timeScale = 0f;
-    }
-
-    void AssignInitialSpawn(LifeManager lifeManager, string respawnTag)
-    {
-        if (lifeManager == null) return;
-
-        GameObject[] respawnObjects = GameObject.FindGameObjectsWithTag(respawnTag);
-        if (respawnObjects.Length == 0)
-        {
-            Debug.LogError("No se encontraron puntos de respawn con tag: " + respawnTag);
-            return;
-        }
-
-        Transform[] respawnPoints = new Transform[respawnObjects.Length];
-        for (int i = 0; i < respawnObjects.Length; i++)
-        {
-            respawnPoints[i] = respawnObjects[i].transform;
-        }
-
-        int randomIndex = Random.Range(0, respawnPoints.Length);
-        Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0, 0);
-        lifeManager.transform.position = respawnPoints[randomIndex].position + randomOffset;
-
-        string panelName = lifeManager.GetComponent<HitDetector>().isPlayerOne ? "UI_Player1" : "UI_Player2";
-        GameObject panel = GameObject.Find(panelName);
-
-        if (panel != null)
-        {
-            Image[] heartImages = panel.GetComponentsInChildren<Image>()
-                                        .OrderBy(h => h.transform.GetSiblingIndex())
-                                        .ToArray();
-            lifeManager.SetHeartImages(heartImages);
-        }
-        else
-        {
-            Debug.LogError("No se encontrÛ el panel de corazones: " + panelName);
-        }
+        SceneManager.LoadScene("FinalScene");
     }
 }

@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+﻿// SceneAudioManager.cs
+using UnityEngine;
 using UnityEngine.Audio;
-using System.Collections;
-using System.Collections.Generic;
 
 [System.Serializable]
 public class SoundClip
@@ -18,22 +17,19 @@ public class SoundClip
 public class SceneAudioManager : MonoBehaviour
 {
     [Header("Audio Mixer (opcional)")]
-    [Tooltip("Asignar un AudioMixer para controlar volúmenes maestros, music y SFX")]
     public AudioMixer audioMixer;
     public string masterVolParam = "MasterVolume";
     public string musicVolParam = "MusicVolume";
     public string sfxVolParam = "SFXVolume";
 
     [Header("Lista de Clips de Audio")]
-    [Tooltip("Arrastra aquí todos los clips que usarás en esta escena y ajusta volumen/loop")]
     public SoundClip[] soundClips;
 
-    // Interno: paralelo a soundClips
-   public AudioSource[] sources;
+    // Paralelo a soundClips: un AudioSource por Clip
+    public AudioSource[] sources;
 
     void Awake()
     {
-        // Crear un AudioSource por cada SoundClip
         sources = new AudioSource[soundClips.Length];
         for (int i = 0; i < soundClips.Length; i++)
         {
@@ -43,7 +39,6 @@ public class SceneAudioManager : MonoBehaviour
             src.volume = sc.volume;
             src.loop = sc.loop;
 
-            // Opcional: enrutar a grupos de AudioMixer
             if (audioMixer != null)
             {
                 var group = sc.loop
@@ -53,10 +48,13 @@ public class SceneAudioManager : MonoBehaviour
                     src.outputAudioMixerGroup = group[0];
             }
 
+            // Nos aseguramos de no reproducir nada en Start de SFX
+            if (!sc.loop)
+                src.playOnAwake = false;
+
             sources[i] = src;
         }
 
-        // Ajustar volúmenes iniciales en el mixer
         if (audioMixer != null)
         {
             SetMasterVolume(1f);
@@ -67,46 +65,59 @@ public class SceneAudioManager : MonoBehaviour
 
     void Start()
     {
-        // Auto‐play de todos los clips marcados loop (música de fondo)
+        // Reproducir solo la música en bucle (los que tienen loop = true)
         for (int i = 0; i < sources.Length; i++)
+        {
             if (soundClips[i].loop)
                 sources[i].Play();
+        }
     }
 
-    /// <summary>Reproduce el clip en el índice dado (no‐loop).</summary>
-    public void PlaySFX(int index, bool loop = false)
+    /// <summary>
+    /// Reproduce el clip en el índice dado (no‐loop). 
+    /// Si ya está sonando, no lo vuelve a disparar.
+    /// </summary>
+    public void PlaySFX(int index)
     {
         if (index < 0 || index >= sources.Length) return;
+        var sc = soundClips[index];
         var src = sources[index];
-        if (!soundClips[index].loop && src.clip != null)
-            src.PlayOneShot(src.clip, src.volume);
+        if (sc.loop) return;                // no usamos PlaySFX para los loop
+        if (src.isPlaying) return;          // evita superposiciones dobles
+        src.PlayOneShot(sc.clip, sc.volume);
     }
 
-    /// <summary>Detiene inmediatamente el clip en el índice dado (loop).</summary>
+    /// <summary>
+    /// Detiene inmediatamente el clip en el índice dado (loop).
+    /// </summary>
     public void StopMusic(int index)
     {
         if (index < 0 || index >= sources.Length) return;
+        var sc = soundClips[index];
         var src = sources[index];
-        if (soundClips[index].loop)
+        if (sc.loop)
             src.Stop();
     }
 
-    /// <summary>Detiene todos los audios de esta escena.</summary>
+    /// <summary>
+    /// Detiene todos los audios de esta escena.
+    /// </summary>
     public void StopAll()
     {
         foreach (var src in sources)
             src.Stop();
     }
 
-    /// <summary>Ajusta volumen maestro (0–1).</summary>
     public void SetMasterVolume(float volume)
     {
         audioMixer?.SetFloat(masterVolParam, Mathf.Log10(Mathf.Clamp01(volume)) * 20f);
     }
+
     public void SetMusicVolume(float volume)
     {
         audioMixer?.SetFloat(musicVolParam, Mathf.Log10(Mathf.Clamp01(volume)) * 20f);
     }
+
     public void SetSFXVolume(float volume)
     {
         audioMixer?.SetFloat(sfxVolParam, Mathf.Log10(Mathf.Clamp01(volume)) * 20f);

@@ -1053,8 +1053,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25b04ac49071a146b50bc5802363bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winnerText: {fileID: 1548571876}
-  loserText: {fileID: 610961817}
   player1Position: {fileID: 248789285}
   player2Position: {fileID: 595624332}
   finalCharacters:
@@ -1082,9 +1080,7 @@ MonoBehaviour:
   - characterName: LaserdoP2
     victoryPrefab: {fileID: 3850041274867657832, guid: 7e557005c46f8ce4ea4910b4fb01c892, type: 3}
     defeatPrefab: {fileID: 3850041274867657832, guid: 7e557005c46f8ce4ea4910b4fb01c892, type: 3}
-  sceneAudioManagerOver: {fileID: 418538700}
-  victorySoundIndex: 0
-  musicVictory: 1
+  finalResultTextController: {fileID: 1948027178}
 --- !u!4 &980793335
 Transform:
   m_ObjectHideFlags: 0
@@ -1528,6 +1524,52 @@ RectTransform:
   m_AnchoredPosition: {x: -3.43, y: 5.74}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1948027177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1948027179}
+  - component: {fileID: 1948027178}
+  m_Layer: 0
+  m_Name: ControlTextos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1948027178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948027177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e69a3907f95e2a488626f6ef3f510c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1ResultText: {fileID: 1548571876}
+  player2ResultText: {fileID: 610961817}
+--- !u!4 &1948027179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948027177}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.784182, y: -2.2803352, z: 0.59006125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2051018978
 GameObject:
   m_ObjectHideFlags: 0
