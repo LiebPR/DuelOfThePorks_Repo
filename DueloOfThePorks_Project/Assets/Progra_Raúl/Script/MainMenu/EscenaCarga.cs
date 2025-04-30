@@ -78,7 +78,7 @@ public class EscenaCarga : MonoBehaviour
         {
             dotTimer = 0f;
             dotCount = (dotCount + 1) % 4;
-            textoCarga.text = "Cargando" + new string('.', dotCount);
+            textoCarga.text = "Loading" + new string('.', dotCount);
         }
     }
 
