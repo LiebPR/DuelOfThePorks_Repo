@@ -320,6 +320,7 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 15760a54a98cac641905bf463bcb8585, type: 3}
     volume: 0.5
     loop: 0
+  sources: []
 --- !u!4 &113676449
 Transform:
   m_ObjectHideFlags: 0
@@ -8775,7 +8776,7 @@ MonoBehaviour:
   knockbackForce: 8
   knockbackDuration: 1
   hitSound: {fileID: 8300000, guid: 7fa7dd290edc3664a8257b68fb740000, type: 3}
-  hitSoundVolume: 0.6
+  hitSoundVolume: 0.2
 --- !u!61 &1500842519
 BoxCollider2D:
   m_ObjectHideFlags: 0

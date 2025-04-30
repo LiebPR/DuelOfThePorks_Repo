@@ -19,6 +19,7 @@ public class GameOverManager : MonoBehaviour
     [Header("Audio")]
     public SceneAudioManager sceneAudioManagerOver;
     public int victorySoundIndex = 0;
+    public int musicVictory = 1;
 
     void Start()
     {
@@ -65,8 +66,9 @@ public class GameOverManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        if(sceneAudioManagerOver != null)
+        if (sceneAudioManagerOver != null)
         {
+            // Reproduce el sonido de victoria
             sceneAudioManagerOver.PlaySFX(victorySoundIndex);
         }
     }

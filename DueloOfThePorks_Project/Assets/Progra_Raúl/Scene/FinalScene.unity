@@ -429,9 +429,10 @@ MonoBehaviour:
   musicVolParam: MusicVolume
   sfxVolParam: SFXVolume
   soundClips:
-  - clip: {fileID: 8300000, guid: e35d2329d6b6ac948b9e85b3115a4c61, type: 3}
-    volume: 0.7
-    loop: 0
+  - clip: {fileID: 8300000, guid: d1af8f1d753428c4fabe53e9db5c48c5, type: 3}
+    volume: 0.1
+    loop: 1
+  sources: []
 --- !u!82 &418538701
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1083,6 +1084,7 @@ MonoBehaviour:
     defeatPrefab: {fileID: 3850041274867657832, guid: 7e557005c46f8ce4ea4910b4fb01c892, type: 3}
   sceneAudioManagerOver: {fileID: 418538700}
   victorySoundIndex: 0
+  musicVictory: 1
 --- !u!4 &980793335
 Transform:
   m_ObjectHideFlags: 0

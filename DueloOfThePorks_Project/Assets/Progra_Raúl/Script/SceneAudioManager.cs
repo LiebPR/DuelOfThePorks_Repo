@@ -29,7 +29,7 @@ public class SceneAudioManager : MonoBehaviour
     public SoundClip[] soundClips;
 
     // Interno: paralelo a soundClips
-    private AudioSource[] sources;
+   public AudioSource[] sources;
 
     void Awake()
     {
