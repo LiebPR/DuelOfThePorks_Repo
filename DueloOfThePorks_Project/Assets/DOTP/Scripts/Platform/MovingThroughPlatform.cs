@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;   
+using System.Linq;
+using UnityEngine;
+
+[RequireComponent(typeof(Collider2D))]
 public class MovingThroughPlatform : MonoBehaviour
 {
     // =====================================================
@@ -27,7 +30,7 @@ public class MovingThroughPlatform : MonoBehaviour
     [Header("Input para Drop-Through")]
     [Tooltip("Player 1 bajará al presionar la tecla S.")]
     [SerializeField] private KeyCode player1DownKey = KeyCode.S;
-    [Tooltip("Player 2 bajará al presionar el botón del joystick derecho. Ajusta este KeyCode según tu configuración.")]
+    [Tooltip("Player 2 bajará al presionar el botón del joystick derecho.")]
     [SerializeField] private KeyCode player2DownKey = KeyCode.Joystick2Button9;
 
     // =====================================================
@@ -44,83 +47,104 @@ public class MovingThroughPlatform : MonoBehaviour
     private Vector2 initialPosition;
 
     // =====================================================
-    // MÉTODOS DE INICIALIZACIÓN
+    // PADRE TEMPORAL DE JUGADORES
     // =====================================================
+    // Guarda el parent original de cada jugador para restaurarlo
+    private Dictionary<Transform, Transform> originalParents = new Dictionary<Transform, Transform>();
+
     private void Start()
     {
         platformCollider = GetComponent<Collider2D>();
         initialPosition = transform.position;
+
+        // Aseguramos un Rigidbody2D kinematic para que Unity gestione bien las colisiones
+        var rb = GetComponent<Rigidbody2D>();
+        if (rb == null) rb = gameObject.AddComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
-    // =====================================================
-    // ACTUALIZACIÓN
-    // =====================================================
     private void Update()
     {
-        // Actualiza el movimiento de la plataforma
         MovePlatform();
+        HandleDropThroughInput();
+    }
 
-        // Determina la detección de drop-through
-        // Se obtienen los números de layer asumiendo que cada LayerMask tiene asignado UN solo layer.
+    private void HandleDropThroughInput()
+    {
         int layer1 = GetLayerFromMask(playerLayer1);
         int layer2 = GetLayerFromMask(playerLayer2);
-
-        // Se combinan ambos layers para la detección del área.
         int combinedMask = playerLayer1 | playerLayer2;
-        Collider2D[] hits = Physics2D.OverlapBoxAll((Vector2)transform.position + checkBoxOffset, checkBoxSize, 0f, combinedMask);
 
-        // Se revisa cada collider detectado en el área.
+        Collider2D[] hits = Physics2D.OverlapBoxAll((Vector2)transform.position + checkBoxOffset, checkBoxSize, 0f, combinedMask);
         foreach (Collider2D hit in hits)
         {
-            Transform player = hit.transform;
-            int playerLayer = player.gameObject.layer;
-            if (playerLayer == layer1)
-            {
-                // Drop-through para Player 1: presiona la tecla S.
-                if (Input.GetKeyDown(player1DownKey))
-                {
-                    StartCoroutine(DisableColliderTemporarily());
-                }
-            }
-            else if (playerLayer == layer2)
-            {
-                // Drop-through para Player 2: presiona el botón del joystick derecho.
-                if (Input.GetKeyDown(player2DownKey))
-                {
-                    StartCoroutine(DisableColliderTemporarily());
-                }
-            }
+            int plLayer = hit.gameObject.layer;
+            if (plLayer == layer1 && Input.GetKeyDown(player1DownKey))
+                StartCoroutine(DisableColliderTemporarily());
+            else if (plLayer == layer2 && Input.GetKeyDown(player2DownKey))
+                StartCoroutine(DisableColliderTemporarily());
         }
     }
 
-    // =====================================================
-    // MÉTODOS ADICIONALES
-    // =====================================================
-
-    // Método para desactivar temporalmente el collider de la plataforma.
     private IEnumerator DisableColliderTemporarily()
     {
+        // Antes de desactivar el collider, desanidamos a los jugadores para que puedan caer
+        // Recorremos una copia de las llaves para evitar modificación durante iteración
+        foreach (var kvp in originalParents.ToList())
+        {
+            var playerT = kvp.Key;
+            var origParent = kvp.Value;
+            if (playerT != null && playerT.parent == transform)
+            {
+                playerT.SetParent(origParent);
+                originalParents.Remove(playerT);
+            }
+        }
+
         platformCollider.enabled = false;
         yield return new WaitForSeconds(fallTime);
         platformCollider.enabled = true;
     }
 
-    // Método auxiliar para extraer el número de layer de un LayerMask (se asume un único layer asignado).
-    private int GetLayerFromMask(LayerMask mask)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        int layerNumber = 0;
-        int maskValue = mask.value;
-        while (maskValue > 0)
+        int layer1 = GetLayerFromMask(playerLayer1);
+        int layer2 = GetLayerFromMask(playerLayer2);
+        int hitLayer = collision.gameObject.layer;
+
+        if (hitLayer == layer1 || hitLayer == layer2)
         {
-            if ((maskValue & 1) == 1)
-                return layerNumber;
-            maskValue >>= 1;
-            layerNumber++;
+            var playerT = collision.transform;
+            // Guardar el parent original si no existe
+            if (!originalParents.ContainsKey(playerT))
+                originalParents[playerT] = playerT.parent;
+            // Convertir al player en hijo de la plataforma
+            playerT.SetParent(transform);
         }
-        return -1;
     }
 
-    // Método para mover la plataforma de forma oscilante.
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        int layer1 = GetLayerFromMask(playerLayer1);
+        int layer2 = GetLayerFromMask(playerLayer2);
+        int hitLayer = collision.gameObject.layer;
+
+        if (hitLayer == layer1 || hitLayer == layer2)
+        {
+            var playerT = collision.transform;
+            // Restaurar parent original
+            if (originalParents.TryGetValue(playerT, out var origParent))
+            {
+                playerT.SetParent(origParent);
+                originalParents.Remove(playerT);
+            }
+            else
+            {
+                playerT.SetParent(null);
+            }
+        }
+    }
+
     private void MovePlatform()
     {
         float offset = Mathf.PingPong(Time.time * moveSpeed, moveDistance);
@@ -135,7 +159,18 @@ public class MovingThroughPlatform : MonoBehaviour
         }
     }
 
-    // Dibujado de Gizmos para visualizar el área de detección en la escena.
+    private int GetLayerFromMask(LayerMask mask)
+    {
+        int layerNumber = 0, maskValue = mask.value;
+        while (maskValue > 0)
+        {
+            if ((maskValue & 1) == 1) return layerNumber;
+            maskValue >>= 1;
+            layerNumber++;
+        }
+        return -1;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
